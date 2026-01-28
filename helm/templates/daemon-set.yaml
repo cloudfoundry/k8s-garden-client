@@ -68,15 +68,15 @@ spec:
               cat /rep/rep.json | envsubst > /tmp/rep.json
 
               if [ ! -f /var/lib/rep/proxy/envoy ]; then
-                curl -sL http://file-server.default.svc.cluster.local:8080/cf-assets/proxy.tgz | tar -xz -C /var/lib/rep/proxy
+                curl -sL {{ .Values.fileServer.address }}/cf-assets/proxy.tgz | tar -xz -C /var/lib/rep/proxy
               fi
 
               if [ ! -f /var/lib/rep/healthcheck/healthcheck ]; then
-                curl -sL http://file-server.default.svc.cluster.local:8080/cf-assets/healthcheck.tgz | tar -xz -C /var/lib/rep/healthcheck
+                curl -sL {{ .Values.fileServer.address }}/cf-assets/healthcheck.tgz | tar -xz -C /var/lib/rep/healthcheck
               fi
 
               if [ ! -f /var/lib/rep/bin/init ]; then
-                curl -sL http://file-server.default.svc.cluster.local:8080/cf-assets/init.tgz | tar -xz -C /var/lib/rep/bin
+                curl -sL {{ .Values.fileServer.address }}/cf-assets/init.tgz | tar -xz -C /var/lib/rep/bin
               fi
           volumeMounts:
             - name: rep
