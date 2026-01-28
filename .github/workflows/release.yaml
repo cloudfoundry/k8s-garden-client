@@ -42,7 +42,6 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         platforms: linux/amd64,linux/arm64
     - name: Package and Publish Helm Chart
-      if: ${{ inputs.include-helm }}
       run: |
         TAG=${{ github.ref_name }}
         VERSION=${TAG#v}
