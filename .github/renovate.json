@@ -7,5 +7,7 @@
   ],
   "repositories": [
     "cloudfoundry/k8s-garden-client"
-  ]
+  ],
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0
 }
