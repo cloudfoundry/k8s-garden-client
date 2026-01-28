@@ -4,5 +4,8 @@
     "config:recommended",
     ":dependencyDashboard",
     ":gomod"
+  ],
+  "repositories": [
+    "cloudfoundry/k8s-garden-client"
   ]
 }

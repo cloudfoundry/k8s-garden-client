@@ -5,8 +5,7 @@ ARG TAR_VERSION=1.35
 WORKDIR /src
 
 ADD https://github.com/cloudfoundry/guardian.git#main:rundmc/nstar ./nstar
-# dockerfile-utils: ignore
-ADD --unpack=true http://ftp.gnu.org/gnu/tar/tar-${TAR_VERSION}.tar.xz ./tar
+RUN mkdir -p ./tar && curl -L http://ftp.gnu.org/gnu/tar/tar-${TAR_VERSION}.tar.xz | tar -xJ -C ./tar
 
 ENV LDFLAGS=-static
 ENV FORCE_UNSAFE_CONFIGURE=1
