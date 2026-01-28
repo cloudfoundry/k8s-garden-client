@@ -1,0 +1,125 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version-file: "go.mod"
+    - name: Evaluate Go version
+      shell: bash
+      run: |
+        GOVERSION=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')
+        echo "GOFLAGS=-gcflags=all=-lang=${GOVERSION}" >> $GITHUB_ENV
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v8
+      with:
+        only-new-issues: true
+
+  unit:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version-file: "go.mod"
+    - name: Evaluate Go version
+      shell: bash
+      run: |
+        GOVERSION=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')
+        echo "GOFLAGS=-gcflags=all=-lang=${GOVERSION}" >> $GITHUB_ENV
+    - name: unit-test
+      run: make unit
+    - uses: gwatts/go-coverage-action@v2
+      id: coverage
+      with:
+        coverage-threshold: 70
+        fail-coverage: true
+        test-pkgs: ./pkg/...
+        test-args: '["-short", "-vet=off"]'
+        ignore-pattern: |
+          .*/stubs/.*$
+          .*/.*fakes/.*$
+          .*/executor/.*$
+          .*/config/.*$
+          .*/image/.*$
+          .*/containerd/.*$
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version-file: "go.mod"
+    - name: Evaluate Go version
+      shell: bash
+      run: |
+        GOVERSION=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')
+        echo "GOFLAGS=-gcflags=all=-lang=${GOVERSION}" >> $GITHUB_ENV
+    - name: Build application
+      run: make build
+    - name: Build container image
+      run: make image
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: [lint, unit, build]
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version-file: "go.mod"
+    - name: Evaluate Go version
+      shell: bash
+      run: |
+        GOVERSION=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')
+        echo "GOFLAGS=-gcflags=all=-lang=${GOVERSION}" >> $GITHUB_ENV
+    - name: Build image
+      run: make image
+    - name: Install the latest version of kind
+      run: |
+        curl -Lo ${{ runner.temp }}/kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+        chmod +x ${{ runner.temp }}/kind
+        ${{ runner.temp }}/kind version
+    - name: Run integration tests
+      run: make integration
+      env:
+        KIND: ${{ runner.temp }}/kind
+
+  draft-release:
+    runs-on: ubuntu-latest
+    needs: [integration]
+    if: github.ref_name == 'main'
+    permissions:
+      contents: write
+    steps:
+      - uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

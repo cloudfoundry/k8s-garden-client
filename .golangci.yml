@@ -1,0 +1,7 @@
+version: "2"
+
+linters:
+  exclusions:
+    paths:
+      - cmd/rep/main.go
+      - pkg/executor/init.go

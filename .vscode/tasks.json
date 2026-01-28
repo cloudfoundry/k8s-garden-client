@@ -1,0 +1,34 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "go: build (debug)",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "test",
+                "-c",
+                "-gcflags=all=-N -l -lang=go1.25",
+                "-o",
+                "${fileDirname}/__debug_bin",
+                "-vet=off",
+                "."
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "go: remove debug binary",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "${fileDirname}/__debug_bin"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+        }
+    ]
+}

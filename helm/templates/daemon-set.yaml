@@ -1,0 +1,247 @@
+---
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: k8s-rep
+  labels:
+    app: k8s-rep
+spec:
+  selector:
+    matchLabels:
+      app: k8s-rep
+  template:
+    metadata:
+      labels:
+        app: k8s-rep
+    spec:
+      serviceAccountName: k8s-rep
+      hostPID: true
+      hostUsers: true
+      imagePullSecrets:
+        - name: image-pull-secret
+      initContainers:
+        - name: init
+          image: bitnami/kubectl:latest
+          securityContext:
+            runAsUser: 0
+          env:
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+
+              mkdir -p /etc/ssl/certs/rep && \
+              openssl req -new -newkey rsa:2048 -nodes \
+                -subj "/CN=rep/O=cf" \
+                -keyout /etc/ssl/certs/rep/tls.key \
+                -out /etc/ssl/certs/rep/rep.csr && \
+              echo "subjectAltName=IP:${NODE_IP},IP:127.0.0.1,DNS:localhost" > /tmp/rep.ext && \
+              echo '01' > /tmp/rep.srl && \
+              openssl x509 -req -in /etc/ssl/certs/rep/rep.csr \
+                -CA /etc/ssl/certs/instance-identity/tls.crt \
+                -CAkey /etc/ssl/certs/instance-identity/tls.key \
+                -CAserial /tmp/rep.srl -days 365 -sha256 \
+                -extfile /tmp/rep.ext \
+                -out /etc/ssl/certs/rep/tls.crt && \
+              cp /etc/ssl/certs/instance-identity/tls.crt /etc/ssl/certs/rep/ca.crt
+
+              node=$(kubectl get node $NODE_NAME -o json)
+              export NODE_UID=$(echo "$node" | jq -r '.metadata.uid')
+              export ZONE=$(echo "$node" | jq -r '.metadata.labels["cloudfoundry.org/zone"]')
+              if [ -z "$ZONE" ] || [ "$ZONE" == "null" ]; then
+                echo "ZONE label 'cloudfoundry.org/zone' is not set"
+                exit 1
+              fi
+
+              export PLACEMENT_TAGS=$(echo "$node" | jq -c '(.metadata.annotations["cloudfoundry.org/placement-tags"] // "") | if . == "" then [] else split(",") | map(trim) end')
+              export OPTIONAL_PLACEMENT_TAGS=$(echo "$node" | jq -c '(.metadata.annotations["cloudfoundry.org/optional-placement-tags"] // "") | if . == "" then [] else split(",") | map(trim) end')
+
+              cat /rep/rep.json | envsubst > /tmp/rep.json
+
+              if [ ! -f /var/lib/rep/proxy/envoy ]; then
+                curl -sL http://file-server.default.svc.cluster.local:8080/cf-assets/proxy.tgz | tar -xz -C /var/lib/rep/proxy
+              fi
+
+              if [ ! -f /var/lib/rep/healthcheck/healthcheck ]; then
+                curl -sL http://file-server.default.svc.cluster.local:8080/cf-assets/healthcheck.tgz | tar -xz -C /var/lib/rep/healthcheck
+              fi
+
+              if [ ! -f /var/lib/rep/bin/init ]; then
+                curl -sL http://file-server.default.svc.cluster.local:8080/cf-assets/init.tgz | tar -xz -C /var/lib/rep/bin
+              fi
+          volumeMounts:
+            - name: rep
+              mountPath: /etc/ssl/certs/rep
+            - name: instance-identity
+              mountPath: /etc/ssl/certs/instance-identity
+            - name: rep-config
+              mountPath: /rep
+            - name: tmp
+              mountPath: /tmp
+            - name: proxy-assets
+              mountPath: /var/lib/rep/proxy
+            - name: healthcheck-assets
+              mountPath: /var/lib/rep/healthcheck
+            - name: bin
+              mountPath: /var/lib/rep/bin
+      containers:
+        - name: k8s-rep
+          image: {{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+          - --config
+          - /tmp/rep.json
+          ports:
+            - containerPort: 1801
+              hostPort: 1801
+              name: rep-tls
+          env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: NODE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          {{- if .Values.resources }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          securityContext:
+            privileged: true
+            appArmorProfile:
+              type: Unconfined
+          volumeMounts:
+            - name: rep
+              mountPath: /etc/ssl/certs/rep
+            - name: instance-identity
+              mountPath: /etc/ssl/certs/instance-identity
+            - name: rep-config
+              mountPath: /rep
+            - name: tmp
+              mountPath: /tmp
+            - name: kubelet-pods
+              mountPropagation: HostToContainer
+              mountPath: /var/lib/kubelet/pods
+            - name: container-identity
+              mountPath: /var/lib/rep/instance_identity
+            - name: container-proxy-config
+              mountPath: /var/lib/rep/proxy_config
+            - name: proxy-assets
+              mountPath: /var/lib/rep/proxy
+              readOnly: true
+            - name: healthcheck-assets
+              mountPath: /var/lib/rep/healthcheck
+              readOnly: true
+            - name: volume-mounted-files
+              mountPath: /var/lib/rep/volume_mounted_files
+            - name: container-config
+              mountPath: /var/lib/rep/container_config
+            - name: download-cache
+              mountPath: /var/lib/rep/download_cache
+            - name: bin
+              mountPath: /var/lib/rep/bin
+            - name: containerd
+              mountPath: /var/run/containerd
+              mountPropagation: HostToContainer
+              readOnly: true
+            - name: systemd
+              mountPath: /run/systemd
+              readOnly: true
+            - name: containerd-socket
+              mountPath: /run/containerd/containerd.sock
+            - name: containerd-fifo
+              mountPath: /var/lib/rep/containerd_fifo
+            - name: container-lib
+              mountPath: /var/lib/containerd
+              mountPropagation: HostToContainer
+        - name: k8s-rep-watcher
+          image: {{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/watcher"]
+          env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: rep
+              mountPath: /etc/ssl/certs/rep
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: rep
+          emptyDir: {}
+        - name: rep-config
+          configMap:
+            name: k8s-rep-configmap
+        - name: instance-identity
+          secret:
+            secretName: {{ .Values.instanceIdentityCA }}
+        - name: kubelet-pods
+          hostPath:
+            path: /var/lib/kubelet/pods
+        - name: container-identity
+          hostPath:
+            path: /var/lib/rep/instance_identity
+        - name: container-proxy-config
+          hostPath:
+            path: /var/lib/rep/proxy_config
+        - name: proxy-assets
+          hostPath:
+            path: /var/lib/rep/proxy
+        - name: healthcheck-assets
+          hostPath:
+            path: /var/lib/rep/healthcheck
+        - name: bin
+          hostPath:
+            path: /var/lib/rep/bin
+        - name: volume-mounted-files
+          hostPath:
+            path: /var/lib/rep/volume_mounted_files
+        - name: container-config
+          hostPath:
+            path: /var/lib/rep/container_config
+        - name: download-cache
+          hostPath:
+            path: /var/lib/rep/download_cache
+        - name: containerd
+          hostPath:
+            path: /var/run/containerd
+        - name: systemd
+          hostPath:
+            path: /run/systemd
+        - name: containerd-socket
+          hostPath:
+            path: /run/containerd/containerd.sock
+            type: Socket
+        - name: container-lib
+          hostPath:
+            path: /var/lib/containerd
+        - name: containerd-fifo
+          hostPath:
+            path: /var/lib/rep/containerd_fifo
+      nodeSelector:
+        cloudfoundry.org/workload: "true"

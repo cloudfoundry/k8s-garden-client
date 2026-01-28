@@ -1,0 +1,5 @@
+bin/
+certs/
+coverage.out
+.srl
+__debug_bin

@@ -1,0 +1,12 @@
+# Set resource requests and limits for deployments
+# When false, no resource requests/limits will be set
+# When true, resource requests/limits configurations for individual components will be applied
+setResources: false
+
+baseDomain: 127-0-0-1.nip.io
+controlPlaneDomain: default.svc.cluster.local
+
+image:
+  repository: k8s-rep
+  pullPolicy: IfNotPresent
+  tag: latest
