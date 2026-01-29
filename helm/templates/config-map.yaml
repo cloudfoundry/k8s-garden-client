@@ -86,9 +86,11 @@ data:
       "placement_tags": $PLACEMENT_TAGS,
       "optional_placement_tags": $OPTIONAL_PLACEMENT_TAGS,
       "polling_interval": "30s",
-      "preloaded_root_fs": [
-        "cflinuxfs4:ghcr.io/cloudfoundry/kind-deployment/cflinuxfs4:1.296.0@sha256:01c5288e6d6110ca0cc32025b75c73429431fbd3f12a1e961ecbdf8966648df2"
-      ],
+      {{- $stacks := list }}
+      {{- range $stack, $image := .Values.stacks }}
+        {{- $stacks = append $stacks (printf "%s:%s" $stack $image) }}
+      {{- end }}
+      "preloaded_root_fs": {{ $stacks | toJson }},
       "read_work_pool_size": 64,
       "skip_cert_verify": false,
       "supported_providers": [
