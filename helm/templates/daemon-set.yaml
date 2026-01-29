@@ -130,6 +130,8 @@ spec:
               mountPath: /etc/ssl/certs/rep
             - name: instance-identity
               mountPath: /etc/ssl/certs/instance-identity
+            - name: loggregator-certificate
+              mountPath: /etc/ssl/certs/loggregator
             - name: rep-config
               mountPath: /rep
             - name: tmp
@@ -200,6 +202,9 @@ spec:
         - name: instance-identity
           secret:
             secretName: {{ .Values.instanceIdentityCA }}
+        - name: loggregator-certificate
+          secret:
+            secretName: {{ default "rep-loggregator-client" .Values.loggregatorCertificateSecret }}
         - name: kubelet-pods
           hostPath:
             path: /var/lib/kubelet/pods
@@ -245,3 +250,24 @@ spec:
             path: /var/lib/rep/containerd_fifo
       nodeSelector:
         cloudfoundry.org/workload: "true"
+{{- if not .Values.loggregatorCertificateSecret }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rep-loggregator-client
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: rep-loggregator-client
+  commonName: rep-loggregator-client
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
+  privateKey:
+    rotationPolicy: Always
+  usages:
+    - key encipherment
+    - digital signature
+    - server auth
+    - client auth
+{{- end }}

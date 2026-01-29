@@ -14,6 +14,7 @@ image:
   tag: ~
 
 instanceIdentityCA: instance-identity
+loggregatorCertificateSecret: ~
 
 locketAddress: locket.default.svc.cluster.local:8891
 bbsAddress: bbs.default.svc.cluster.local:8889
