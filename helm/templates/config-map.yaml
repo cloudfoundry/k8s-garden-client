@@ -37,7 +37,7 @@ data:
       "enable_container_proxy": true,
       "container_proxy_require_and_verify_client_certs": true,
       "container_proxy_trusted_ca_certs": [
-        {{ .Values.ca_crt | quote }}
+        {{ .Values.caCertificate | quote }}
       ],
       "container_proxy_verify_subject_alt_name": [
         "gorouter",

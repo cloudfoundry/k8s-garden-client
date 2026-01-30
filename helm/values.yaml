@@ -1,8 +1,3 @@
-# Set resource requests and limits for deployments
-# When false, no resource requests/limits will be set
-# When true, resource requests/limits configurations for individual components will be applied
-setResources: true
-
 resources:
   requests:
     cpu: 500m
@@ -19,7 +14,7 @@ loggregatorCertificateSecret: ~
 locketAddress: locket.default.svc.cluster.local:8891
 bbsAddress: bbs.default.svc.cluster.local:8889
 advertiseDomain: cell.127-0-0-1.nip.io
-ca_crt: ~
+caCertificate: ~
 
 fileServer:
   address: http://file-server.default.svc.cluster.local:8080
