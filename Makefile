@@ -35,7 +35,7 @@ install: certs
 	kubectl create secret generic cert --from-file=tls.crt=./certs/tls.crt --from-file=tls.key=./certs/tls.key --from-file=ca.crt=./certs/ca.crt -n default --dry-run=client -o yaml | kubectl apply -f -
 	kubectl create secret generic instance-identity --from-file=tls.crt=./certs/ca.crt --from-file=tls.key=./certs/ca.key -n default --dry-run=client -o yaml | kubectl apply -f -
 	kubectl create configmap postgres-init-scripts --from-file=./integration/assets/db-init-scripts/ -n default --dry-run=client -o yaml | kubectl apply -f -
-	helm upgrade --install postgres oci://bitnamicharts/postgresql --values ./integration/assets/values-files/postgres.yaml --wait --namespace default
+	helm upgrade --hide-notes --install postgres --repo https://charts.bitnami.com/bitnami postgresql --values ./integration/assets/values-files/postgres.yaml --wait --namespace default
 	kubectl apply -f ./integration/assets/dependencies/forwarder-agent.yaml -n default
 	kubectl wait --for=condition=Available --timeout=120s deployment/forwarder-agent -n default
 	kubectl apply -f ./integration/assets/dependencies/locket.yaml -n default
