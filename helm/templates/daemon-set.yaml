@@ -3,6 +3,8 @@ kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: k8s-rep
+  annotations:
+    checksum/config: {{ include (print $.Template.BasePath "/config-map.yaml") . | sha256sum }}
   labels:
     app: k8s-rep
 spec:
@@ -11,6 +13,8 @@ spec:
       app: k8s-rep
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config-map.yaml") . | sha256sum }}
       labels:
         app: k8s-rep
     spec:
