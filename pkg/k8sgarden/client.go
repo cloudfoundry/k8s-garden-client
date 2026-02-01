@@ -1,6 +1,7 @@
 package k8sgarden
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -33,7 +34,7 @@ const (
 	WorkloadTypeKey   = "cloudfoundry.org/workload-type"
 	OwnerNameLabelKey = "cloudfoundry.org/owner-name"
 
-	workloadsNamespace = "cf-workloads"
+	defaultWorkloadsNamespace = "cf-workloads"
 
 	appContainerName     = "app"
 	sidecarContainerName = "sidecar"
@@ -68,6 +69,7 @@ type client struct {
 	nodeMemoryInB        int64
 	sidecarRootfs        string
 	enableContainerProxy bool
+	workloadsNamespace   string
 }
 
 var _ garden.Client = &client{}
@@ -81,7 +83,8 @@ func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClien
 	nodeCPU, _ := node.Status.Capacity.Cpu().AsInt64()
 	nodeMemoryBytes, _ := node.Status.Capacity.Memory().AsInt64()
 
-	containerMap, propertyManager, err := containerRestoreInfo(k8sclient)
+	workloadsNamespace := cmp.Or(os.Getenv("WORKLOADS_NAMESPACE"), defaultWorkloadsNamespace)
+	containerMap, propertyManager, err := containerRestoreInfo(k8sclient, workloadsNamespace)
 	if err != nil {
 		return nil, err
 	}
@@ -103,6 +106,7 @@ func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClien
 		containers:           containerMap,
 		portManager:          newPortManager(),
 		propertyManager:      propertyManager,
+		workloadsNamespace:   workloadsNamespace,
 	}, nil
 }
 
@@ -246,7 +250,7 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      spec.Handle,
-			Namespace: workloadsNamespace,
+			Namespace: c.workloadsNamespace,
 			Labels:    podLabels(spec.Properties),
 		},
 		Spec: corev1.PodSpec{
@@ -531,7 +535,7 @@ func podLabels(properties garden.Properties) map[string]string {
 	return labels
 }
 
-func containerRestoreInfo(client ctrlclient.Client) (*containerMap, *properties.Manager, error) {
+func containerRestoreInfo(client ctrlclient.Client, workloadsNamespace string) (*containerMap, *properties.Manager, error) {
 	podList := &corev1.PodList{}
 	if err := client.List(context.Background(), podList, ctrlclient.InNamespace(workloadsNamespace)); err != nil {
 		return nil, nil, fmt.Errorf("failed to list existing pods: %w", err)
