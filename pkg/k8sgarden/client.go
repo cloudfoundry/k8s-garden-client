@@ -84,6 +84,8 @@ func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClien
 	nodeMemoryBytes, _ := node.Status.Capacity.Memory().AsInt64()
 
 	workloadsNamespace := cmp.Or(os.Getenv("WORKLOADS_NAMESPACE"), defaultWorkloadsNamespace)
+	logger.Debug("workloads-namespace", lager.Data{"namespace": workloadsNamespace})
+
 	containerMap, propertyManager, err := containerRestoreInfo(k8sclient, workloadsNamespace)
 	if err != nil {
 		return nil, err
