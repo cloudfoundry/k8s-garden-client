@@ -21,3 +21,5 @@ fileServer:
 
 stacks:
   cflinuxfs4: ghcr.io/cloudfoundry/kind-deployment/cflinuxfs4:1.296.0@sha256:01c5288e6d6110ca0cc32025b75c73429431fbd3f12a1e961ecbdf8966648df2
+
+workloadsNamespace: cf-workloads

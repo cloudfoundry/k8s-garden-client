@@ -121,6 +121,8 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
+          - name: WORKLOADS_NAMESPACE
+            value: {{ .Values.workloadsNamespace }}
           {{- if .Values.resources }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
