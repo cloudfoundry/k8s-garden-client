@@ -81,6 +81,7 @@ func (p *process) Wait() (int, error) {
 	}
 	exitStatus := <-statusChan
 
+	// wait for io to also catch daemon processes
 	var closeErr error
 	if io := p.process.IO(); io != nil {
 		p.log.Info("waiting-for-io-to-finish")
