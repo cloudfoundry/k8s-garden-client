@@ -163,6 +163,8 @@ spec:
               mountPath: /var/lib/rep/download_cache
             - name: bin
               mountPath: /var/lib/rep/bin
+            - name: voldrivers
+              mountPath: /var/lib/rep/voldrivers
             - name: containerd
               mountPath: /var/run/containerd
               mountPropagation: HostToContainer
@@ -238,6 +240,9 @@ spec:
         - name: download-cache
           hostPath:
             path: /var/lib/rep/download_cache
+        - name: voldrivers
+          hostPath:
+            path: /var/lib/rep/voldrivers
         - name: containerd
           hostPath:
             path: /var/run/containerd
