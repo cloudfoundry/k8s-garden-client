@@ -361,7 +361,7 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 			pod.Spec.Containers[i].VolumeMounts = append(pod.Spec.Containers[i].VolumeMounts, corev1.VolumeMount{
 				Name:      volName,
 				MountPath: mount.DstPath,
-				ReadOnly:  true,
+				ReadOnly:  mount.Mode == garden.BindMountModeRO,
 			})
 		}
 	}
