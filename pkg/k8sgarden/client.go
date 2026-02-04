@@ -1,7 +1,6 @@
 package k8sgarden
 
 import (
-	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -33,8 +32,6 @@ const (
 	SpaceGUIDLabel    = "cloudfoundry.org/space-guid"
 	WorkloadTypeKey   = "cloudfoundry.org/workload-type"
 	OwnerNameLabelKey = "cloudfoundry.org/owner-name"
-
-	defaultWorkloadsNamespace = "cf-workloads"
 
 	appContainerName     = "app"
 	sidecarContainerName = "sidecar"
@@ -74,7 +71,7 @@ type client struct {
 
 var _ garden.Client = &client{}
 
-func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClient containerd.Client, kubeletClient kubelet.Client, cmdRunner commandrunner.CommandRunner, nstarRunner rundmc.NstarRunner, userLookupper users.UserLookupper, repConfig config.RepConfig, sidecarRootfs string) (garden.Client, error) {
+func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClient containerd.Client, kubeletClient kubelet.Client, cmdRunner commandrunner.CommandRunner, nstarRunner rundmc.NstarRunner, userLookupper users.UserLookupper, repConfig config.RepConfig, sidecarRootfs, workloadsNamespace string) (garden.Client, error) {
 	node := &corev1.Node{}
 	if err := k8sclient.Get(context.Background(), ctrlclient.ObjectKey{Name: os.Getenv("NODE_NAME")}, node); err != nil {
 		return nil, fmt.Errorf("failed to get node %s: %w", os.Getenv("NODE_NAME"), err)
@@ -82,9 +79,6 @@ func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClien
 
 	nodeCPU, _ := node.Status.Capacity.Cpu().AsInt64()
 	nodeMemoryBytes, _ := node.Status.Capacity.Memory().AsInt64()
-
-	workloadsNamespace := cmp.Or(os.Getenv("WORKLOADS_NAMESPACE"), defaultWorkloadsNamespace)
-	logger.Debug("workloads-namespace", lager.Data{"namespace": workloadsNamespace})
 
 	containerMap, propertyManager, err := containerRestoreInfo(k8sclient, workloadsNamespace)
 	if err != nil {
