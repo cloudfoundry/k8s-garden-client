@@ -48,6 +48,8 @@ var _ = Describe("Client", func() {
 		err                  error
 		tempDir              string
 
+		workloadsNamespace = "cf-workloads"
+
 		failPodCreation bool
 	)
 
@@ -135,6 +137,7 @@ var _ = Describe("Client", func() {
 			fakeUserLookupper,
 			repConfig,
 			sidecarRootfs,
+			workloadsNamespace,
 		)
 		Expect(err).NotTo(HaveOccurred())
 	})
@@ -159,6 +162,7 @@ var _ = Describe("Client", func() {
 					fakeUserLookupper,
 					repConfig,
 					sidecarRootfs,
+					workloadsNamespace,
 				)
 
 				Expect(err).NotTo(HaveOccurred())
@@ -182,6 +186,7 @@ var _ = Describe("Client", func() {
 					fakeUserLookupper,
 					repConfig,
 					sidecarRootfs,
+					workloadsNamespace,
 				)
 
 				Expect(err).To(HaveOccurred())
@@ -226,6 +231,7 @@ var _ = Describe("Client", func() {
 					fakeUserLookupper,
 					repConfig,
 					sidecarRootfs,
+					workloadsNamespace,
 				)
 				Expect(err).NotTo(HaveOccurred())
 			})
@@ -298,6 +304,7 @@ var _ = Describe("Client", func() {
 					fakeUserLookupper,
 					repConfig,
 					sidecarRootfs,
+					workloadsNamespace,
 				)
 
 				Expect(err).NotTo(HaveOccurred())

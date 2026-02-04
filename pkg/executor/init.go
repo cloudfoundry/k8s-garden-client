@@ -213,7 +213,13 @@ func Initialize(
 	// gardenClientFactory := containerstore.NewGardenClientFactory(config.GardenNetwork, config.GardenAddr)
 
 	// START GARDEN.CLIENT INSTANTIATION FOR KUBERNETES
-	mgr, err := newControllerManager(logger)
+	workloadsNamespace := os.Getenv("WORKLOADS_NAMESPACE")
+	if workloadsNamespace == "" {
+		logger.Error("workloads-namespace-not-set", errors.New("WORKLOADS_NAMESPACE environment variable must be set"))
+		return nil, nil, grouper.Members{}, errors.New("workloads-namespace-not-set")
+	}
+
+	mgr, err := newControllerManager(logger, workloadsNamespace)
 	if err != nil {
 		logger.Error("failed-to-initialize-controller-manager", err)
 		os.Exit(1)
@@ -240,7 +246,7 @@ func Initialize(
 	if err != nil {
 		return nil, nil, grouper.Members{}, err
 	}
-	gardenClient, err := k8sgarden.NewClient(logger.Session("k8sgarden"), mgr.GetClient(), containerd.NewClientWrapper(containerdClient), kubeletClient, cmdrunner, rundmc.NewNstarRunner("/bin/nstar", "/bin/tar", cmdrunner), users.LookupFunc(users.LookupUser), config, sidecarRootFSPath)
+	gardenClient, err := k8sgarden.NewClient(logger.Session("k8sgarden"), mgr.GetClient(), containerd.NewClientWrapper(containerdClient), kubeletClient, cmdrunner, rundmc.NewNstarRunner("/bin/nstar", "/bin/tar", cmdrunner), users.LookupFunc(users.LookupUser), config, sidecarRootFSPath, workloadsNamespace)
 	if err != nil {
 		return nil, nil, grouper.Members{}, err
 	}
@@ -866,7 +872,7 @@ func newKubeletClientFromConfig(config *rest.Config, addr, port string) (kubelet
 	return kubelet.NewClient(httpClient, addr, port), nil
 }
 
-func newControllerManager(logger lager.Logger) (manager.Manager, error) {
+func newControllerManager(logger lager.Logger, workloadsNamespace string) (manager.Manager, error) {
 	ctrllog.SetLogger(logr.New(log.NewSink(logger.Session("controller-manager"))))
 
 	podSelector, err := labels.NewRequirement(k8sgarden.AppGUIDLabelKey, selection.Exists, nil)
@@ -879,11 +885,16 @@ func newControllerManager(logger lager.Logger) (manager.Manager, error) {
 		Controller: cconfig.Controller{
 			NeedLeaderElection: ptr.To(false),
 		},
+
 		Cache: cache.Options{
 			ByObject: map[client.Object]cache.ByObject{
 				&corev1.Pod{}: {
-					Field: fields.SelectorFromSet(fields.Set{"spec.nodeName": os.Getenv("NODE_NAME")}),
-					Label: labels.NewSelector().Add(*podSelector),
+					Namespaces: map[string]cache.Config{
+						workloadsNamespace: {
+							FieldSelector: fields.SelectorFromSet(fields.Set{"spec.nodeName": os.Getenv("NODE_NAME")}),
+							LabelSelector: labels.NewSelector().Add(*podSelector),
+						},
+					},
 				},
 			},
 		},
