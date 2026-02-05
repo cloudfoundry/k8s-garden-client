@@ -23,7 +23,7 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          ghcr.io/cloudfoundry/${{ github.event.repository.name }}
+          ghcr.io/cloudfoundry/k8s/rep
         tags: |
           type=semver,pattern={{version}}
           type=ref,event=branch

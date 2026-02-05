@@ -4,7 +4,7 @@ resources:
     memory: 128Mi
 
 image:
-  repository: ghcr.io/cloudfoundry/k8s-garden-client
+  repository: ghcr.io/cloudfoundry/k8s/rep
   pullPolicy: IfNotPresent
   tag: ~
 
@@ -20,7 +20,7 @@ fileServer:
   address: http://file-server.default.svc.cluster.local:8080
 
 stacks:
-  cflinuxfs4: ghcr.io/cloudfoundry/kind-deployment/cflinuxfs4:1.296.0@sha256:01c5288e6d6110ca0cc32025b75c73429431fbd3f12a1e961ecbdf8966648df2
+  cflinuxfs4: ghcr.io/cloudfoundry/k8s/cflinuxfs4:1.304.0
 
 workloadsNamespace: cf-workloads
 
