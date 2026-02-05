@@ -36,6 +36,7 @@ install: certs
 	kubectl create secret generic instance-identity --from-file=tls.crt=./certs/ca.crt --from-file=tls.key=./certs/ca.key -n default --dry-run=client -o yaml | kubectl apply -f -
 	kubectl create configmap postgres-init-scripts --from-file=./integration/assets/db-init-scripts/ -n default --dry-run=client -o yaml | kubectl apply -f -
 	helm upgrade --hide-notes --install postgres --repo https://charts.bitnami.com/bitnami postgresql --values ./integration/assets/values-files/postgres.yaml --wait --namespace default
+	kubectl apply -f ./integration/assets/dependencies/fileserver.yaml -n default
 	kubectl apply -f ./integration/assets/dependencies/forwarder-agent.yaml -n default
 	kubectl wait --for=condition=Available --timeout=120s deployment/forwarder-agent -n default
 	kubectl apply -f ./integration/assets/dependencies/locket.yaml -n default
@@ -54,10 +55,7 @@ certs:
 	echo "subjectAltName=DNS:*.default.svc.cluster.local,DNS:metron,DNS:localhost,IP:127.0.0.1" > ./certs/san.ext
 	openssl x509 -req -in ./certs/tls.csr -CA ./certs/ca.crt -CAkey ./certs/ca.key -CAcreateserial -out ./certs/tls.crt -days 365 -extfile ./certs/san.ext > /dev/null 2>&1
 
-# integration: kind load-kind install
-# 	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" GOTOOLCHAIN=$(GOVERSION).0+auto go test -v -count=1 ./integration/... -vet=off -args --ginkgo.randomize-all && $(MAKE) delete-kind
-
-integration:
-	@echo "Skipping integration tests"
+integration: kind load-kind install
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" GOTOOLCHAIN=$(GOVERSION).0+auto go test -v -count=1 ./integration/... -vet=off -args --ginkgo.randomize-all && $(MAKE) delete-kind
 
 .PHONY: run build image integration unit generate lint certs load-kind install kind delete-kind

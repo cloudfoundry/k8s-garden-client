@@ -71,7 +71,7 @@ spec:
     spec:
       containers:
         - name: auctioneer
-          image: ghcr.io/cloudfoundry/kind-deployment/auctioneer:latest
+          image: ghcr.io/cloudfoundry/k8s/auctioneer:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8889

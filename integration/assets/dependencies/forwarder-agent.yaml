@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: forwarder-agent
-          image: ghcr.io/cloudfoundry/kind-deployment/forwarder-agent:latest
+          image: ghcr.io/cloudfoundry/k8s/forwarder-agent:latest
           imagePullPolicy: Always
           env:
             - name: AGENT_HOST

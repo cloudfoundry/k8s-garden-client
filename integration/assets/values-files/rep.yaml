@@ -2,3 +2,4 @@ image:
   repository: k8s-rep
   pullPolicy: IfNotPresent
   tag: latest
+loggregatorCertificateSecret: cert

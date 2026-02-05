@@ -53,7 +53,7 @@ spec:
     spec:
       containers:
         - name: locket
-          image: ghcr.io/cloudfoundry/kind-deployment/locket:latest
+          image: ghcr.io/cloudfoundry/k8s/locket:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8891

@@ -89,7 +89,7 @@ spec:
     spec:
       containers:
         - name: bbs
-          image: ghcr.io/cloudfoundry/kind-deployment/bbs:latest
+          image: ghcr.io/cloudfoundry/k8s/bbs:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8889
