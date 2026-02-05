@@ -259,8 +259,14 @@ spec:
         - name: containerd-fifo
           hostPath:
             path: /var/lib/rep/containerd_fifo
+      {{- if .Values.nodeSelector }}
       nodeSelector:
-        cloudfoundry.org/workload: "true"
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
 {{- if not .Values.loggregatorCertificateSecret }}
 ---
 apiVersion: cert-manager.io/v1
