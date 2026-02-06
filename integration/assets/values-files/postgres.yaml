@@ -1,6 +1,7 @@
 global:
   security:
     allowInsecureImages: true
+fullnameOverride: "postgresql"
 image:
   repository: bitnamilegacy/postgresql
 volumePermissions:
