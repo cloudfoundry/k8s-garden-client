@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "Configuration values for k8s-rep",
+  "properties": {
+    "advertiseDomain": {
+      "default": "cell.127-0-0-1.nip.io",
+      "title": "advertiseDomain",
+      "type": "string"
+    },
+    "bbsAddress": {
+      "default": "bbs.default.svc.cluster.local:8889",
+      "title": "bbsAddress",
+      "type": "string"
+    },
+    "caCertificate": {
+      "title": "caCertificate",
+      "type": "string"
+    },
+    "fileServer": {
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "default": "http://file-server.default.svc.cluster.local:8080",
+          "title": "address",
+          "type": "string"
+        }
+      },
+      "required": [
+        "address"
+      ],
+      "title": "fileServer",
+      "type": "object"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": false,
+      "properties": {
+        "pullPolicy": {
+          "default": "IfNotPresent",
+          "title": "pullPolicy",
+          "type": "string"
+        },
+        "repository": {
+          "default": "ghcr.io/cloudfoundry/k8s/rep",
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "pullPolicy"
+      ],
+      "title": "image",
+      "type": "object"
+    },
+    "instanceIdentityCA": {
+      "default": "instance-identity",
+      "title": "instanceIdentityCA",
+      "type": "string"
+    },
+    "locketAddress": {
+      "default": "locket.default.svc.cluster.local:8891",
+      "title": "locketAddress",
+      "type": "string"
+    },
+    "loggregatorCertificateSecret": {
+      "title": "loggregatorCertificateSecret",
+      "type": "string"
+    },
+    "nodeSelector": {
+      "additionalProperties": true,
+      "properties": {
+        "cloudfoundry.org/cell": {
+          "default": "true",
+          "title": "cloudfoundry.org/cell",
+          "type": "string"
+        }
+      },
+      "title": "nodeSelector",
+      "type": "object"
+    },
+    "resources": {
+      "additionalProperties": false,
+      "properties": {
+        "requests": {
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "default": "500m",
+              "title": "cpu",
+              "type": "string"
+            },
+            "memory": {
+              "default": "128Mi",
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [
+            "cpu",
+            "memory"
+          ],
+          "title": "requests",
+          "type": "object"
+        }
+      },
+      "required": [
+        "requests"
+      ],
+      "title": "resources",
+      "type": "object"
+    },
+    "stacks": {
+      "additionalProperties": false,
+      "properties": {
+        "cflinuxfs4": {
+          "default": "ghcr.io/cloudfoundry/k8s/cflinuxfs4:1.304.0",
+          "title": "cflinuxfs4",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cflinuxfs4"
+      ],
+      "title": "stacks",
+      "type": "object"
+    },
+    "tolerations": {
+      "items": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "effect": {
+                "default": "NoSchedule",
+                "title": "effect",
+                "type": "string"
+              },
+              "key": {
+                "default": "cloudfoundry.org/cell",
+                "title": "key",
+                "type": "string"
+              },
+              "operator": {
+                "default": "Equal",
+                "title": "operator",
+                "type": "string"
+              },
+              "value": {
+                "default": "true",
+                "title": "value",
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "operator",
+              "value",
+              "effect"
+            ],
+            "type": "object"
+          }
+        ],
+        "required": []
+      },
+      "title": "tolerations",
+      "type": "array"
+    },
+    "workloadsNamespace": {
+      "default": "cf-workloads",
+      "title": "workloadsNamespace",
+      "type": "string"
+    }
+  },
+  "required": [
+  ],
+  "title": "Chart Values",
+  "type": "object"
+}
