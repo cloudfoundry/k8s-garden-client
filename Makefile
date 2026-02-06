@@ -33,6 +33,7 @@ load-kind: image
 install: certs
 	kubectl create namespace cf-workloads --dry-run=client -o yaml | kubectl apply -f -
 	kubectl create secret generic cert --from-file=tls.crt=./certs/tls.crt --from-file=tls.key=./certs/tls.key --from-file=ca.crt=./certs/ca.crt -n default --dry-run=client -o yaml | kubectl apply -f -
+	kubectl create secret generic postgres-tls --from-file=tls.crt=./certs/tls.crt --from-file=tls.key=./certs/tls.key --from-file=ca.crt=./certs/ca.crt -n default --dry-run=client -o yaml | kubectl apply -f -
 	kubectl create secret generic instance-identity --from-file=tls.crt=./certs/ca.crt --from-file=tls.key=./certs/ca.key -n default --dry-run=client -o yaml | kubectl apply -f -
 	kubectl create configmap postgres-init-scripts --from-file=./integration/assets/db-init-scripts/ -n default --dry-run=client -o yaml | kubectl apply -f -
 	kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.1/standard-install.yaml
