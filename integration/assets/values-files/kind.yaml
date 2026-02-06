@@ -16,5 +16,4 @@ kubeadmConfigPatches:
 nodes:
   - role: control-plane
     labels:
-      cloudfoundry.org/workload: "true"
       cloudfoundry.org/zone: "z1"
