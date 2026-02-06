@@ -1,7 +1,4 @@
-resources:
-  requests:
-    cpu: 500m
-    memory: 128Mi
+resources: ~
 
 image:
   repository: ghcr.io/cloudfoundry/k8s/rep
@@ -20,7 +17,7 @@ fileServer:
   address: http://file-server.default.svc.cluster.local:8080
 
 stacks:
-  cflinuxfs4: ghcr.io/cloudfoundry/k8s/cflinuxfs4:latest
+  cflinuxfs4: ghcr.io/cloudfoundry/k8s/cflinuxfs4:1.304.0
 
 workloadsNamespace: cf-workloads
 
