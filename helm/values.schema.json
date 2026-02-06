@@ -90,35 +90,8 @@
       "type": ["object", "null"]
     },
     "resources": {
-      "additionalProperties": false,
-      "properties": {
-        "requests": {
-          "additionalProperties": false,
-          "properties": {
-            "cpu": {
-              "default": "500m",
-              "title": "cpu",
-              "type": "string"
-            },
-            "memory": {
-              "default": "128Mi",
-              "title": "memory",
-              "type": "string"
-            }
-          },
-          "required": [
-            "cpu",
-            "memory"
-          ],
-          "title": "requests",
-          "type": "object"
-        }
-      },
-      "required": [
-        "requests"
-      ],
       "title": "resources",
-      "type": "object"
+      "type": ["object", "null"]
     },
     "stacks": {
       "additionalProperties": false,
