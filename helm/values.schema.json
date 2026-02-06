@@ -87,7 +87,7 @@
         }
       },
       "title": "nodeSelector",
-      "type": "object"
+      "type": ["object", "null"]
     },
     "resources": {
       "additionalProperties": false,

@@ -40,7 +40,7 @@ install: certs
 	helm upgrade --hide-notes --install postgres --repo https://charts.bitnami.com/bitnami postgresql --values ./integration/assets/values-files/postgres.yaml --wait --namespace default
 	helm upgrade --install loggregator-agent oci://ghcr.io/cloudfoundry/helm/loggregator-agent --set "forwarderAgent.enabled=true" --set forwarderAgent.certificateSecret=cert --set loggregatorAgent.certificateSecret=cert --set syslogAgent.certificateSecret=cert --wait
 	helm upgrade --install diego oci://ghcr.io/cloudfoundry/helm/diego --set "auctioneer.enabled=true" --set "bbs.enabled=true" --set "fileserver.enabled=true" --set "locket.enabled=true" --set dbPassword=postgres --set bbs.certificateSecret=cert --set auctioneer.certificateSecret=cert --set locket.certificateSecret=cert --wait
-	helm upgrade --install dev ./helm --set image.repository=k8s-rep --set image.tag=latest --set-file caCertificate=./certs/ca.crt --set loggregatorCertificateSecret=cert --set "nodeSelector=" --wait --namespace default
+	helm upgrade --install dev ./helm --set image.repository=k8s-rep --set image.tag=latest --set-file caCertificate=./certs/ca.crt --set loggregatorCertificateSecret=cert --set "nodeSelector=null" --wait --namespace default
 	kubectl wait --for=condition=Available --timeout=120s deployment/bbs -n default
 
 certs:
