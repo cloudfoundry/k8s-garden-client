@@ -64,7 +64,10 @@
       "type": "object"
     },
     "tolerations": {
-      "type": "array"
+      "type": ["array", "null"],
+      "items": {
+        "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/toleration.json"
+      }
     },
     "workloadsNamespace": {
       "type": "string"
