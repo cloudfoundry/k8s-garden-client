@@ -25,7 +25,7 @@ workloadsNamespace: cf-workloads
 nodeSelector:
   cloudfoundry.org/cell: "true"
 
-tolerations: ~
+tolerations:
   - key: cloudfoundry.org/cell
     operator: Equal
     value: "true"
