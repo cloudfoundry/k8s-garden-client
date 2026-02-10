@@ -26,7 +26,7 @@ jobs:
         GOVERSION=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')
         echo "GOFLAGS=-gcflags=all=-lang=${GOVERSION}" >> $GITHUB_ENV
     - name: golangci-lint
-      uses: golangci/golangci-lint-action@v8
+      uses: golangci/golangci-lint-action@v9
       with:
         only-new-issues: true
 
