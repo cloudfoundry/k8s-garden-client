@@ -624,6 +624,8 @@ code.cloudfoundry.org/dockerdriver v0.62.0 h1:/4whmpmdxwIrDL/67qrX0D3pvsgVcW+taI
 code.cloudfoundry.org/dockerdriver v0.62.0/go.mod h1:PRGZ1LKjch2lbAubHQ/56YjMrYWWQAg/YMl49Yz6kb4=
 code.cloudfoundry.org/durationjson v0.62.0 h1:Onn+urherNHEvYbZKZA+MbeVHMlUh1iTCmz4FyGpli4=
 code.cloudfoundry.org/durationjson v0.62.0/go.mod h1:UmMdHGNC8y9Kte5fZyNpIj1UvLRckFCe6hfdmF4/10s=
+code.cloudfoundry.org/durationjson v0.64.0 h1:NlEfNDigYhW4tgSOQtHjdSu5TOvFpzM8OVxyHnILrbY=
+code.cloudfoundry.org/durationjson v0.64.0/go.mod h1:zThpsvsvPLXGtpYI7Z33+MzAFv9qYaInwPqI3m2zKdc=
 code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 h1:LKJD+OrbAG/m36r860G2J7GxyacWc0F5jC7/iOr8RIc=
 code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5/go.mod h1:zo/fpu7ZM70YRhciby/gha+8XWP/eJr4J5iGBklvGNY=
 code.cloudfoundry.org/eventhub v0.56.0 h1:7Tt8H4e8OZcRbKNDzmxGqdUjYekBwd+DHNH7fPeHtZw=

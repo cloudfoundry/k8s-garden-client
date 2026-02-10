@@ -12,7 +12,7 @@ require (
 	code.cloudfoundry.org/commandrunner v0.56.0
 	code.cloudfoundry.org/debugserver v0.85.0
 	code.cloudfoundry.org/diego-logging-client v0.88.0
-	code.cloudfoundry.org/durationjson v0.62.0
+	code.cloudfoundry.org/durationjson v0.64.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260211023825-fb202bdd1b27
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
