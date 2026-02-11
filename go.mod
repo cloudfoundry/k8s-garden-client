@@ -22,7 +22,7 @@ require (
 	code.cloudfoundry.org/locket v0.0.0-20251117222557-be612341b29d
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20251217184847-b5d35dccad88
-	code.cloudfoundry.org/tlsconfig v0.43.0
+	code.cloudfoundry.org/tlsconfig v0.45.0
 	code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7
 	code.cloudfoundry.org/workpool v0.0.0-20250911194158-1489753f182e
 	github.com/containerd/containerd/api v1.10.0
