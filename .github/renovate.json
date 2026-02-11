@@ -5,6 +5,10 @@
     ":dependencyDashboard",
     ":gomod"
   ],
+  "postUpdateOptions": [
+    "gomodUpdateImportPaths",
+    "gomodTidy1.17"
+  ],
   "prConcurrentLimit": 0,
   "prHourlyLimit": 0
 }
