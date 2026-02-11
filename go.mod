@@ -13,7 +13,7 @@ require (
 	code.cloudfoundry.org/debugserver v0.85.0
 	code.cloudfoundry.org/diego-logging-client v0.88.0
 	code.cloudfoundry.org/durationjson v0.62.0
-	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
+	code.cloudfoundry.org/executor v0.1442.0
 	code.cloudfoundry.org/garden v0.0.0-20260211023825-fb202bdd1b27
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260211024622-3eb6255665c4
@@ -21,7 +21,7 @@ require (
 	code.cloudfoundry.org/localip v0.63.0
 	code.cloudfoundry.org/locket v0.0.0-20251117222557-be612341b29d
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
-	code.cloudfoundry.org/rep v0.0.0-20251217184847-b5d35dccad88
+	code.cloudfoundry.org/rep v0.1442.0
 	code.cloudfoundry.org/tlsconfig v0.43.0
 	code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7
 	code.cloudfoundry.org/workpool v0.0.0-20250911194158-1489753f182e
@@ -58,6 +58,7 @@ require (
 	code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 // indirect
 	code.cloudfoundry.org/eventhub v0.56.0 // indirect
 	code.cloudfoundry.org/go-diodes v0.0.0-20260119094648-9c5f37160881 // indirect
+	code.cloudfoundry.org/go-loggregator/v8 v8.0.5 // indirect
 	code.cloudfoundry.org/goshims v0.84.0 // indirect
 	code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 // indirect
 	cyphar.com/go-pathrs v0.2.3 // indirect
