@@ -620,6 +620,8 @@ code.cloudfoundry.org/debugserver v0.85.0 h1:01B/TuVlAvqnm+o4j9CvoBOTYbEjPNnijei
 code.cloudfoundry.org/debugserver v0.85.0/go.mod h1:PQiW+Wm9lzWEbqWUrpMZkSY3/wnBYnb9inVt/s+VK5E=
 code.cloudfoundry.org/diego-logging-client v0.88.0 h1:KnJ0zWuM6bMunQGGM7VkTGBMP5OIwSrSv9B4QRBidmA=
 code.cloudfoundry.org/diego-logging-client v0.88.0/go.mod h1:fb60OvFP+f2LCuiaQUFMdxzYhFMn+npvm//7XF5cfo8=
+code.cloudfoundry.org/diego-logging-client v0.91.0 h1:gYyQBpp3NdfEGyqmmlrciqEtPMrgybpWYg4G6PuLr5s=
+code.cloudfoundry.org/diego-logging-client v0.91.0/go.mod h1:crbT7G1hYs6El/+X0HE2GTbmHcUS8FjXQBBZZm8igrk=
 code.cloudfoundry.org/dockerdriver v0.62.0 h1:/4whmpmdxwIrDL/67qrX0D3pvsgVcW+taIDPPN5XtKc=
 code.cloudfoundry.org/dockerdriver v0.62.0/go.mod h1:PRGZ1LKjch2lbAubHQ/56YjMrYWWQAg/YMl49Yz6kb4=
 code.cloudfoundry.org/durationjson v0.62.0 h1:Onn+urherNHEvYbZKZA+MbeVHMlUh1iTCmz4FyGpli4=
@@ -638,6 +640,8 @@ code.cloudfoundry.org/garden v0.0.0-20260211023825-fb202bdd1b27 h1:nwdxZdzQTBo5F
 code.cloudfoundry.org/garden v0.0.0-20260211023825-fb202bdd1b27/go.mod h1:dYz2vDd7QTQ56ydmUZIBgor32Ii9mGi0n18+P/qNncI=
 code.cloudfoundry.org/go-diodes v0.0.0-20260119094648-9c5f37160881 h1:3lfmgWNIutBx8MpJBTj4TK8TuU8XpAT2uagArBo6vmg=
 code.cloudfoundry.org/go-diodes v0.0.0-20260119094648-9c5f37160881/go.mod h1:GPdN7bCf3qhojgpatfKUAD8t93wGwM5t8lUaNJgAem0=
+code.cloudfoundry.org/go-diodes v0.0.0-20260209061029-a81ffbc46978 h1:uZ6UIz7zl39FMy5GybKzI83zD35c4fvkU8sQEZDH/x8=
+code.cloudfoundry.org/go-diodes v0.0.0-20260209061029-a81ffbc46978/go.mod h1:ZZMgJNANhsfqeXF//d5qDK0dNnQ4jTBsib4WR0xbWJQ=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1 h1:S6Lgg5UJbhh2bt2TGQxs6R00CF8PrUA3GFPYDxy56Fk=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1/go.mod h1:FTFFruqGeOhVCDFvyLgl8EV8YW63NNwRzLhxJcporu8=
 code.cloudfoundry.org/goshims v0.84.0 h1:IRFD4Ql7MaetmMvKIU7JS5kggx2L8Fnu6CYJVSVPVdY=

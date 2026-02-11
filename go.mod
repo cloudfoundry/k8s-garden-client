@@ -11,7 +11,7 @@ require (
 	code.cloudfoundry.org/clock v1.61.0
 	code.cloudfoundry.org/commandrunner v0.56.0
 	code.cloudfoundry.org/debugserver v0.85.0
-	code.cloudfoundry.org/diego-logging-client v0.88.0
+	code.cloudfoundry.org/diego-logging-client v0.91.0
 	code.cloudfoundry.org/durationjson v0.64.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260211023825-fb202bdd1b27
@@ -57,7 +57,7 @@ require (
 	code.cloudfoundry.org/dockerdriver v0.62.0 // indirect
 	code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 // indirect
 	code.cloudfoundry.org/eventhub v0.56.0 // indirect
-	code.cloudfoundry.org/go-diodes v0.0.0-20260119094648-9c5f37160881 // indirect
+	code.cloudfoundry.org/go-diodes v0.0.0-20260209061029-a81ffbc46978 // indirect
 	code.cloudfoundry.org/goshims v0.84.0 // indirect
 	code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 // indirect
 	cyphar.com/go-pathrs v0.2.3 // indirect
