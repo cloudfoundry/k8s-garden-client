@@ -3,7 +3,6 @@ resources: ~
 image:
   repository: ghcr.io/cloudfoundry/k8s/rep
   pullPolicy: IfNotPresent
-
   tag: ""
 
 instanceIdentityCA: instance-identity
@@ -12,7 +11,7 @@ loggregatorCertificateSecret: ""
 locketAddress: locket.default.svc.cluster.local:8891
 bbsAddress: bbs.default.svc.cluster.local:8889
 advertiseDomain: cell.127-0-0-1.nip.io
-caCertificate: ~
+caCertificate: ""
 
 fileServer:
   address: http://file-server.default.svc.cluster.local:8080

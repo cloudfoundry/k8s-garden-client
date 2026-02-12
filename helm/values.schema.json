@@ -9,7 +9,7 @@
       "type": "string"
     },
     "caCertificate": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "fileServer": {
       "additionalProperties": false,
@@ -24,7 +24,6 @@
       "type": "object"
     },
     "global": {
-      "additionalProperties": true,
       "type": "object"
     },
     "image": {
@@ -52,15 +51,14 @@
       "type": "string"
     },
     "nodeSelector": {
-      "additionalProperties": true,
       "type": ["object", "null"]
     },
     "resources": {
-      "additionalProperties": true,
+      
       "type": ["object", "null"]
     },
     "stacks": {
-      "additionalProperties": true,
+      
       "type": "object"
     },
     "tolerations": {
@@ -93,6 +91,5 @@
       "type": "string"
     }
   },
-  "type": "object",
-  "required": ["caCertificate"]
+  "type": "object"
 }
