@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "advertiseDomain": {
+      "type": "string"
+    },
+    "bbsAddress": {
+      "type": "string"
+    },
+    "caCertificate": {
+      "type": ["string", "null"]
+    },
+    "fileServer": {
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "address"
+      ],
+      "type": "object"
+    },
+    "global": {
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": false,
+      "properties": {
+        "pullPolicy": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "instanceIdentityCA": {
+      "type": "string"
+    },
+    "locketAddress": {
+      "type": "string"
+    },
+    "loggregatorCertificateSecret": {
+      "type": "string"
+    },
+    "nodeSelector": {
+      "type": ["object", "null"]
+    },
+    "resources": {
+      
+      "type": ["object", "null"]
+    },
+    "stacks": {
+      
+      "type": "object"
+    },
+    "tolerations": {
+      "type": ["array", "null"],
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "effect": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "operator": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "effect",
+        "key",
+        "operator",
+        "value"
+      ]
+    },
+    "workloadsNamespace": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

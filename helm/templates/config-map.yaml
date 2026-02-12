@@ -1,3 +1,4 @@
+{{ $_ := required ".Values.caCertificate must be provided" .Values.caCertificate }}
 ---
 apiVersion: v1
 kind: ConfigMap
