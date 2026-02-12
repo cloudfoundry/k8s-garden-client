@@ -40,10 +40,7 @@ data:
       "container_proxy_trusted_ca_certs": [
         {{ .Values.caCertificate | quote }}
       ],
-      "container_proxy_verify_subject_alt_name": [
-        "gorouter",
-        "ssh-proxy"
-      ],
+      "container_proxy_verify_subject_alt_name": {{ .Values.container_proxy_verify_subject_alt_name | toJson }},
       "container_proxy_ads_addresses": [],
       "advertise_preference_for_instance_address": false,
       "enable_unproxied_port_mappings": false,
