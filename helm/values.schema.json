@@ -11,7 +11,7 @@
     "caCertificate": {
       "type": ["string", "null"]
     },
-    "container_proxy_verify_subject_alt_name": {
+    "containerProxyVerifySubjectAltName": {
       "type": ["array", "null"],
       "items": {
         "type": "string"

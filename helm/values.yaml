@@ -12,7 +12,7 @@ locketAddress: locket.default.svc.cluster.local:8891
 bbsAddress: bbs.default.svc.cluster.local:8889
 advertiseDomain: cell.127-0-0-1.nip.io
 caCertificate: ~
-container_proxy_verify_subject_alt_name: 
+containerProxyVerifySubjectAltName: 
   - "gorouter"
   - "ssh-proxy"
 
