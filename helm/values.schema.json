@@ -47,7 +47,7 @@
       },
       "type": "object"
     },
-    "instanceIdentityCA": {
+    "instanceIdentityCASecret": {
       "type": "string"
     },
     "locketAddress": {

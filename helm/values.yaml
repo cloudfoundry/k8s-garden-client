@@ -5,11 +5,11 @@ image:
   pullPolicy: IfNotPresent
   tag: ""
 
-instanceIdentityCA: instance-identity
+instanceIdentityCASecret: instance-identity
 loggregatorCertificateSecret: ""
 
-locketAddress: locket.default.svc.cluster.local:8891
-bbsAddress: bbs.default.svc.cluster.local:8889
+locketAddress: https://locket.default.svc.cluster.local:8891
+bbsAddress: https://bbs.default.svc.cluster.local:8889
 advertiseDomain: cell.127-0-0-1.nip.io
 caCertificate: ~
 containerProxyVerifySubjectAltName: 
