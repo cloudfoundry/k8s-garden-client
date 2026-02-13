@@ -120,7 +120,7 @@ data:
       "ca_cert_file": "/etc/ssl/certs/rep/ca.crt",
       "cert_file": "/etc/ssl/certs/rep/tls.crt",
       "key_file": "/etc/ssl/certs/rep/tls.key",
-      "bbs_address": "https://{{ .Values.bbsAddress }}",
+      "bbs_address": "{{ .Values.bbsAddress }}",
       "instance_identity_ca_path": "/etc/ssl/certs/instance-identity/tls.crt",
       "instance_identity_private_key_path": "/etc/ssl/certs/instance-identity/tls.key",
       "instance_identity_cred_dir": "/var/lib/rep/instance_identity",
