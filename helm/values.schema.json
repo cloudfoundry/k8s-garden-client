@@ -11,6 +11,12 @@
     "caCertificate": {
       "type": ["string", "null"]
     },
+    "container_proxy_verify_subject_alt_name": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string"
+      }
+    },
     "fileServer": {
       "additionalProperties": false,
       "properties": {
