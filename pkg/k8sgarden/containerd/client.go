@@ -3,6 +3,7 @@ package containerd
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
@@ -72,14 +73,36 @@ func (w *clientWrapper) Pull(ctx context.Context, ref, username, password string
 	}
 
 	if username != "" && password != "" {
+		// When credentials are provided, bypass any local cache mirrors and pull directly
+		// from the registry. Cache mirrors typically don't forward authentication properly.
+		// We define a custom RegistryHosts function that ignores the containerd hosts.toml
+		// configuration and connects directly to the upstream registry.
+		authorizer := docker.NewDockerAuthorizer(docker.WithAuthCreds(
+			func(s string) (string, string, error) {
+				return username, password, nil
+			},
+		))
+
 		opts = append(opts, ctrdclient.WithResolver(docker.NewResolver(docker.ResolverOptions{
-			Hosts: docker.ConfigureDefaultRegistries(docker.WithAuthorizer(
-				docker.NewDockerAuthorizer(docker.WithAuthCreds(
-					func(s string) (string, string, error) {
-						return username, password, nil
-					},
-				)),
-			)),
+			Hosts: func(host string) ([]docker.RegistryHost, error) {
+				// Create a registry host that connects directly to the upstream
+				// registry, bypassing any local caching proxies
+				hostConfig := docker.RegistryHost{
+					Client:       http.DefaultClient,
+					Authorizer:   authorizer,
+					Host:         host,
+					Scheme:       "https",
+					Path:         "/v2",
+					Capabilities: docker.HostCapabilityPull | docker.HostCapabilityResolve,
+				}
+
+				// Special handling for docker.io which uses registry-1.docker.io
+				if host == "docker.io" {
+					hostConfig.Host = "registry-1.docker.io"
+				}
+
+				return []docker.RegistryHost{hostConfig}, nil
+			},
 		})))
 	}
 
