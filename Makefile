@@ -5,8 +5,8 @@ KIND_CLUSTER ?= k8s-rep
 
 build:
 	@mkdir -p bin
-	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)"  GOTOOLCHAIN=$(GOVERSION).0+auto CGO_ENABLED=0 go build -ldflags "-w -s" -trimpath -o bin/rep ./cmd/rep
-	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)"  GOTOOLCHAIN=$(GOVERSION).0+auto CGO_ENABLED=0 go build -ldflags "-w -s" -trimpath -o bin/watcher ./cmd/watch
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)"  GOTOOLCHAIN=$(GOVERSION).0+auto CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/rep ./cmd/rep
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)"  GOTOOLCHAIN=$(GOVERSION).0+auto CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/watcher ./cmd/watch
 
 image:
 	docker build -t k8s-rep:latest .
