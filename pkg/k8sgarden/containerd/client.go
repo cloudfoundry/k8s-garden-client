@@ -11,10 +11,10 @@ import (
 	"github.com/containerd/containerd/v2/core/mount"
 	"github.com/containerd/containerd/v2/core/remotes/docker"
 	"github.com/containerd/continuity/fs"
-	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/opencontainers/image-spec/identity"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/utils/ptr"
+	"github.com/distribution/reference"
 )
 
 //go:generate go tool counterfeiter -generate
@@ -62,7 +62,8 @@ func (w *clientWrapper) LoadTasks(ctx context.Context, statuses []corev1.Contain
 }
 
 func (w *clientWrapper) Pull(ctx context.Context, ref, username, password string) (ctrdclient.Image, int64, error) {
-	parsedRef, err := name.ParseReference(ref)
+	normalizedRef, err := reference.ParseNormalizedNamed(ref)
+
 	if err != nil {
 		return nil, 0, err
 	}
@@ -83,7 +84,7 @@ func (w *clientWrapper) Pull(ctx context.Context, ref, username, password string
 		})))
 	}
 
-	img, err := w.client.Pull(ctx, parsedRef.Name(), opts...)
+	img, err := w.client.Pull(ctx, normalizedRef.String(), opts...)
 	if err != nil {
 		return nil, 0, err
 	}
