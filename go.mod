@@ -11,7 +11,7 @@ require (
 	code.cloudfoundry.org/clock v1.61.0
 	code.cloudfoundry.org/commandrunner v0.57.0
 	code.cloudfoundry.org/debugserver v0.85.0
-	code.cloudfoundry.org/diego-logging-client v0.91.0
+	code.cloudfoundry.org/diego-logging-client v0.92.0
 	code.cloudfoundry.org/durationjson v0.64.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260211023825-fb202bdd1b27
@@ -29,8 +29,8 @@ require (
 	github.com/containerd/containerd/v2 v2.2.1
 	github.com/containerd/continuity v0.4.5
 	github.com/containerd/platforms v1.0.0-rc.2
+	github.com/distribution/reference v0.6.0
 	github.com/go-logr/logr v1.4.3
-	github.com/google/go-containerregistry v0.20.7
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
 	github.com/google/uuid v1.6.0
 	github.com/jarcoal/httpmock v1.4.1
@@ -98,7 +98,6 @@ require (
 	github.com/coreos/go-systemd/v22 v22.7.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/distribution/reference v0.6.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
 	github.com/envoyproxy/go-control-plane/envoy v1.36.0 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.3.0 // indirect
