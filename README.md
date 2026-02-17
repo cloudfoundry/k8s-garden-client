@@ -15,7 +15,8 @@ Alternative [`garden.Client`](https://github.com/cloudfoundry/garden/blob/879cfc
 > At the moment this repository contains copied parts of https://github.com/cloudfoundry/rep and https://github.com/cloudfoundry/executor
 > for incubation phase only. The changes are intended to be contributed after graduation.
 
-# Contributing
+## Contributing
 
-See the [Contributing.md](https://github.com/cloudfoundry/community/blob/main/CONTRIBUTING.md) for more
-information on how to contribute.
+Please check our [contributing guidelines](/CONTRIBUTING.md).
+
+This project follows [Cloud Foundry Code of Conduct](https://www.cloudfoundry.org/code-of-conduct/).
