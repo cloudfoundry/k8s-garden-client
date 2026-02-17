@@ -610,8 +610,8 @@ code.cloudfoundry.org/commandrunner v0.57.0 h1:QEfjkRe64EQBAwU7mcCnACJPr6LAzIooq
 code.cloudfoundry.org/commandrunner v0.57.0/go.mod h1:mDPNelovquWOTmlJiv5KBIqSLHELFfo+/oT9sn07Oac=
 code.cloudfoundry.org/debugserver v0.85.0 h1:01B/TuVlAvqnm+o4j9CvoBOTYbEjPNnijeielbxH6U8=
 code.cloudfoundry.org/debugserver v0.85.0/go.mod h1:PQiW+Wm9lzWEbqWUrpMZkSY3/wnBYnb9inVt/s+VK5E=
-code.cloudfoundry.org/diego-logging-client v0.91.0 h1:gYyQBpp3NdfEGyqmmlrciqEtPMrgybpWYg4G6PuLr5s=
-code.cloudfoundry.org/diego-logging-client v0.91.0/go.mod h1:crbT7G1hYs6El/+X0HE2GTbmHcUS8FjXQBBZZm8igrk=
+code.cloudfoundry.org/diego-logging-client v0.92.0 h1:SaXhtVB9LPrDFsc7mT5VX3lZMJJt7ayYZdp7Mwrz1gI=
+code.cloudfoundry.org/diego-logging-client v0.92.0/go.mod h1:USQ+MeLrEwVAGjg1uySoN3AsZTQ0b7qdJzvbWzvzjjQ=
 code.cloudfoundry.org/dockerdriver v0.62.0 h1:/4whmpmdxwIrDL/67qrX0D3pvsgVcW+taIDPPN5XtKc=
 code.cloudfoundry.org/dockerdriver v0.62.0/go.mod h1:PRGZ1LKjch2lbAubHQ/56YjMrYWWQAg/YMl49Yz6kb4=
 code.cloudfoundry.org/durationjson v0.64.0 h1:NlEfNDigYhW4tgSOQtHjdSu5TOvFpzM8OVxyHnILrbY=
@@ -941,8 +941,6 @@ github.com/google/go-cmp v0.5.8/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeN
 github.com/google/go-cmp v0.5.9/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
 github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
-github.com/google/go-containerregistry v0.20.7 h1:24VGNpS0IwrOZ2ms2P1QE3Xa5X9p4phx0aUgzYzHW6I=
-github.com/google/go-containerregistry v0.20.7/go.mod h1:Lx5LCZQjLH1QBaMPeGwsME9biPeo1lPx6lbGj/UmzgM=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
 github.com/google/gofuzz v1.2.0 h1:xRy4A+RhZaiKjJ1bPfwQ8sedCA+YS2YcCHW6ec7JMi0=
 github.com/google/gofuzz v1.2.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
