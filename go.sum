@@ -596,8 +596,8 @@ cloud.google.com/go/workflows v1.9.0/go.mod h1:ZGkj1aFIOd9c8Gerkjjq7OW7I5+l6cSvT
 cloud.google.com/go/workflows v1.10.0/go.mod h1:fZ8LmRmZQWacon9UCX1r/g/DfAXx5VcPALq2CxzdePw=
 code.cloudfoundry.org/archiver v0.62.0 h1:+IHC0SwW7YbtpXrnqhGry2EoyR9HWPJcxcnLrDmWAyg=
 code.cloudfoundry.org/archiver v0.62.0/go.mod h1:y4/uhjQ/I8Uq9YMQYlkRfd+VSRWcg97eJYAD/ukv/YA=
-code.cloudfoundry.org/bbs v0.0.0-20260107153229-7b22834eb1d7 h1:11T0tmwOn/QCRneBc/o914ib2pTlV+Si2EaztSEKn3A=
-code.cloudfoundry.org/bbs v0.0.0-20260107153229-7b22834eb1d7/go.mod h1:XKlGVVXFi5EcHHMPzw3xgONK9PeEZuUbIC43XNwxD10=
+code.cloudfoundry.org/bbs v0.0.0-20260218135931-a998cae3b567 h1:/PrdXmWc51I4gbIYrR0hclNBKxf5Rzz652+FaQ7p11g=
+code.cloudfoundry.org/bbs v0.0.0-20260218135931-a998cae3b567/go.mod h1:XKlGVVXFi5EcHHMPzw3xgONK9PeEZuUbIC43XNwxD10=
 code.cloudfoundry.org/bytefmt v0.56.0 h1:qsCKmisDuotACI4KYPNdORvN6WaWEEb6RX2d9gyysNw=
 code.cloudfoundry.org/bytefmt v0.56.0/go.mod h1:J23lJHgcn710FEpbcOw5cqOUsj7K0Z2O1npk8m0adhU=
 code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3 h1:SproHrcDI7MG25Smabm75/l4SkvvfUkEAvQOu7NSUKM=
@@ -941,8 +941,6 @@ github.com/google/go-cmp v0.5.8/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeN
 github.com/google/go-cmp v0.5.9/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
 github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
-github.com/google/go-containerregistry v0.20.7 h1:24VGNpS0IwrOZ2ms2P1QE3Xa5X9p4phx0aUgzYzHW6I=
-github.com/google/go-containerregistry v0.20.7/go.mod h1:Lx5LCZQjLH1QBaMPeGwsME9biPeo1lPx6lbGj/UmzgM=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
 github.com/google/gofuzz v1.2.0 h1:xRy4A+RhZaiKjJ1bPfwQ8sedCA+YS2YcCHW6ec7JMi0=
 github.com/google/gofuzz v1.2.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
