@@ -6,7 +6,7 @@ tool github.com/maxbrunsfeld/counterfeiter/v6
 
 require (
 	code.cloudfoundry.org/archiver v0.62.0
-	code.cloudfoundry.org/bbs v0.0.0-20260107153229-7b22834eb1d7
+	code.cloudfoundry.org/bbs v0.0.0-20260218135931-a998cae3b567
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.61.0
 	code.cloudfoundry.org/commandrunner v0.57.0
@@ -29,8 +29,8 @@ require (
 	github.com/containerd/containerd/v2 v2.2.1
 	github.com/containerd/continuity v0.4.5
 	github.com/containerd/platforms v1.0.0-rc.2
+	github.com/distribution/reference v0.6.0
 	github.com/go-logr/logr v1.4.3
-	github.com/google/go-containerregistry v0.20.7
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
 	github.com/google/uuid v1.6.0
 	github.com/jarcoal/httpmock v1.4.1
@@ -98,7 +98,6 @@ require (
 	github.com/coreos/go-systemd/v22 v22.7.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/distribution/reference v0.6.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
 	github.com/envoyproxy/go-control-plane/envoy v1.36.0 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.3.0 // indirect
