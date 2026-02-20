@@ -267,24 +267,3 @@ spec:
       tolerations:
         {{- toYaml .Values.tolerations | nindent 8 }}
       {{- end }}
-{{- if not .Values.loggregatorCertificateSecret }}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: rep-loggregator-client
-  namespace: {{ .Release.Namespace }}
-spec:
-  secretName: rep-loggregator-client
-  commonName: rep-loggregator-client
-  issuerRef:
-    name: ca-issuer
-    kind: ClusterIssuer
-  privateKey:
-    rotationPolicy: Always
-  usages:
-    - key encipherment
-    - digital signature
-    - server auth
-    - client auth
-{{- end }}
