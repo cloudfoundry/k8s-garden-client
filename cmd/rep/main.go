@@ -22,7 +22,7 @@ import (
 	"code.cloudfoundry.org/debugserver"
 	loggingclient "code.cloudfoundry.org/diego-logging-client"
 	"code.cloudfoundry.org/executor"
-	"code.cloudfoundry.org/go-loggregator/v9/runtimeemitter"
+	"code.cloudfoundry.org/go-loggregator/v10/runtimeemitter"
 	k8sexecutor "code.cloudfoundry.org/k8s-garden-client/pkg/executor"
 	"code.cloudfoundry.org/lager/v3"
 	"code.cloudfoundry.org/lager/v3/lagerflags"
