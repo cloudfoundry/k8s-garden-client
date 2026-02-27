@@ -16,7 +16,7 @@ require (
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260211023825-fb202bdd1b27
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/guardian v0.0.0-20260218024445-0b3043cea204
+	code.cloudfoundry.org/guardian v0.0.0-20260226180933-c7faa02abdec
 	code.cloudfoundry.org/lager/v3 v3.61.0
 	code.cloudfoundry.org/localip v0.63.0
 	code.cloudfoundry.org/locket v0.0.0-20251117222557-be612341b29d
@@ -164,7 +164,7 @@ require (
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/mod v0.33.0 // indirect
-	golang.org/x/net v0.50.0 // indirect
+	golang.org/x/net v0.51.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.41.0 // indirect
