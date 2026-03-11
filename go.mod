@@ -26,7 +26,7 @@ require (
 	code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7
 	code.cloudfoundry.org/workpool v0.0.0-20250911194158-1489753f182e
 	github.com/containerd/containerd/api v1.10.0
-	github.com/containerd/containerd/v2 v2.2.1
+	github.com/containerd/containerd/v2 v2.2.2
 	github.com/containerd/continuity v0.4.5
 	github.com/containerd/platforms v1.0.0-rc.2
 	github.com/distribution/reference v0.6.0
