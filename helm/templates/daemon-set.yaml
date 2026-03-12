@@ -138,6 +138,8 @@ spec:
               mountPath: /etc/ssl/certs/instance-identity
             - name: loggregator-certificate
               mountPath: /etc/ssl/certs/loggregator
+            - name: locket-certificate
+              mountPath: /etc/ssl/certs/locket
             - name: rep-config
               mountPath: /rep
             - name: tmp
@@ -213,6 +215,9 @@ spec:
         - name: loggregator-certificate
           secret:
             secretName: {{ required "loggregatorCertificateSecret is a required value" .Values.loggregatorCertificateSecret }}
+        - name: locket-certificate
+          secret:
+            secretName: {{ required "locket.certificateSecret is a required value" .Values.locket.certificateSecret }}
         - name: kubelet-pods
           hostPath:
             path: /var/lib/kubelet/pods

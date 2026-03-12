@@ -50,8 +50,17 @@
     "instanceIdentityCASecret": {
       "type": "string"
     },
-    "locketAddress": {
-      "type": "string"
+    "locket": {
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "certificateSecret": {
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "loggregatorCertificateSecret": {
       "type": "string"
