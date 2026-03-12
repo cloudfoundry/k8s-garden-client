@@ -8,7 +8,10 @@ image:
 instanceIdentityCASecret: instance-identity
 loggregatorCertificateSecret: ""
 
-locketAddress: locket.default.svc.cluster.local:8891
+locket:
+  address: locket.default.svc.cluster.local:8891
+  certificateSecret: ""
+
 bbsAddress: https://bbs.default.svc.cluster.local:8889
 advertiseDomain: cell.127-0-0-1.nip.io
 caCertificate: ~
