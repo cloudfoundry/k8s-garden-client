@@ -5,20 +5,20 @@ go 1.25.0
 tool github.com/maxbrunsfeld/counterfeiter/v6
 
 require (
-	code.cloudfoundry.org/archiver v0.63.0
+	code.cloudfoundry.org/archiver v0.64.0
 	code.cloudfoundry.org/bbs v0.0.0-20260107153229-7b22834eb1d7
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
-	code.cloudfoundry.org/clock v1.62.0
+	code.cloudfoundry.org/clock v1.63.0
 	code.cloudfoundry.org/commandrunner v0.58.0
-	code.cloudfoundry.org/debugserver v0.87.0
+	code.cloudfoundry.org/debugserver v0.88.0
 	code.cloudfoundry.org/diego-logging-client v0.93.0
 	code.cloudfoundry.org/durationjson v0.65.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260304024058-46dd12e5cd10
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/guardian v0.0.0-20260304024757-b2a02a8878e6
-	code.cloudfoundry.org/lager/v3 v3.62.0
-	code.cloudfoundry.org/localip v0.64.0
+	code.cloudfoundry.org/guardian v0.0.0-20260313200351-f0a8fe21e456
+	code.cloudfoundry.org/lager/v3 v3.63.0
+	code.cloudfoundry.org/localip v0.65.0
 	code.cloudfoundry.org/locket v0.0.0-20251117222557-be612341b29d
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20251217184847-b5d35dccad88
@@ -26,7 +26,7 @@ require (
 	code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7
 	code.cloudfoundry.org/workpool v0.0.0-20250911194158-1489753f182e
 	github.com/containerd/containerd/api v1.10.0
-	github.com/containerd/containerd/v2 v2.2.1
+	github.com/containerd/containerd/v2 v2.2.2
 	github.com/containerd/continuity v0.4.5
 	github.com/containerd/platforms v1.0.0-rc.2
 	github.com/distribution/reference v0.6.0
@@ -93,7 +93,7 @@ require (
 	github.com/containerd/fifo v1.1.0 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/containerd/plugin v1.0.0 // indirect
-	github.com/containerd/ttrpc v1.2.7 // indirect
+	github.com/containerd/ttrpc v1.2.8 // indirect
 	github.com/containerd/typeurl/v2 v2.2.3 // indirect
 	github.com/coreos/go-systemd/v22 v22.7.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
@@ -157,16 +157,16 @@ require (
 	github.com/x448/float16 v0.8.4 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.66.0 // indirect
-	go.opentelemetry.io/otel v1.41.0 // indirect
-	go.opentelemetry.io/otel/metric v1.41.0 // indirect
-	go.opentelemetry.io/otel/trace v1.41.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.67.0 // indirect
+	go.opentelemetry.io/otel v1.42.0 // indirect
+	go.opentelemetry.io/otel/metric v1.42.0 // indirect
+	go.opentelemetry.io/otel/trace v1.42.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/mod v0.33.0 // indirect
 	golang.org/x/net v0.51.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
-	golang.org/x/sync v0.19.0 // indirect
+	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/term v0.40.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
@@ -175,7 +175,7 @@ require (
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20251202230838-ff82c1b0f217 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260226221140-a57be14db171 // indirect
-	google.golang.org/grpc v1.79.1 // indirect
+	google.golang.org/grpc v1.79.2 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
