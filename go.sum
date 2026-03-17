@@ -644,8 +644,8 @@ code.cloudfoundry.org/rep v0.0.0-20251217184847-b5d35dccad88 h1:Et/9jvd0mTQALkTl
 code.cloudfoundry.org/rep v0.0.0-20251217184847-b5d35dccad88/go.mod h1:Z5Ez6B/8Ec6h2ybwrzEfHOZSSPvlIGO3TmL4mMzOwFg=
 code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 h1:CeDwMfR+eRMb68o1kI79to6Dr9ZLXPiqXhYucHf/w70=
 code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608/go.mod h1:ykLgqzJGV5PTkvxtfyOy8hcQy7wxPaoV5ZPyk74aqp8=
-code.cloudfoundry.org/tlsconfig v0.46.0 h1:i9F12K8EWBwL5mBd/rUm/rYAV/Ky34lYyoLzngLXAV8=
-code.cloudfoundry.org/tlsconfig v0.46.0/go.mod h1:RsHyB52jxwVeKn1loOEOrgEEA84vTqwFeOq933uVe+g=
+code.cloudfoundry.org/tlsconfig v0.48.0 h1:pXgD+Ctes+K4lLpXmobDzn47OthNSM/T6q6M2x/FImI=
+code.cloudfoundry.org/tlsconfig v0.48.0/go.mod h1:Y6e79JPXDXlky4pwaSTJd4qa84GyCW+U09XxSPQiuj4=
 code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7 h1:Nw5ii4+cfAxG02gIiFClP/QIb+BpN7BNicozzI+LHJk=
 code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7/go.mod h1:BnGKbLUuOuM0WZGIu88h6degod4ZCoTgJlkRpt3gWUY=
 code.cloudfoundry.org/workpool v0.0.0-20250911194158-1489753f182e h1:NsULHptleEmqtoC8j6A8J636L9APnGn8YC0c7vocLww=
@@ -1288,8 +1288,8 @@ golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b/go.mod h1:T9bdIzuCu7OtxOm
 golang.org/x/crypto v0.0.0-20210921155107-089bfa567519/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
 golang.org/x/crypto v0.0.0-20211108221036-ceb1ce70b4fa/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
 golang.org/x/crypto v0.1.0/go.mod h1:RecgLatLF4+eUMCP1PoPZQb+cVrJcOPbHkTkbkB9sbw=
-golang.org/x/crypto v0.48.0 h1:/VRzVqiRSggnhY7gNRxPauEQ5Drw9haKdM0jqfcCFts=
-golang.org/x/crypto v0.48.0/go.mod h1:r0kV5h3qnFPlQnBSrULhlsRfryS2pmewsg+XfMgkVos=
+golang.org/x/crypto v0.49.0 h1:+Ng2ULVvLHnJ/ZFEq4KdcDd/cfjrrjjNSXNzxg0Y4U4=
+golang.org/x/crypto v0.49.0/go.mod h1:ErX4dUh2UM+CFYiXZRTcMpEcN8b/1gxEuv3nODoYtCA=
 golang.org/x/exp v0.0.0-20180321215751-8460e604b9de/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20180807140117-3d87b88a115f/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
