@@ -14,10 +14,10 @@ require (
 	code.cloudfoundry.org/diego-logging-client v0.93.0
 	code.cloudfoundry.org/durationjson v0.65.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
-	code.cloudfoundry.org/garden v0.0.0-20260304024058-46dd12e5cd10
+	code.cloudfoundry.org/garden v0.0.0-20260318024418-0ddea73e969e
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260313200351-f0a8fe21e456
-	code.cloudfoundry.org/lager/v3 v3.63.0
+	code.cloudfoundry.org/lager/v3 v3.64.0
 	code.cloudfoundry.org/localip v0.65.0
 	code.cloudfoundry.org/locket v0.0.0-20251117222557-be612341b29d
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
