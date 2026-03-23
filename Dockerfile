@@ -15,23 +15,6 @@ RUN apt update && apt install musl musl-dev musl-tools -y && \
     make -C ./nstar nstar && \
     cd ./tar/tar-${TAR_VERSION} && CC="musl-gcc -static" ./configure && CC="musl-gcc -static" make && mv src/tar /src/tar/tar
 
-FROM --platform=$BUILDPLATFORM golang:1 AS build
-ARG TARGETOS TARGETARCH
-WORKDIR /src
-
-RUN --mount=type=cache,target=/go/pkg/mod/ \
-    --mount=type=bind,source=go.sum,target=go.sum \
-    --mount=type=bind,source=go.mod,target=go.mod \
-    go mod download -x
-
-RUN --mount=type=cache,target=/go/pkg/mod/ \
-    --mount=type=bind,target=. \
-    GOFLAGS="-gcflags=all=-lang=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')" CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -trimpath -o /bin/server ./cmd/rep
-
-RUN --mount=type=cache,target=/go/pkg/mod/ \
-    --mount=type=bind,target=. \
-    GOFLAGS="-gcflags=all=-lang=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')" CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -trimpath -o /bin/watcher ./cmd/watch
-
 FROM ubuntu:24.04
 ARG TARGETARCH
 RUN apt-get update && apt-get install -y \
@@ -40,11 +23,11 @@ RUN apt-get update && apt-get install -y \
     && \
     update-ca-certificates
 
-COPY --from=build /bin/server /bin/
-COPY --from=build /bin/watcher /bin/
+COPY bin/rep /bin/rep
+COPY bin/watcher /bin/watcher
 COPY --from=gccbuild /src/nstar/nstar /bin/
 COPY --from=gccbuild /src/tar/tar /bin/
 
 EXPOSE 8080 443
 
-ENTRYPOINT [ "/bin/server" ]
+ENTRYPOINT [ "/bin/rep" ]

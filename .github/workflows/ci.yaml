@@ -75,11 +75,6 @@ jobs:
       uses: actions/setup-go@v6
       with:
         go-version-file: "go.mod"
-    - name: Evaluate Go version
-      shell: bash
-      run: |
-        GOVERSION=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')
-        echo "GOFLAGS=-gcflags=all=-lang=${GOVERSION}" >> $GITHUB_ENV
     - name: Build application
       run: make build
     - name: Build container image
@@ -96,11 +91,8 @@ jobs:
       uses: actions/setup-go@v6
       with:
         go-version-file: "go.mod"
-    - name: Evaluate Go version
-      shell: bash
-      run: |
-        GOVERSION=$(go version | awk '{print $3}' | sed 's/\.[0-9]*$//')
-        echo "GOFLAGS=-gcflags=all=-lang=${GOVERSION}" >> $GITHUB_ENV
+    - name: Build application
+      run: make build
     - name: Build image
       run: make image
     - name: Install the latest version of kind
