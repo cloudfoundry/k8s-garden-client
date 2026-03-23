@@ -5,17 +5,17 @@ KIND_CLUSTER ?= k8s-rep
 
 build:
 	@mkdir -p bin
-	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)"  GOTOOLCHAIN=$(GOVERSION).0+auto CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/rep ./cmd/rep
-	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)"  GOTOOLCHAIN=$(GOVERSION).0+auto CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/watcher ./cmd/watch
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/rep ./cmd/rep
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/watcher ./cmd/watch
 
 image:
 	docker build -t k8s-rep:latest .
 
 unit:
-	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" GOTOOLCHAIN=$(GOVERSION).0+auto go test -count=1 ./... -vet=off -cover -coverprofile=coverage.out -args --ginkgo.label-filter=!integration
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" go test -count=1 ./... -vet=off -cover -coverprofile=coverage.out -args --ginkgo.label-filter=!integration
 
 lint:
-	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" GOTOOLCHAIN=$(GOVERSION).0+auto golangci-lint run
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" golangci-lint run
 
 generate:
 	go generate ./...
@@ -54,6 +54,6 @@ certs:
 	openssl x509 -req -in ./certs/tls.csr -CA ./certs/ca.crt -CAkey ./certs/ca.key -CAcreateserial -out ./certs/tls.crt -days 365 -extfile ./certs/san.ext > /dev/null 2>&1
 
 integration: kind load-kind install
-	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" GOTOOLCHAIN=$(GOVERSION).0+auto go test -v -count=1 ./integration/... -vet=off -args --ginkgo.randomize-all && $(MAKE) delete-kind
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" go test -v -count=1 ./integration/... -vet=off -args --ginkgo.randomize-all && $(MAKE) delete-kind
 
 .PHONY: run build image integration unit generate lint certs load-kind install kind delete-kind
