@@ -596,8 +596,8 @@ cloud.google.com/go/workflows v1.9.0/go.mod h1:ZGkj1aFIOd9c8Gerkjjq7OW7I5+l6cSvT
 cloud.google.com/go/workflows v1.10.0/go.mod h1:fZ8LmRmZQWacon9UCX1r/g/DfAXx5VcPALq2CxzdePw=
 code.cloudfoundry.org/archiver v0.64.0 h1:5kNWM5cCW8MOFanVzIlqmcHa7IZgm62hc6KqF+qBUio=
 code.cloudfoundry.org/archiver v0.64.0/go.mod h1:ZBBMwfNGgTnDC0S/yBllcdarUBG9Nd055j9HaYzg/+g=
-code.cloudfoundry.org/bbs v0.0.0-20260107153229-7b22834eb1d7 h1:11T0tmwOn/QCRneBc/o914ib2pTlV+Si2EaztSEKn3A=
-code.cloudfoundry.org/bbs v0.0.0-20260107153229-7b22834eb1d7/go.mod h1:XKlGVVXFi5EcHHMPzw3xgONK9PeEZuUbIC43XNwxD10=
+code.cloudfoundry.org/bbs v0.0.0-20260323203855-1402bd61fc46 h1:LdeIKJdg/mlH4nKyGyBMFg6IzuqeL+39zpBbAx5Lrcs=
+code.cloudfoundry.org/bbs v0.0.0-20260323203855-1402bd61fc46/go.mod h1:XKlGVVXFi5EcHHMPzw3xgONK9PeEZuUbIC43XNwxD10=
 code.cloudfoundry.org/bytefmt v0.56.0 h1:qsCKmisDuotACI4KYPNdORvN6WaWEEb6RX2d9gyysNw=
 code.cloudfoundry.org/bytefmt v0.56.0/go.mod h1:J23lJHgcn710FEpbcOw5cqOUsj7K0Z2O1npk8m0adhU=
 code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3 h1:SproHrcDI7MG25Smabm75/l4SkvvfUkEAvQOu7NSUKM=
