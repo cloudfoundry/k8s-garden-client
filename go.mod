@@ -5,20 +5,20 @@ go 1.25.0
 tool github.com/maxbrunsfeld/counterfeiter/v6
 
 require (
-	code.cloudfoundry.org/archiver v0.64.0
+	code.cloudfoundry.org/archiver v0.65.0
 	code.cloudfoundry.org/bbs v0.0.0-20260107153229-7b22834eb1d7
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
-	code.cloudfoundry.org/clock v1.63.0
+	code.cloudfoundry.org/clock v1.64.0
 	code.cloudfoundry.org/commandrunner v0.59.0
-	code.cloudfoundry.org/debugserver v0.88.0
+	code.cloudfoundry.org/debugserver v0.90.0
 	code.cloudfoundry.org/diego-logging-client v0.99.0
 	code.cloudfoundry.org/durationjson v0.65.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260318024418-0ddea73e969e
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/guardian v0.0.0-20260313200351-f0a8fe21e456
+	code.cloudfoundry.org/guardian v0.0.0-20260401025327-b8e60c988757
 	code.cloudfoundry.org/lager/v3 v3.64.0
-	code.cloudfoundry.org/localip v0.65.0
+	code.cloudfoundry.org/localip v0.66.0
 	code.cloudfoundry.org/locket v0.0.0-20251117222557-be612341b29d
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20251217184847-b5d35dccad88
@@ -63,7 +63,7 @@ require (
 	cyphar.com/go-pathrs v0.2.4 // indirect
 	github.com/Masterminds/semver/v3 v3.4.0 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
-	github.com/Microsoft/hcsshim v0.14.0-rc.1 // indirect
+	github.com/Microsoft/hcsshim v0.14.0 // indirect
 	github.com/aws/aws-sdk-go v1.55.8 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.39.6 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.31.17 // indirect
@@ -125,7 +125,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.18.4 // indirect
+	github.com/klauspost/compress v1.18.5 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.12.1 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
@@ -174,7 +174,7 @@ require (
 	golang.org/x/tools v0.43.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20251202230838-ff82c1b0f217 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260330182312-d5a96adf58d8 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260401023136-1fecd4de7ae9 // indirect
 	google.golang.org/grpc v1.79.3 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
