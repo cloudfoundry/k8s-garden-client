@@ -5,7 +5,7 @@ go 1.25.0
 tool github.com/maxbrunsfeld/counterfeiter/v6
 
 require (
-	code.cloudfoundry.org/archiver v0.65.0
+	code.cloudfoundry.org/archiver v0.66.0
 	code.cloudfoundry.org/bbs v0.0.0-20260323203855-1402bd61fc46
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.64.0
