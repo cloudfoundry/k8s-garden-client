@@ -11,7 +11,7 @@ require (
 	code.cloudfoundry.org/clock v1.64.0
 	code.cloudfoundry.org/commandrunner v0.59.0
 	code.cloudfoundry.org/debugserver v0.90.0
-	code.cloudfoundry.org/diego-logging-client v0.99.0
+	code.cloudfoundry.org/diego-logging-client v0.100.0
 	code.cloudfoundry.org/durationjson v0.67.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260318024418-0ddea73e969e
@@ -175,7 +175,7 @@ require (
 	golang.org/x/tools v0.43.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260120221211-b8f7ae30c516 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260401024825-9d38bb4040a9 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260406210006-6f92a3bedf2d // indirect
 	google.golang.org/grpc v1.80.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
