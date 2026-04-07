@@ -18,7 +18,7 @@ require (
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260401025327-b8e60c988757
 	code.cloudfoundry.org/lager/v3 v3.64.0
-	code.cloudfoundry.org/localip v0.66.0
+	code.cloudfoundry.org/localip v0.67.0
 	code.cloudfoundry.org/locket v0.0.0-20251117222557-be612341b29d
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b
