@@ -6,13 +6,12 @@ image:
   tag: ""
 
 instanceIdentityCASecret: instance-identity
-loggregatorCertificateSecret: ""
 
 locket:
-  address: locket.default.svc.cluster.local:8891
+  address: locket.{{ .Release.Namespace }}.svc.cluster.local:8891
   certificateSecret: ""
 
-bbsAddress: https://bbs.default.svc.cluster.local:8889
+bbsAddress: https://bbs.{{ .Release.Namespace }}.svc.cluster.local:8889
 advertiseDomain: cell.127-0-0-1.nip.io
 caCertificate: ~
 containerProxyVerifySubjectAltName: 
@@ -20,7 +19,12 @@ containerProxyVerifySubjectAltName:
   - "ssh-proxy"
 
 fileServer:
-  address: http://fileserver.default.svc.cluster.local:8080
+  address: http://fileserver.{{ .Release.Namespace }}.svc.cluster.local:8080
+
+loggregator:
+  apiHost: forwarder-agent.{{ .Release.Namespace }}.svc.cluster.local
+  apiPort: 3458
+  certificateSecret: ""
 
 stacks:
   cflinuxfs4: ghcr.io/cloudfoundry/k8s/cflinuxfs4:1.304.0
