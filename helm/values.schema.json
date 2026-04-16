@@ -62,8 +62,20 @@
       },
       "type": "object"
     },
-    "loggregatorCertificateSecret": {
-      "type": "string"
+    "loggregator": {
+      "additionalProperties": false,
+      "properties": {
+        "apiHost": {
+          "type": "string"
+        },
+        "apiPort": {
+          "type": "integer"
+        },
+        "certificateSecret": {
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "nodeSelector": {
       "type": ["object", "null"]

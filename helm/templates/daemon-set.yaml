@@ -72,15 +72,15 @@ spec:
               cat /rep/rep.json | envsubst > /tmp/rep.json
 
               if [ ! -f /var/lib/rep/proxy/envoy ]; then
-                curl -sL {{ .Values.fileServer.address }}/cf-assets/proxy.tgz | tar -xz -C /var/lib/rep/proxy
+                curl -sL {{ tpl .Values.fileServer.address . }}/cf-assets/proxy.tgz | tar -xz -C /var/lib/rep/proxy
               fi
 
               if [ ! -f /var/lib/rep/healthcheck/healthcheck ]; then
-                curl -sL {{ .Values.fileServer.address }}/cf-assets/healthcheck.tgz | tar -xz -C /var/lib/rep/healthcheck
+                curl -sL {{ tpl .Values.fileServer.address . }}/cf-assets/healthcheck.tgz | tar -xz -C /var/lib/rep/healthcheck
               fi
 
               if [ ! -f /var/lib/rep/bin/init ]; then
-                curl -sL {{ .Values.fileServer.address }}/cf-assets/init.tgz | tar -xz -C /var/lib/rep/bin
+                curl -sL {{ tpl .Values.fileServer.address . }}/cf-assets/init.tgz | tar -xz -C /var/lib/rep/bin
               fi
           volumeMounts:
             - name: rep
@@ -214,7 +214,7 @@ spec:
             secretName: {{ .Values.instanceIdentityCASecret }}
         - name: loggregator-certificate
           secret:
-            secretName: {{ required "loggregatorCertificateSecret is a required value" .Values.loggregatorCertificateSecret }}
+            secretName: {{ required "loggregator.certificateSecret is a required value" .Values.loggregator.certificateSecret }}
         - name: locket-certificate
           secret:
             secretName: {{ required "locket.certificateSecret is a required value" .Values.locket.certificateSecret }}
