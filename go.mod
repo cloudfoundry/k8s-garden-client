@@ -14,10 +14,10 @@ require (
 	code.cloudfoundry.org/diego-logging-client v0.99.0
 	code.cloudfoundry.org/durationjson v0.67.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
-	code.cloudfoundry.org/garden v0.0.0-20260318024418-0ddea73e969e
+	code.cloudfoundry.org/garden v0.0.0-20260415024759-5d3f072af7f8
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260401025327-b8e60c988757
-	code.cloudfoundry.org/lager/v3 v3.64.0
+	code.cloudfoundry.org/lager/v3 v3.66.0
 	code.cloudfoundry.org/localip v0.66.0
 	code.cloudfoundry.org/locket v0.0.0-20251117222557-be612341b29d
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
@@ -164,15 +164,15 @@ require (
 	go.opentelemetry.io/otel/trace v1.42.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/mod v0.34.0 // indirect
-	golang.org/x/net v0.52.0 // indirect
+	golang.org/x/mod v0.35.0 // indirect
+	golang.org/x/net v0.53.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.42.0 // indirect
-	golang.org/x/term v0.41.0 // indirect
-	golang.org/x/text v0.35.0 // indirect
+	golang.org/x/sys v0.43.0 // indirect
+	golang.org/x/term v0.42.0 // indirect
+	golang.org/x/text v0.36.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
-	golang.org/x/tools v0.43.0 // indirect
+	golang.org/x/tools v0.44.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260120221211-b8f7ae30c516 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260401024825-9d38bb4040a9 // indirect
