@@ -11,7 +11,7 @@ require (
 	code.cloudfoundry.org/clock v1.66.0
 	code.cloudfoundry.org/commandrunner v0.61.0
 	code.cloudfoundry.org/debugserver v0.92.0
-	code.cloudfoundry.org/diego-logging-client v0.99.0
+	code.cloudfoundry.org/diego-logging-client v0.101.0
 	code.cloudfoundry.org/durationjson v0.69.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260415024759-5d3f072af7f8
