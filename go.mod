@@ -12,7 +12,7 @@ require (
 	code.cloudfoundry.org/commandrunner v0.61.0
 	code.cloudfoundry.org/debugserver v0.92.0
 	code.cloudfoundry.org/diego-logging-client v0.101.0
-	code.cloudfoundry.org/durationjson v0.69.0
+	code.cloudfoundry.org/durationjson v0.70.0
 	code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e
 	code.cloudfoundry.org/garden v0.0.0-20260415024759-5d3f072af7f8
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
@@ -35,7 +35,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/jarcoal/httpmock v1.4.1
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
-	github.com/onsi/ginkgo/v2 v2.28.1
+	github.com/onsi/ginkgo/v2 v2.28.2
 	github.com/onsi/gomega v1.40.0
 	github.com/opencontainers/go-digest v1.0.0
 	github.com/opencontainers/image-spec v1.1.1
