@@ -620,8 +620,8 @@ code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 h1:LKJD+OrbAG
 code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5/go.mod h1:zo/fpu7ZM70YRhciby/gha+8XWP/eJr4J5iGBklvGNY=
 code.cloudfoundry.org/eventhub v0.56.0 h1:7Tt8H4e8OZcRbKNDzmxGqdUjYekBwd+DHNH7fPeHtZw=
 code.cloudfoundry.org/eventhub v0.56.0/go.mod h1:0Ir7FCS0hBYsmwCE4H47Ae4L56NNYr26Fb7+qHekrxM=
-code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e h1:aw+gYeaU1IzmOt4PrCimZuQ1Z7HRkEY30udonwT3bto=
-code.cloudfoundry.org/executor v0.0.0-20260115133538-8eaf4cb3970e/go.mod h1:oemBimQzPedAfYleiBj968jpfEkSw8F5OsP+zYkVMRk=
+code.cloudfoundry.org/executor v0.0.0-20260423150240-a1e48526fe6b h1:UbK6Xdkpx5y0wOqGWKkeK4pxniSHvKEwRAZJFov11W0=
+code.cloudfoundry.org/executor v0.0.0-20260423150240-a1e48526fe6b/go.mod h1:oemBimQzPedAfYleiBj968jpfEkSw8F5OsP+zYkVMRk=
 code.cloudfoundry.org/garden v0.0.0-20260415024759-5d3f072af7f8 h1:JflsQ8BslP4lVk/tQbdR635KeHOkGdFKBc+fjDdpHJk=
 code.cloudfoundry.org/garden v0.0.0-20260415024759-5d3f072af7f8/go.mod h1:/SlE3mB42Vvj19Xp1d3xyZZ0ZuScTb+F5RN57ZVNxnM=
 code.cloudfoundry.org/go-diodes v0.0.0-20260209061029-a81ffbc46978 h1:uZ6UIz7zl39FMy5GybKzI83zD35c4fvkU8sQEZDH/x8=
