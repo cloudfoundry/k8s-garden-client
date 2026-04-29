@@ -644,8 +644,8 @@ code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b h1:kUZZ5oaEztfgSnW1
 code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b/go.mod h1:Z5Ez6B/8Ec6h2ybwrzEfHOZSSPvlIGO3TmL4mMzOwFg=
 code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 h1:CeDwMfR+eRMb68o1kI79to6Dr9ZLXPiqXhYucHf/w70=
 code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608/go.mod h1:ykLgqzJGV5PTkvxtfyOy8hcQy7wxPaoV5ZPyk74aqp8=
-code.cloudfoundry.org/tlsconfig v0.51.0 h1:thK329gjMwbx+Cj0ZG/9c6jiWTeMAUOekPD3Qwx9g6w=
-code.cloudfoundry.org/tlsconfig v0.51.0/go.mod h1:K7hANtU0m+X/IGEF6IA83KPEE6gKcL/efpltoKVfw+M=
+code.cloudfoundry.org/tlsconfig v0.52.0 h1:u5pFOr0aXGNVOt0ga5dIb3esGWaWJ/Mi3xDrZ5c/T6w=
+code.cloudfoundry.org/tlsconfig v0.52.0/go.mod h1:9Jxw2AnXRy1aq9iSGrOWWrOMc+vh6JmAClqxCw9rpFs=
 code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7 h1:Nw5ii4+cfAxG02gIiFClP/QIb+BpN7BNicozzI+LHJk=
 code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7/go.mod h1:BnGKbLUuOuM0WZGIu88h6degod4ZCoTgJlkRpt3gWUY=
 code.cloudfoundry.org/workpool v0.0.0-20250911194158-1489753f182e h1:NsULHptleEmqtoC8j6A8J636L9APnGn8YC0c7vocLww=
@@ -759,8 +759,8 @@ github.com/containerd/containerd/api v1.10.0 h1:5n0oHYVBwN4VhoX9fFykCV9dF1/BvAXe
 github.com/containerd/containerd/api v1.10.0/go.mod h1:NBm1OAk8ZL+LG8R0ceObGxT5hbUYj7CzTmR3xh0DlMM=
 github.com/containerd/containerd/v2 v2.2.3 h1:mOBRLaHGvmgy0bRo1Sg6OD8ugMKZIvCoWWMeMMygliA=
 github.com/containerd/containerd/v2 v2.2.3/go.mod h1:ns24cwt+p36mRnuKE3hLRxVBpuSP+a/Y25AMki1t/RY=
-github.com/containerd/continuity v0.4.5 h1:ZRoN1sXq9u7V6QoHMcVWGhOwDFqZ4B9i5H6un1Wh0x4=
-github.com/containerd/continuity v0.4.5/go.mod h1:/lNJvtJKUQStBzpVQ1+rasXO1LAWtUQssk28EZvJ3nE=
+github.com/containerd/continuity v0.5.0 h1:7a85HZpCSs+1Zps0Ee3DPSuAWY+0SJM1JNM51nlEVDg=
+github.com/containerd/continuity v0.5.0/go.mod h1:/lNJvtJKUQStBzpVQ1+rasXO1LAWtUQssk28EZvJ3nE=
 github.com/containerd/errdefs v1.0.0 h1:tg5yIfIlQIrxYtu9ajqY42W3lpS19XqdxRQeEwYG8PI=
 github.com/containerd/errdefs v1.0.0/go.mod h1:+YBYIdtsnF4Iw6nWZhJcqGSg/dwvV7tyJ/kCkyJ2k+M=
 github.com/containerd/errdefs/pkg v0.3.0 h1:9IKJ06FvyNlexW690DXuQNx2KA2cUJXx151Xdx3ZPPE=
@@ -1135,8 +1135,8 @@ github.com/onsi/gomega v1.27.1/go.mod h1:aHX5xOykVYzWOV4WqQy0sy8BQptgukenXpCXfad
 github.com/onsi/gomega v1.27.3/go.mod h1:5vG284IBtfDAmDyrK+eGyZmUgUlmi+Wngqo557cZ6Gw=
 github.com/onsi/gomega v1.27.4/go.mod h1:riYq/GJKh8hhoM01HN6Vmuy93AarCXCBGpvFDK3q3fQ=
 github.com/onsi/gomega v1.27.6/go.mod h1:PIQNjfQwkP3aQAH7lf7j87O/5FiNr+ZR8+ipb+qQlhg=
-github.com/onsi/gomega v1.39.1 h1:1IJLAad4zjPn2PsnhH70V4DKRFlrCzGBNrNaru+Vf28=
-github.com/onsi/gomega v1.39.1/go.mod h1:hL6yVALoTOxeWudERyfppUcZXjMwIMLnuSfruD2lcfg=
+github.com/onsi/gomega v1.40.0 h1:Vtol0e1MghCD2ZVIilPDIg44XSL9l2QAn8ZNaljWcJc=
+github.com/onsi/gomega v1.40.0/go.mod h1:M/Uqpu/8qTjtzCLUA2zJHX9Iilrau25x1PdoSRbWh5A=
 github.com/opencontainers/cgroups v0.0.6 h1:tfZFWTIIGaUUFImTyuTg+Mr5x8XRiSdZESgEBW7UxuI=
 github.com/opencontainers/cgroups v0.0.6/go.mod h1:oWVzJsKK0gG9SCRBfTpnn16WcGEqDI8PAcpMGbqWxcs=
 github.com/opencontainers/go-digest v1.0.0 h1:apOUWs51W5PlhuyGyz9FCeeBIOUDA/6nW8Oi/yOhh5U=
@@ -1268,8 +1268,8 @@ go.opentelemetry.io/otel/trace v1.43.0/go.mod h1:/QJhyVBUUswCphDVxq+8mld+AvhXZLh
 go.opentelemetry.io/proto/otlp v0.7.0/go.mod h1:PqfVotwruBrMGOCsRd/89rSnXhoiJIqeYNgFYFoEGnI=
 go.opentelemetry.io/proto/otlp v0.15.0/go.mod h1:H7XAot3MsfNsj7EXtrA2q5xSNQ10UqI405h3+duxN4U=
 go.opentelemetry.io/proto/otlp v0.19.0/go.mod h1:H7XAot3MsfNsj7EXtrA2q5xSNQ10UqI405h3+duxN4U=
-go.step.sm/crypto v0.77.2 h1:qFjjei+RHc5kP5R7NW9OUWT7SqWIuAOvOkXqg4fNWj8=
-go.step.sm/crypto v0.77.2/go.mod h1:W0YJb9onM5l78qgkXIJ2Up6grnwW8EtpCKIza/NCg0o=
+go.step.sm/crypto v0.77.7 h1:6azC+pD678Vjju8yXnMDHCZJ+HzFaEmL3sCryiezTIA=
+go.step.sm/crypto v0.77.7/go.mod h1:OW/2sEHwTtDKq70PvSQ5B0JGy/CrLyDKOiVy3YvZMTQ=
 go.uber.org/goleak v1.3.0 h1:2K3zAYmnTNqV73imy9J1T3WC+gmCePx2hEGkimedGto=
 go.uber.org/goleak v1.3.0/go.mod h1:CoHD4mav9JJNrW/WLlf7HGZPjdw8EucARQHekz1X6bE=
 go.uber.org/multierr v1.11.0 h1:blXXJkSxSSfBVBlC76pxqeO+LN3aDfLQo+309xJstO0=
