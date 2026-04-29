@@ -9,12 +9,12 @@ require (
 	code.cloudfoundry.org/bbs v0.0.0-20260323203855-1402bd61fc46
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.68.0
-	code.cloudfoundry.org/commandrunner v0.61.0
+	code.cloudfoundry.org/commandrunner v0.62.0
 	code.cloudfoundry.org/debugserver v0.94.0
 	code.cloudfoundry.org/diego-logging-client v0.103.0
 	code.cloudfoundry.org/durationjson v0.70.0
 	code.cloudfoundry.org/executor v0.0.0-20260423150240-a1e48526fe6b
-	code.cloudfoundry.org/garden v0.0.0-20260415024759-5d3f072af7f8
+	code.cloudfoundry.org/garden v0.0.0-20260429025054-3f9ac7a76d56
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260429025616-2da7633199df
 	code.cloudfoundry.org/lager/v3 v3.67.0
