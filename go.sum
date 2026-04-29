@@ -610,8 +610,8 @@ code.cloudfoundry.org/commandrunner v0.61.0 h1:5fZpmBtFmvJq+ASWm4pav2+5g6RzKyfXS
 code.cloudfoundry.org/commandrunner v0.61.0/go.mod h1:Hr09rRmk61g/knTzQ0t9bx/7rsynFOqOz8U5rMzFtqI=
 code.cloudfoundry.org/debugserver v0.94.0 h1:a87ZSLQfZspiXuAbDKQbtRX1t2etE4Z0uWgFglSAR4A=
 code.cloudfoundry.org/debugserver v0.94.0/go.mod h1:2KsFae0Pg3HJQ2248uQ1+6vcejL8OH26U/NDFBWxte0=
-code.cloudfoundry.org/diego-logging-client v0.101.0 h1:h/RqVy9EbM0/XEa+80VuuU4QfnSfFuti++cWPx0W19E=
-code.cloudfoundry.org/diego-logging-client v0.101.0/go.mod h1:Z2jLQZRUfMji6tDWsvU/ZF1+5qGteswFotxwHEpIhhI=
+code.cloudfoundry.org/diego-logging-client v0.103.0 h1:6/HmvBeK0wDYu/D6I8CRjzNJNYqoxna4Jt3nvtW2jPo=
+code.cloudfoundry.org/diego-logging-client v0.103.0/go.mod h1:606TA09qNbxdQRs0sGHLu1rTQWqaHvxbfmCmodR92LU=
 code.cloudfoundry.org/dockerdriver v0.62.0 h1:/4whmpmdxwIrDL/67qrX0D3pvsgVcW+taIDPPN5XtKc=
 code.cloudfoundry.org/dockerdriver v0.62.0/go.mod h1:PRGZ1LKjch2lbAubHQ/56YjMrYWWQAg/YMl49Yz6kb4=
 code.cloudfoundry.org/durationjson v0.70.0 h1:XIhycnynRg/n0dV+6Ev//3CT8Y4NSPjJQeipqbLc1ok=
@@ -624,8 +624,8 @@ code.cloudfoundry.org/executor v0.0.0-20260423150240-a1e48526fe6b h1:UbK6Xdkpx5y
 code.cloudfoundry.org/executor v0.0.0-20260423150240-a1e48526fe6b/go.mod h1:oemBimQzPedAfYleiBj968jpfEkSw8F5OsP+zYkVMRk=
 code.cloudfoundry.org/garden v0.0.0-20260415024759-5d3f072af7f8 h1:JflsQ8BslP4lVk/tQbdR635KeHOkGdFKBc+fjDdpHJk=
 code.cloudfoundry.org/garden v0.0.0-20260415024759-5d3f072af7f8/go.mod h1:/SlE3mB42Vvj19Xp1d3xyZZ0ZuScTb+F5RN57ZVNxnM=
-code.cloudfoundry.org/go-diodes v0.0.0-20260209061029-a81ffbc46978 h1:uZ6UIz7zl39FMy5GybKzI83zD35c4fvkU8sQEZDH/x8=
-code.cloudfoundry.org/go-diodes v0.0.0-20260209061029-a81ffbc46978/go.mod h1:ZZMgJNANhsfqeXF//d5qDK0dNnQ4jTBsib4WR0xbWJQ=
+code.cloudfoundry.org/go-diodes v0.0.0-20260427153419-57aa1b10ab4c h1:Gig0o7f+Gi4+z+dMxfy09zjMzl4DYB7udnQdfPF3pRk=
+code.cloudfoundry.org/go-diodes v0.0.0-20260427153419-57aa1b10ab4c/go.mod h1:kZ5GX5LVg0YV8rJ9QFj5K6BS9e1iPIQP32FFcOLdnP0=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1 h1:S6Lgg5UJbhh2bt2TGQxs6R00CF8PrUA3GFPYDxy56Fk=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1/go.mod h1:FTFFruqGeOhVCDFvyLgl8EV8YW63NNwRzLhxJcporu8=
 code.cloudfoundry.org/goshims v0.84.0 h1:IRFD4Ql7MaetmMvKIU7JS5kggx2L8Fnu6CYJVSVPVdY=
