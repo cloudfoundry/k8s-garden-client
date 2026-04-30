@@ -622,10 +622,10 @@ code.cloudfoundry.org/eventhub v0.56.0 h1:7Tt8H4e8OZcRbKNDzmxGqdUjYekBwd+DHNH7fP
 code.cloudfoundry.org/eventhub v0.56.0/go.mod h1:0Ir7FCS0hBYsmwCE4H47Ae4L56NNYr26Fb7+qHekrxM=
 code.cloudfoundry.org/executor v0.0.0-20260423150240-a1e48526fe6b h1:UbK6Xdkpx5y0wOqGWKkeK4pxniSHvKEwRAZJFov11W0=
 code.cloudfoundry.org/executor v0.0.0-20260423150240-a1e48526fe6b/go.mod h1:oemBimQzPedAfYleiBj968jpfEkSw8F5OsP+zYkVMRk=
-code.cloudfoundry.org/go-diodes v0.0.0-20260427153419-57aa1b10ab4c h1:Gig0o7f+Gi4+z+dMxfy09zjMzl4DYB7udnQdfPF3pRk=
-code.cloudfoundry.org/go-diodes v0.0.0-20260427153419-57aa1b10ab4c/go.mod h1:kZ5GX5LVg0YV8rJ9QFj5K6BS9e1iPIQP32FFcOLdnP0=
 code.cloudfoundry.org/garden v0.0.0-20260429025054-3f9ac7a76d56 h1:55FNDYmX8j3LBw4xLmtqsBJ07XRexFw6Po7qz5snM4g=
 code.cloudfoundry.org/garden v0.0.0-20260429025054-3f9ac7a76d56/go.mod h1:T3u+4LJX8zpGLNCtqDXRDH8e1D0/FaMrJeIT9OICrL0=
+code.cloudfoundry.org/go-diodes v0.0.0-20260427153419-57aa1b10ab4c h1:Gig0o7f+Gi4+z+dMxfy09zjMzl4DYB7udnQdfPF3pRk=
+code.cloudfoundry.org/go-diodes v0.0.0-20260427153419-57aa1b10ab4c/go.mod h1:kZ5GX5LVg0YV8rJ9QFj5K6BS9e1iPIQP32FFcOLdnP0=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1 h1:S6Lgg5UJbhh2bt2TGQxs6R00CF8PrUA3GFPYDxy56Fk=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1/go.mod h1:FTFFruqGeOhVCDFvyLgl8EV8YW63NNwRzLhxJcporu8=
 code.cloudfoundry.org/goshims v0.84.0 h1:IRFD4Ql7MaetmMvKIU7JS5kggx2L8Fnu6CYJVSVPVdY=
@@ -755,8 +755,8 @@ github.com/cncf/xds/go v0.0.0-20251210132809-ee656c7534f5 h1:6xNmx7iTtyBRev0+D/T
 github.com/cncf/xds/go v0.0.0-20251210132809-ee656c7534f5/go.mod h1:KdCmV+x/BuvyMxRnYBlmVaq4OLiKW6iRQfvC62cvdkI=
 github.com/containerd/cgroups/v3 v3.1.3 h1:eUNflyMddm18+yrDmZPn3jI7C5hJ9ahABE5q6dyLYXQ=
 github.com/containerd/cgroups/v3 v3.1.3/go.mod h1:PKZ2AcWmSBsY/tJUVhtS/rluX0b1uq1GmPO1ElCmbOw=
-github.com/containerd/containerd/api v1.10.0 h1:5n0oHYVBwN4VhoX9fFykCV9dF1/BvAXeg2F8W6UYq1o=
-github.com/containerd/containerd/api v1.10.0/go.mod h1:NBm1OAk8ZL+LG8R0ceObGxT5hbUYj7CzTmR3xh0DlMM=
+github.com/containerd/containerd/api v1.11.0 h1:smv4e74S/wwIx0Sj7lhwO1t3M/oi+mSzk2VXqHq8aO0=
+github.com/containerd/containerd/api v1.11.0/go.mod h1:CaQFRu+N1MtbgL6JDOJLUB1hCKESU1lD6MuTJhgtdlw=
 github.com/containerd/containerd/v2 v2.2.3 h1:mOBRLaHGvmgy0bRo1Sg6OD8ugMKZIvCoWWMeMMygliA=
 github.com/containerd/containerd/v2 v2.2.3/go.mod h1:ns24cwt+p36mRnuKE3hLRxVBpuSP+a/Y25AMki1t/RY=
 github.com/containerd/continuity v0.5.0 h1:7a85HZpCSs+1Zps0Ee3DPSuAWY+0SJM1JNM51nlEVDg=
