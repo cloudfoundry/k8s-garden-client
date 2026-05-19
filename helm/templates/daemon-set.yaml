@@ -21,8 +21,6 @@ spec:
       serviceAccountName: k8s-rep
       hostPID: true
       hostUsers: true
-      imagePullSecrets:
-        - name: image-pull-secret
       initContainers:
         - name: init
           image: bitnami/kubectl:latest
