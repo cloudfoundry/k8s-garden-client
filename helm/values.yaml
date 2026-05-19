@@ -31,6 +31,8 @@ stacks:
 
 workloadsNamespace: cf-workloads
 
+pauseImage: registry.k8s.io/pause:3.10.2
+
 nodeSelector:
   cloudfoundry.org/cell: "true"
 

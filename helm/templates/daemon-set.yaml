@@ -80,7 +80,7 @@ spec:
               fi
 
               if [ ! -f /var/lib/rep/bin/init ]; then
-                curl -sL {{ tpl .Values.fileServer.address . }}/cf-assets/init.tgz | tar -xz -C /var/lib/rep/bin
+                cp /pause/pause /var/lib/rep/bin/init
               fi
           volumeMounts:
             - name: rep
@@ -91,6 +91,8 @@ spec:
               mountPath: /rep
             - name: tmp
               mountPath: /tmp
+            - name: k8s-pause
+              mountPath: /pause
             - name: proxy-assets
               mountPath: /var/lib/rep/proxy
             - name: healthcheck-assets
@@ -218,6 +220,10 @@ spec:
         - name: locket-certificate
           secret:
             secretName: {{ required "locket.certificateSecret is a required value" .Values.locket.certificateSecret }}
+        - name: k8s-pause
+          image:
+            reference: {{ .Values.pauseImage }}
+            pullPolicy: IfNotPresent
         - name: kubelet-pods
           hostPath:
             path: /var/lib/kubelet/pods
