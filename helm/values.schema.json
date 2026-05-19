@@ -116,6 +116,9 @@
     },
     "workloadsNamespace": {
       "type": "string"
+    },
+    "pauseImage": {
+      "type": "string"
     }
   },
   "type": "object"
