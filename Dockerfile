@@ -1,4 +1,4 @@
-FROM gcc:latest AS gccbuild
+FROM gcc:15 AS gccbuild
 
 ARG TAR_VERSION=1.35
 
