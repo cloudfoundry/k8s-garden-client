@@ -636,8 +636,8 @@ code.cloudfoundry.org/lager/v3 v3.71.0 h1:Jm2vkbp2daadOwWrDWmdRqFN0lPy6fkEicAEP1
 code.cloudfoundry.org/lager/v3 v3.71.0/go.mod h1:4ZEDdXpEDs64bd5kTxQwQMCNeWSFd+5bnL9UeDObNug=
 code.cloudfoundry.org/localip v0.73.0 h1:ur3oXK07F5AKuh5Dsu5fKXMUnvdd/b/8qZZCSPFDuTs=
 code.cloudfoundry.org/localip v0.73.0/go.mod h1:hEP7bJh6SHbmX21DyGW6r2+Xs9jK8xmrQobY9G5clgg=
-code.cloudfoundry.org/locket v0.0.0-20260507165111-20f6e690be22 h1:4XbpyOIuXKcYFPmrAvBnp0zWaCn1NI1X7N/0nit6q+g=
-code.cloudfoundry.org/locket v0.0.0-20260507165111-20f6e690be22/go.mod h1:AwHLRkdXtttLXNB8RHgLfErJ2kKafH62AR2OClhy6xI=
+code.cloudfoundry.org/locket v0.0.0-20260602143356-23bea5865010 h1:qSCBH93Npe+uEp6zV3sFyRD+apX1g3TycrTQUZgn+IQ=
+code.cloudfoundry.org/locket v0.0.0-20260602143356-23bea5865010/go.mod h1:AwHLRkdXtttLXNB8RHgLfErJ2kKafH62AR2OClhy6xI=
 code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f h1:4539FTgnplh5dDjlU2Q1n0RpPzt2jdDMEdWC4aJrn1c=
 code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f/go.mod h1:BVlqIbbUlzPBxNRjEC7yqpIXP4hzFsWbOu58CbIREUs=
 code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b h1:kUZZ5oaEztfgSnW1Qn6+f+TiU0Yh478sdPoEKV5Pe2Y=

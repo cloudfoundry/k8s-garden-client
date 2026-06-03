@@ -19,7 +19,7 @@ require (
 	code.cloudfoundry.org/guardian v0.0.0-20260529165237-2ab208e79b29
 	code.cloudfoundry.org/lager/v3 v3.71.0
 	code.cloudfoundry.org/localip v0.73.0
-	code.cloudfoundry.org/locket v0.0.0-20260507165111-20f6e690be22
+	code.cloudfoundry.org/locket v0.0.0-20260602143356-23bea5865010
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b
 	code.cloudfoundry.org/tlsconfig v0.56.0
