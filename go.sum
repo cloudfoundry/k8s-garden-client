@@ -608,8 +608,8 @@ code.cloudfoundry.org/clock v1.74.0 h1:IYniY3DDuJZRG78tP6YOJcxk5zypoFmuHEctaUyHU
 code.cloudfoundry.org/clock v1.74.0/go.mod h1:xq6dVG5xITfuVDJIJwaX6ODjCLDzg+gU9RsdUXZzGfU=
 code.cloudfoundry.org/commandrunner v0.66.0 h1:5wsYXo63CJm1iVlQ9q8PoUs2W9LSXWW4/U4k4deT+Dw=
 code.cloudfoundry.org/commandrunner v0.66.0/go.mod h1:XADKkBB8e1ISJuJf/V2Jhh5SHxbKnJ7+8KXhM1jBBhc=
-code.cloudfoundry.org/debugserver v0.101.0 h1:d40Cfq42MfOuptuJUw3cgn9gVkk7xniTnPADXqbraXg=
-code.cloudfoundry.org/debugserver v0.101.0/go.mod h1:zguK9q69fQPdBY41zg1/BwTdlBVSSWxnxqWOqp3gvKU=
+code.cloudfoundry.org/debugserver v0.102.0 h1:4gvjQFQjJ8GZtmJ5VZyzpHA3E1VWA3Fg05yWLtpxcfc=
+code.cloudfoundry.org/debugserver v0.102.0/go.mod h1:/7/tR0/w4DCO/yzcXhGq4vQ3l5PjzZtLxx3b+qRnTiw=
 code.cloudfoundry.org/diego-logging-client v0.108.0 h1:1GE1m5SLU+M797ny1MFgmFNGM2U21mDurEJgqICxd54=
 code.cloudfoundry.org/diego-logging-client v0.108.0/go.mod h1:MnNMVeDhBNFvhdWit/et4L70vHQn3xLw3DfjFbQCofA=
 code.cloudfoundry.org/dockerdriver v0.62.0 h1:/4whmpmdxwIrDL/67qrX0D3pvsgVcW+taIDPPN5XtKc=
@@ -1116,8 +1116,8 @@ github.com/onsi/ginkgo/v2 v2.9.0/go.mod h1:4xkjoL/tZv4SMWeww56BU5kAt19mVB47gTWxm
 github.com/onsi/ginkgo/v2 v2.9.1/go.mod h1:FEcmzVcCHl+4o9bQZVab+4dC9+j+91t2FHSzmGAPfuo=
 github.com/onsi/ginkgo/v2 v2.9.2/go.mod h1:WHcJJG2dIlcCqVfBAwUCrJxSPFb6v4azBwgxeMeDuts=
 github.com/onsi/ginkgo/v2 v2.9.4/go.mod h1:gCQYp2Q+kSoIj7ykSVb9nskRSsR6PUj4AiLywzIhbKM=
-github.com/onsi/ginkgo/v2 v2.30.0 h1:zxM/9XneXFIy64j6/wAmBIX4zRC7Hu6U8XFNZvDnCQc=
-github.com/onsi/ginkgo/v2 v2.30.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
+github.com/onsi/ginkgo/v2 v2.31.0 h1:GtuJos5DFUV9EerYJo8RhYxosYNGvOdDE5haKq6Grfs=
+github.com/onsi/ginkgo/v2 v2.31.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
 github.com/onsi/gomega v1.5.0/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
 github.com/onsi/gomega v1.7.1/go.mod h1:XdKZgCCFLUoM/7CFJVPcG8C1xQ1AJ0vpAezJrB7JYyY=
 github.com/onsi/gomega v1.10.1/go.mod h1:iN09h71vgCQne3DLsj+A5owkum+a2tYe+TOCB1ybHNo=
