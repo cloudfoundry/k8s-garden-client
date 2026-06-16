@@ -5,18 +5,18 @@ go 1.26.3
 tool github.com/maxbrunsfeld/counterfeiter/v6
 
 require (
-	code.cloudfoundry.org/archiver v0.74.0
+	code.cloudfoundry.org/archiver v0.75.0
 	code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
-	code.cloudfoundry.org/clock v1.74.0
+	code.cloudfoundry.org/clock v1.75.0
 	code.cloudfoundry.org/commandrunner v0.66.0
-	code.cloudfoundry.org/debugserver v0.101.0
+	code.cloudfoundry.org/debugserver v0.102.0
 	code.cloudfoundry.org/diego-logging-client v0.108.0
-	code.cloudfoundry.org/durationjson v0.76.0
+	code.cloudfoundry.org/durationjson v0.77.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
-	code.cloudfoundry.org/garden v0.0.0-20260612142927-e02c02da0c18
+	code.cloudfoundry.org/garden v0.0.0-20260615182558-dd88c014d8c3
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/guardian v0.0.0-20260612145632-32259e5546ce
+	code.cloudfoundry.org/guardian v0.0.0-20260615183112-52475cbb9ab6
 	code.cloudfoundry.org/lager/v3 v3.74.0
 	code.cloudfoundry.org/localip v0.76.0
 	code.cloudfoundry.org/locket v0.0.0-20260507165111-20f6e690be22
@@ -42,10 +42,10 @@ require (
 	github.com/opencontainers/runtime-spec v1.3.0
 	github.com/tedsuo/ifrit v0.0.0-20260418191334-846868129986
 	github.com/tedsuo/rata v1.0.0
-	k8s.io/api v0.36.1
-	k8s.io/apimachinery v0.36.1
-	k8s.io/client-go v0.36.1
-	k8s.io/kubelet v0.36.1
+	k8s.io/api v0.36.2
+	k8s.io/apimachinery v0.36.2
+	k8s.io/client-go v0.36.2
+	k8s.io/kubelet v0.36.2
 	k8s.io/utils v0.0.0-20260507154919-ff6756f316d2
 	sigs.k8s.io/controller-runtime v0.24.1
 )
