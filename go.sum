@@ -622,8 +622,8 @@ code.cloudfoundry.org/eventhub v0.56.0 h1:7Tt8H4e8OZcRbKNDzmxGqdUjYekBwd+DHNH7fP
 code.cloudfoundry.org/eventhub v0.56.0/go.mod h1:0Ir7FCS0hBYsmwCE4H47Ae4L56NNYr26Fb7+qHekrxM=
 code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610 h1:nxukL4rozrBKIAB7SGR02jvVur1AmAaIubbgL02sAV4=
 code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610/go.mod h1:oemBimQzPedAfYleiBj968jpfEkSw8F5OsP+zYkVMRk=
-code.cloudfoundry.org/garden v0.0.0-20260612142927-e02c02da0c18 h1:M9RHWh2EWKHmW7Cdxs4ViwT6+sPnoShoMXuqC2t967Q=
-code.cloudfoundry.org/garden v0.0.0-20260612142927-e02c02da0c18/go.mod h1:KKXojKwT1NPsjsJT0DuBV7Tu5BJQIiL+oUHVjca9Vss=
+code.cloudfoundry.org/garden v0.0.0-20260615182558-dd88c014d8c3 h1:3QuHmNPo1OftExhxAHtHOD/OyDADKLS/O3w/0j0KCvY=
+code.cloudfoundry.org/garden v0.0.0-20260615182558-dd88c014d8c3/go.mod h1:7o5Y9RVItfrC/twUyk5/H+ojuWmjfeu5LcgwHR1TFRM=
 code.cloudfoundry.org/go-diodes v0.0.0-20260518082450-53acbbed6d0f h1:64yICzxRPmSlKiwWc8EK7Ion6zQzbfLE8VVnOvAyRHM=
 code.cloudfoundry.org/go-diodes v0.0.0-20260518082450-53acbbed6d0f/go.mod h1:CBNKjs+CBCb9Q83t8vxzqctA/wa5bonUXh1WQDFxZaY=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1 h1:S6Lgg5UJbhh2bt2TGQxs6R00CF8PrUA3GFPYDxy56Fk=
@@ -1116,8 +1116,8 @@ github.com/onsi/ginkgo/v2 v2.9.0/go.mod h1:4xkjoL/tZv4SMWeww56BU5kAt19mVB47gTWxm
 github.com/onsi/ginkgo/v2 v2.9.1/go.mod h1:FEcmzVcCHl+4o9bQZVab+4dC9+j+91t2FHSzmGAPfuo=
 github.com/onsi/ginkgo/v2 v2.9.2/go.mod h1:WHcJJG2dIlcCqVfBAwUCrJxSPFb6v4azBwgxeMeDuts=
 github.com/onsi/ginkgo/v2 v2.9.4/go.mod h1:gCQYp2Q+kSoIj7ykSVb9nskRSsR6PUj4AiLywzIhbKM=
-github.com/onsi/ginkgo/v2 v2.30.0 h1:zxM/9XneXFIy64j6/wAmBIX4zRC7Hu6U8XFNZvDnCQc=
-github.com/onsi/ginkgo/v2 v2.30.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
+github.com/onsi/ginkgo/v2 v2.31.0 h1:GtuJos5DFUV9EerYJo8RhYxosYNGvOdDE5haKq6Grfs=
+github.com/onsi/ginkgo/v2 v2.31.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
 github.com/onsi/gomega v1.5.0/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
 github.com/onsi/gomega v1.7.1/go.mod h1:XdKZgCCFLUoM/7CFJVPcG8C1xQ1AJ0vpAezJrB7JYyY=
 github.com/onsi/gomega v1.10.1/go.mod h1:iN09h71vgCQne3DLsj+A5owkum+a2tYe+TOCB1ybHNo=
