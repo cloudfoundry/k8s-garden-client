@@ -614,8 +614,8 @@ code.cloudfoundry.org/diego-logging-client v0.108.0 h1:1GE1m5SLU+M797ny1MFgmFNGM
 code.cloudfoundry.org/diego-logging-client v0.108.0/go.mod h1:MnNMVeDhBNFvhdWit/et4L70vHQn3xLw3DfjFbQCofA=
 code.cloudfoundry.org/dockerdriver v0.62.0 h1:/4whmpmdxwIrDL/67qrX0D3pvsgVcW+taIDPPN5XtKc=
 code.cloudfoundry.org/dockerdriver v0.62.0/go.mod h1:PRGZ1LKjch2lbAubHQ/56YjMrYWWQAg/YMl49Yz6kb4=
-code.cloudfoundry.org/durationjson v0.76.0 h1:qDz92nsNbYG4pjE2svcD6bgXUi73JnoymbuzmG9s254=
-code.cloudfoundry.org/durationjson v0.76.0/go.mod h1:Rv8egevccRCjacdnoYZ72ycsxYlF0kfb8GoSAKV0RBE=
+code.cloudfoundry.org/durationjson v0.77.0 h1:zuc+ErAZLAkgxfokX+UUj+fCv7BsHA8c/C+PkL97dMQ=
+code.cloudfoundry.org/durationjson v0.77.0/go.mod h1:caSqCDeaMprtHaZbQVLi4bCErrkpmtyZHb078UP2taw=
 code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 h1:LKJD+OrbAG/m36r860G2J7GxyacWc0F5jC7/iOr8RIc=
 code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5/go.mod h1:zo/fpu7ZM70YRhciby/gha+8XWP/eJr4J5iGBklvGNY=
 code.cloudfoundry.org/eventhub v0.56.0 h1:7Tt8H4e8OZcRbKNDzmxGqdUjYekBwd+DHNH7fPeHtZw=
