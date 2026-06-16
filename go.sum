@@ -622,8 +622,8 @@ code.cloudfoundry.org/eventhub v0.56.0 h1:7Tt8H4e8OZcRbKNDzmxGqdUjYekBwd+DHNH7fP
 code.cloudfoundry.org/eventhub v0.56.0/go.mod h1:0Ir7FCS0hBYsmwCE4H47Ae4L56NNYr26Fb7+qHekrxM=
 code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610 h1:nxukL4rozrBKIAB7SGR02jvVur1AmAaIubbgL02sAV4=
 code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610/go.mod h1:oemBimQzPedAfYleiBj968jpfEkSw8F5OsP+zYkVMRk=
-code.cloudfoundry.org/garden v0.0.0-20260612142927-e02c02da0c18 h1:M9RHWh2EWKHmW7Cdxs4ViwT6+sPnoShoMXuqC2t967Q=
-code.cloudfoundry.org/garden v0.0.0-20260612142927-e02c02da0c18/go.mod h1:KKXojKwT1NPsjsJT0DuBV7Tu5BJQIiL+oUHVjca9Vss=
+code.cloudfoundry.org/garden v0.0.0-20260615182558-dd88c014d8c3 h1:3QuHmNPo1OftExhxAHtHOD/OyDADKLS/O3w/0j0KCvY=
+code.cloudfoundry.org/garden v0.0.0-20260615182558-dd88c014d8c3/go.mod h1:7o5Y9RVItfrC/twUyk5/H+ojuWmjfeu5LcgwHR1TFRM=
 code.cloudfoundry.org/go-diodes v0.0.0-20260518082450-53acbbed6d0f h1:64yICzxRPmSlKiwWc8EK7Ion6zQzbfLE8VVnOvAyRHM=
 code.cloudfoundry.org/go-diodes v0.0.0-20260518082450-53acbbed6d0f/go.mod h1:CBNKjs+CBCb9Q83t8vxzqctA/wa5bonUXh1WQDFxZaY=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1 h1:S6Lgg5UJbhh2bt2TGQxs6R00CF8PrUA3GFPYDxy56Fk=
