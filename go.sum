@@ -594,8 +594,8 @@ cloud.google.com/go/workflows v1.7.0/go.mod h1:JhSrZuVZWuiDfKEFxU0/F1PQjmpnpcoIS
 cloud.google.com/go/workflows v1.8.0/go.mod h1:ysGhmEajwZxGn1OhGOGKsTXc5PyxOc0vfKf5Af+to4M=
 cloud.google.com/go/workflows v1.9.0/go.mod h1:ZGkj1aFIOd9c8Gerkjjq7OW7I5+l6cSvT3ujaO/WwSA=
 cloud.google.com/go/workflows v1.10.0/go.mod h1:fZ8LmRmZQWacon9UCX1r/g/DfAXx5VcPALq2CxzdePw=
-code.cloudfoundry.org/archiver v0.74.0 h1:HAACKFkx3LvTNPyCAH8fIwmlNoiJP/PwYrAJssOmW/Y=
-code.cloudfoundry.org/archiver v0.74.0/go.mod h1:yUqGnKDsYLmdztuNQUrL9Dkk+NaSE/4z4WI5+3CHTqo=
+code.cloudfoundry.org/archiver v0.75.0 h1:2kT6A8nCJXv1sZC9s6FF9/VqWXIP3BZose2rf05WE68=
+code.cloudfoundry.org/archiver v0.75.0/go.mod h1:TxTkO3519OvIFreS8bHlC1trd81hV/0SaPiINOT5Ly0=
 code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842 h1:gxO1l3XeHR+KKEsOb7MeZbcuOz7HoQy5/3Lghb828l4=
 code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842/go.mod h1:XKlGVVXFi5EcHHMPzw3xgONK9PeEZuUbIC43XNwxD10=
 code.cloudfoundry.org/bytefmt v0.56.0 h1:qsCKmisDuotACI4KYPNdORvN6WaWEEb6RX2d9gyysNw=
@@ -1116,8 +1116,8 @@ github.com/onsi/ginkgo/v2 v2.9.0/go.mod h1:4xkjoL/tZv4SMWeww56BU5kAt19mVB47gTWxm
 github.com/onsi/ginkgo/v2 v2.9.1/go.mod h1:FEcmzVcCHl+4o9bQZVab+4dC9+j+91t2FHSzmGAPfuo=
 github.com/onsi/ginkgo/v2 v2.9.2/go.mod h1:WHcJJG2dIlcCqVfBAwUCrJxSPFb6v4azBwgxeMeDuts=
 github.com/onsi/ginkgo/v2 v2.9.4/go.mod h1:gCQYp2Q+kSoIj7ykSVb9nskRSsR6PUj4AiLywzIhbKM=
-github.com/onsi/ginkgo/v2 v2.30.0 h1:zxM/9XneXFIy64j6/wAmBIX4zRC7Hu6U8XFNZvDnCQc=
-github.com/onsi/ginkgo/v2 v2.30.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
+github.com/onsi/ginkgo/v2 v2.31.0 h1:GtuJos5DFUV9EerYJo8RhYxosYNGvOdDE5haKq6Grfs=
+github.com/onsi/ginkgo/v2 v2.31.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
 github.com/onsi/gomega v1.5.0/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
 github.com/onsi/gomega v1.7.1/go.mod h1:XdKZgCCFLUoM/7CFJVPcG8C1xQ1AJ0vpAezJrB7JYyY=
 github.com/onsi/gomega v1.10.1/go.mod h1:iN09h71vgCQne3DLsj+A5owkum+a2tYe+TOCB1ybHNo=
