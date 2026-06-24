@@ -632,8 +632,8 @@ code.cloudfoundry.org/goshims v0.84.0 h1:IRFD4Ql7MaetmMvKIU7JS5kggx2L8Fnu6CYJVSV
 code.cloudfoundry.org/goshims v0.84.0/go.mod h1:BPsj9e+r/dcAS5H+oWOWXVjCkAFOHDYKeXaYzdUXp6s=
 code.cloudfoundry.org/guardian v0.0.0-20260615183112-52475cbb9ab6 h1:IhVI03Wr9ymzgqriQKyMmpmj9ccu3pydCz6Z1alk8qY=
 code.cloudfoundry.org/guardian v0.0.0-20260615183112-52475cbb9ab6/go.mod h1:KnvW6+qx0OnM6IDNYjBtLBO8C7zb5q/fe29IfzOz41E=
-code.cloudfoundry.org/lager/v3 v3.74.0 h1:gRJj1CAI4hjfPYmynLKADvVTnlIbAz0W+YGRQqPQuRs=
-code.cloudfoundry.org/lager/v3 v3.74.0/go.mod h1:LXtRzpY16oMUJ46zxyRgB/touvG7Ltklt1tWbV4VwzI=
+code.cloudfoundry.org/lager/v3 v3.75.0 h1:Q9L1/hvs6ZF+5CWVDU9Aom+x3AAYxSweFsRLWM/XvUo=
+code.cloudfoundry.org/lager/v3 v3.75.0/go.mod h1:sPIue4zrU2aGOxIGhEgcWkAgjIjeOH+QkInOpQnfYgE=
 code.cloudfoundry.org/localip v0.76.0 h1:B9YZk1NZIoGbw6rIzveRxY68sYm59mCogwyyPOkRkJ0=
 code.cloudfoundry.org/localip v0.76.0/go.mod h1:SVPhhnYujmCxa2N9E58K4Tdi36U1oCNIBiQ8T1ziM10=
 code.cloudfoundry.org/locket v0.0.0-20260507165111-20f6e690be22 h1:4XbpyOIuXKcYFPmrAvBnp0zWaCn1NI1X7N/0nit6q+g=
