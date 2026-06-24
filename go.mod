@@ -19,7 +19,7 @@ require (
 	code.cloudfoundry.org/guardian v0.0.0-20260615183112-52475cbb9ab6
 	code.cloudfoundry.org/lager/v3 v3.75.0
 	code.cloudfoundry.org/localip v0.76.0
-	code.cloudfoundry.org/locket v0.0.0-20260507165111-20f6e690be22
+	code.cloudfoundry.org/locket v1.3.0
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b
 	code.cloudfoundry.org/tlsconfig v0.60.0
@@ -121,7 +121,6 @@ require (
 	github.com/google/pprof v0.0.0-20260604005048-7023385849c0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/jackc/pgx/v5 v5.7.6 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
