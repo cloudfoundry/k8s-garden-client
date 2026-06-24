@@ -11,7 +11,7 @@ require (
 	code.cloudfoundry.org/clock v1.75.0
 	code.cloudfoundry.org/commandrunner v0.66.0
 	code.cloudfoundry.org/debugserver v0.102.0
-	code.cloudfoundry.org/diego-logging-client v0.112.0
+	code.cloudfoundry.org/diego-logging-client v0.113.0
 	code.cloudfoundry.org/durationjson v0.77.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
 	code.cloudfoundry.org/garden v0.0.0-20260615182558-dd88c014d8c3
@@ -22,7 +22,7 @@ require (
 	code.cloudfoundry.org/locket v0.0.0-20260507165111-20f6e690be22
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b
-	code.cloudfoundry.org/tlsconfig v0.59.0
+	code.cloudfoundry.org/tlsconfig v0.60.0
 	code.cloudfoundry.org/volman v0.0.0-20250910193608-1cc72f1031b7
 	code.cloudfoundry.org/workpool v0.0.0-20250911194158-1489753f182e
 	github.com/containerd/containerd/api v1.11.1
@@ -35,7 +35,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/jarcoal/httpmock v1.4.1
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
-	github.com/onsi/ginkgo/v2 v2.31.0
+	github.com/onsi/ginkgo/v2 v2.32.0
 	github.com/onsi/gomega v1.42.1
 	github.com/opencontainers/go-digest v1.0.0
 	github.com/opencontainers/image-spec v1.1.1
@@ -57,7 +57,7 @@ require (
 	code.cloudfoundry.org/dockerdriver v0.62.0 // indirect
 	code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 // indirect
 	code.cloudfoundry.org/eventhub v0.56.0 // indirect
-	code.cloudfoundry.org/go-diodes v0.0.0-20260615142411-472d6bcdb3c6 // indirect
+	code.cloudfoundry.org/go-diodes v0.0.0-20260622134745-74c0e1643bdd // indirect
 	code.cloudfoundry.org/goshims v0.84.0 // indirect
 	code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 // indirect
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
@@ -173,7 +173,7 @@ require (
 	golang.org/x/tools v0.46.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260401024825-9d38bb4040a9 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260615183401-62b3387ff324 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260622175928-b703f567277d // indirect
 	google.golang.org/grpc v1.81.1 // indirect
 	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
