@@ -10,7 +10,7 @@ require (
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.76.0
 	code.cloudfoundry.org/commandrunner v0.66.0
-	code.cloudfoundry.org/debugserver v0.102.0
+	code.cloudfoundry.org/debugserver v0.103.0
 	code.cloudfoundry.org/diego-logging-client v0.113.0
 	code.cloudfoundry.org/durationjson v0.77.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
