@@ -9,14 +9,14 @@ require (
 	code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.76.0
-	code.cloudfoundry.org/commandrunner v0.66.0
+	code.cloudfoundry.org/commandrunner v0.68.0
 	code.cloudfoundry.org/debugserver v0.103.0
 	code.cloudfoundry.org/diego-logging-client v0.113.0
 	code.cloudfoundry.org/durationjson v0.78.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
 	code.cloudfoundry.org/garden v0.0.0-20260624020405-8f632509f05f
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/guardian v0.0.0-20260615183112-52475cbb9ab6
+	code.cloudfoundry.org/guardian v0.0.0-20260624020832-94e61725ae0c
 	code.cloudfoundry.org/lager/v3 v3.75.0
 	code.cloudfoundry.org/localip v0.77.0
 	code.cloudfoundry.org/locket v1.3.0
@@ -62,7 +62,7 @@ require (
 	code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 // indirect
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
 	github.com/Microsoft/go-winio v0.6.3-0.20251027160822-ad3df93bed29 // indirect
-	github.com/Microsoft/hcsshim v0.15.0-rc.1 // indirect
+	github.com/Microsoft/hcsshim v0.15.0-rc.2 // indirect
 	github.com/aws/aws-sdk-go v1.55.8 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.41.5 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.32.13 // indirect
@@ -85,7 +85,7 @@ require (
 	github.com/bmizerany/pat v0.0.0-20210406213842-e4b6760bdd6f // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudfoundry/dropsonde v1.1.0 // indirect
-	github.com/cloudfoundry/sonde-go v0.0.0-20260526083715-66f310f13c26 // indirect
+	github.com/cloudfoundry/sonde-go v0.0.0-20260622134720-d7b012c5b9c4 // indirect
 	github.com/cncf/xds/go v0.0.0-20260202195803-dba9d589def2 // indirect
 	github.com/containerd/cgroups/v3 v3.1.3 // indirect
 	github.com/containerd/errdefs v1.0.0 // indirect
@@ -138,7 +138,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/opencontainers/cgroups v0.0.6 // indirect
+	github.com/opencontainers/cgroups v0.0.7 // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10 // indirect
@@ -159,7 +159,7 @@ require (
 	go.opentelemetry.io/otel v1.44.0 // indirect
 	go.opentelemetry.io/otel/metric v1.44.0 // indirect
 	go.opentelemetry.io/otel/trace v1.44.0 // indirect
-	go.yaml.in/yaml/v2 v2.4.3 // indirect
+	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/mod v0.37.0 // indirect
 	golang.org/x/net v0.56.0 // indirect
