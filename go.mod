@@ -10,7 +10,7 @@ require (
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.76.0
 	code.cloudfoundry.org/commandrunner v0.68.0
-	code.cloudfoundry.org/debugserver v0.103.0
+	code.cloudfoundry.org/debugserver v0.104.0
 	code.cloudfoundry.org/diego-logging-client v0.113.0
 	code.cloudfoundry.org/durationjson v0.78.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
@@ -169,7 +169,7 @@ require (
 	golang.org/x/term v0.44.0 // indirect
 	golang.org/x/text v0.38.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	golang.org/x/tools v0.46.0 // indirect
+	golang.org/x/tools v0.47.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260401024825-9d38bb4040a9 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260622175928-b703f567277d // indirect
