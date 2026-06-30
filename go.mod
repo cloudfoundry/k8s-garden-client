@@ -6,7 +6,8 @@ tool github.com/maxbrunsfeld/counterfeiter/v6
 
 require (
 	code.cloudfoundry.org/archiver v0.76.0
-	code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842
+	code.cloudfoundry.org/bbs v1.11.0
+	code.cloudfoundry.org/bbs/models v1.7.0
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.76.0
 	code.cloudfoundry.org/commandrunner v0.68.0
@@ -52,14 +53,16 @@ require (
 
 require (
 	cel.dev/expr v0.25.1 // indirect
+	code.cloudfoundry.org/bbs/encryption v1.9.0 // indirect
+	code.cloudfoundry.org/bbs/format v1.9.0 // indirect
 	code.cloudfoundry.org/bytefmt v0.56.0 // indirect
-	code.cloudfoundry.org/cfhttp/v2 v2.51.0 // indirect
+	code.cloudfoundry.org/cfhttp/v2 v2.83.0 // indirect
 	code.cloudfoundry.org/dockerdriver v0.62.0 // indirect
 	code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 // indirect
 	code.cloudfoundry.org/eventhub v0.56.0 // indirect
 	code.cloudfoundry.org/go-diodes v0.0.0-20260622134745-74c0e1643bdd // indirect
 	code.cloudfoundry.org/goshims v0.84.0 // indirect
-	code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 // indirect
+	code.cloudfoundry.org/routing-info v1.1.0 // indirect
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
 	github.com/Microsoft/go-winio v0.6.3-0.20251027160822-ad3df93bed29 // indirect
 	github.com/Microsoft/hcsshim v0.15.0-rc.2 // indirect
@@ -111,7 +114,6 @@ require (
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
 	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
-	github.com/go-test/deep v1.1.1 // indirect
 	github.com/godbus/dbus/v5 v5.2.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
@@ -151,7 +153,7 @@ require (
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/vishvananda/netlink v1.3.1 // indirect
 	github.com/vishvananda/netns v0.0.5 // indirect
-	github.com/vito/go-sse v1.0.0 // indirect
+	github.com/vito/go-sse v1.1.3 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
