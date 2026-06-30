@@ -19,7 +19,7 @@ require (
 	code.cloudfoundry.org/guardian v0.0.0-20260624020832-94e61725ae0c
 	code.cloudfoundry.org/lager/v3 v3.75.0
 	code.cloudfoundry.org/localip v0.77.0
-	code.cloudfoundry.org/locket v1.3.0
+	code.cloudfoundry.org/locket v1.4.0
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b
 	code.cloudfoundry.org/tlsconfig v0.60.0
@@ -57,7 +57,7 @@ require (
 	code.cloudfoundry.org/dockerdriver v0.62.0 // indirect
 	code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 // indirect
 	code.cloudfoundry.org/eventhub v0.56.0 // indirect
-	code.cloudfoundry.org/go-diodes v0.0.0-20260622134745-74c0e1643bdd // indirect
+	code.cloudfoundry.org/go-diodes v0.0.0-20260629064500-85da08bf73ac // indirect
 	code.cloudfoundry.org/goshims v0.84.0 // indirect
 	code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 // indirect
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
@@ -169,7 +169,7 @@ require (
 	golang.org/x/term v0.44.0 // indirect
 	golang.org/x/text v0.38.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	golang.org/x/tools v0.46.0 // indirect
+	golang.org/x/tools v0.47.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260401024825-9d38bb4040a9 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260622175928-b703f567277d // indirect
