@@ -14,10 +14,10 @@ require (
 	code.cloudfoundry.org/diego-logging-client v0.113.0
 	code.cloudfoundry.org/durationjson v0.78.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
-	code.cloudfoundry.org/garden v0.0.0-20260624020405-8f632509f05f
+	code.cloudfoundry.org/garden v0.0.0-20260701020453-6a4fe469372c
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260624020832-94e61725ae0c
-	code.cloudfoundry.org/lager/v3 v3.75.0
+	code.cloudfoundry.org/lager/v3 v3.76.0
 	code.cloudfoundry.org/localip v0.77.0
 	code.cloudfoundry.org/locket v1.3.0
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
@@ -169,7 +169,7 @@ require (
 	golang.org/x/term v0.44.0 // indirect
 	golang.org/x/text v0.38.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	golang.org/x/tools v0.46.0 // indirect
+	golang.org/x/tools v0.47.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260401024825-9d38bb4040a9 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260622175928-b703f567277d // indirect
