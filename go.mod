@@ -14,7 +14,7 @@ require (
 	code.cloudfoundry.org/diego-logging-client v0.113.0
 	code.cloudfoundry.org/durationjson v0.78.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
-	code.cloudfoundry.org/garden v0.0.0-20260701020453-6a4fe469372c
+	code.cloudfoundry.org/garden v0.0.0-20260708020641-3ee0e5230510
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260701021004-3db44f7a3a61
 	code.cloudfoundry.org/lager/v3 v3.77.0
