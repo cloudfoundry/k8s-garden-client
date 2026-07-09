@@ -8,18 +8,18 @@ require (
 	code.cloudfoundry.org/archiver v0.78.0
 	code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
-	code.cloudfoundry.org/clock v1.77.0
+	code.cloudfoundry.org/clock v1.78.0
 	code.cloudfoundry.org/commandrunner v0.70.0
-	code.cloudfoundry.org/debugserver v0.104.0
+	code.cloudfoundry.org/debugserver v0.105.0
 	code.cloudfoundry.org/diego-logging-client v0.113.0
-	code.cloudfoundry.org/durationjson v0.78.0
+	code.cloudfoundry.org/durationjson v0.80.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
 	code.cloudfoundry.org/garden v0.0.0-20260708020641-3ee0e5230510
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260701021004-3db44f7a3a61
 	code.cloudfoundry.org/lager/v3 v3.77.0
 	code.cloudfoundry.org/localip v0.79.0
-	code.cloudfoundry.org/locket v1.3.0
+	code.cloudfoundry.org/locket v1.4.0
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b
 	code.cloudfoundry.org/tlsconfig v0.61.0
@@ -57,7 +57,7 @@ require (
 	code.cloudfoundry.org/dockerdriver v0.62.0 // indirect
 	code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 // indirect
 	code.cloudfoundry.org/eventhub v0.56.0 // indirect
-	code.cloudfoundry.org/go-diodes v0.0.0-20260622134745-74c0e1643bdd // indirect
+	code.cloudfoundry.org/go-diodes v0.0.0-20260629064500-85da08bf73ac // indirect
 	code.cloudfoundry.org/goshims v0.84.0 // indirect
 	code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 // indirect
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
