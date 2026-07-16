@@ -8,17 +8,17 @@ require (
 	code.cloudfoundry.org/archiver v0.79.0
 	code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
-	code.cloudfoundry.org/clock v1.78.0
+	code.cloudfoundry.org/clock v1.79.0
 	code.cloudfoundry.org/commandrunner v0.71.0
-	code.cloudfoundry.org/debugserver v0.105.0
+	code.cloudfoundry.org/debugserver v0.106.0
 	code.cloudfoundry.org/diego-logging-client v0.116.0
 	code.cloudfoundry.org/durationjson v0.81.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
 	code.cloudfoundry.org/garden v0.0.0-20260715020742-79c9837591af
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/guardian v0.0.0-20260708021126-56dbc82c72b3
+	code.cloudfoundry.org/guardian v0.0.0-20260715021209-9fa226ae0308
 	code.cloudfoundry.org/lager/v3 v3.78.0
-	code.cloudfoundry.org/localip v0.79.0
+	code.cloudfoundry.org/localip v0.80.0
 	code.cloudfoundry.org/locket v1.5.0
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
 	code.cloudfoundry.org/rep v0.0.0-20260319204955-d9774a98206b
@@ -93,7 +93,7 @@ require (
 	github.com/containerd/fifo v1.1.0 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/containerd/plugin v1.1.0 // indirect
-	github.com/containerd/ttrpc v1.2.8 // indirect
+	github.com/containerd/ttrpc v1.2.9 // indirect
 	github.com/containerd/typeurl/v2 v2.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.7.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.7.0 // indirect
