@@ -608,8 +608,8 @@ code.cloudfoundry.org/clock v1.78.0 h1:DGECrKZCjf3kVoI4TmWH990/JZ5e8J4Y/7Ogbtxzm
 code.cloudfoundry.org/clock v1.78.0/go.mod h1:dQlTy94p6U+od/RJve8qD54N7sYvW2RHQQe2H/FVeRc=
 code.cloudfoundry.org/commandrunner v0.71.0 h1:7JExXQaXY9tOCNzpuh1G7x6wzWLURRBp1O4w+IR465E=
 code.cloudfoundry.org/commandrunner v0.71.0/go.mod h1:R0LhEU26yclN6Bp19nkgQ5uAEicwDG+0Mb0vsT1bw4U=
-code.cloudfoundry.org/debugserver v0.105.0 h1:lODa3MBc9gQ5hVy2qk4mw0I4Ns9xbAk384ud4i/B1Uw=
-code.cloudfoundry.org/debugserver v0.105.0/go.mod h1:zxTRjrVNClhMLxcl8M+H4W3DbTSXidFlzFC5gy1bY48=
+code.cloudfoundry.org/debugserver v0.106.0 h1:gHnlbrdYUaKU1Ja+GZLh/z02swvCLIiCfWGCaK1G4BI=
+code.cloudfoundry.org/debugserver v0.106.0/go.mod h1:3PL70LI5Nrb9ciERbw96YDrPZzJ28ITEJvipcO5z3ig=
 code.cloudfoundry.org/diego-logging-client v0.116.0 h1:VeZqOo4sMb3OrglVTXnXu1sE1PfsFLpyoA54n3NqtcI=
 code.cloudfoundry.org/diego-logging-client v0.116.0/go.mod h1:QorgeS05sF7yYeh6PU1QsYf9AV8Ts1yfZquVBQPTlks=
 code.cloudfoundry.org/dockerdriver v0.62.0 h1:/4whmpmdxwIrDL/67qrX0D3pvsgVcW+taIDPPN5XtKc=
