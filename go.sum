@@ -604,8 +604,8 @@ code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3 h1:Spr
 code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3/go.mod h1:0jlSZ/0cP6YdlPxYgS5VAocLErClDVeTnMQ7DciFhx0=
 code.cloudfoundry.org/cfhttp/v2 v2.51.0 h1:ABkKbJM0rmVHqAUR5OyjNKBD7nYrZ29hgN/cANMf37E=
 code.cloudfoundry.org/cfhttp/v2 v2.51.0/go.mod h1:oA8xQD5fGZ+QRTO9JUHrRZEzdLJnXwn3nYpjH/pQeL0=
-code.cloudfoundry.org/clock v1.78.0 h1:DGECrKZCjf3kVoI4TmWH990/JZ5e8J4Y/7Ogbtxzm3w=
-code.cloudfoundry.org/clock v1.78.0/go.mod h1:dQlTy94p6U+od/RJve8qD54N7sYvW2RHQQe2H/FVeRc=
+code.cloudfoundry.org/clock v1.79.0 h1:9/gu3ovbYCROlpIShqMmTkQrQxHpTUpJk9ovxJz+n2I=
+code.cloudfoundry.org/clock v1.79.0/go.mod h1:f+X2+DeOrYJgReWyyDaFlPccMZ8j4jLulsT4Pxr6WDw=
 code.cloudfoundry.org/commandrunner v0.71.0 h1:7JExXQaXY9tOCNzpuh1G7x6wzWLURRBp1O4w+IR465E=
 code.cloudfoundry.org/commandrunner v0.71.0/go.mod h1:R0LhEU26yclN6Bp19nkgQ5uAEicwDG+0Mb0vsT1bw4U=
 code.cloudfoundry.org/debugserver v0.105.0 h1:lODa3MBc9gQ5hVy2qk4mw0I4Ns9xbAk384ud4i/B1Uw=
