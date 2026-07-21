@@ -11,7 +11,7 @@ require (
 	code.cloudfoundry.org/clock v1.79.0
 	code.cloudfoundry.org/commandrunner v0.71.0
 	code.cloudfoundry.org/debugserver v0.106.0
-	code.cloudfoundry.org/diego-logging-client v0.116.0
+	code.cloudfoundry.org/diego-logging-client v0.117.0
 	code.cloudfoundry.org/durationjson v0.81.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
 	code.cloudfoundry.org/garden v0.0.0-20260715020742-79c9837591af
@@ -30,7 +30,7 @@ require (
 	github.com/containerd/continuity v0.5.0
 	github.com/containerd/platforms v1.0.0-rc.4
 	github.com/distribution/reference v0.6.0
-	github.com/go-logr/logr v1.4.3
+	github.com/go-logr/logr v1.4.4
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
 	github.com/google/uuid v1.6.0
 	github.com/jarcoal/httpmock v1.4.1
@@ -57,7 +57,7 @@ require (
 	code.cloudfoundry.org/dockerdriver v0.62.0 // indirect
 	code.cloudfoundry.org/ecrhelper v0.0.0-20250911193847-5bf65e63bab5 // indirect
 	code.cloudfoundry.org/eventhub v0.56.0 // indirect
-	code.cloudfoundry.org/go-diodes v0.0.0-20260706112827-32a910f327a2 // indirect
+	code.cloudfoundry.org/go-diodes v0.0.0-20260720065427-59f65622c841 // indirect
 	code.cloudfoundry.org/goshims v0.84.0 // indirect
 	code.cloudfoundry.org/routing-info v0.0.0-20250117183711-d8d8d2ad4608 // indirect
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
@@ -172,8 +172,8 @@ require (
 	golang.org/x/tools v0.48.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260414002931-afd174a4e478 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260713224248-f5fc221cf8c4 // indirect
-	google.golang.org/grpc v1.82.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260720211330-0afa2a65878a // indirect
+	google.golang.org/grpc v1.82.1 // indirect
 	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
