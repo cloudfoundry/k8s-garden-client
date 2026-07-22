@@ -606,8 +606,8 @@ code.cloudfoundry.org/cfhttp/v2 v2.51.0 h1:ABkKbJM0rmVHqAUR5OyjNKBD7nYrZ29hgN/cA
 code.cloudfoundry.org/cfhttp/v2 v2.51.0/go.mod h1:oA8xQD5fGZ+QRTO9JUHrRZEzdLJnXwn3nYpjH/pQeL0=
 code.cloudfoundry.org/clock v1.79.0 h1:9/gu3ovbYCROlpIShqMmTkQrQxHpTUpJk9ovxJz+n2I=
 code.cloudfoundry.org/clock v1.79.0/go.mod h1:f+X2+DeOrYJgReWyyDaFlPccMZ8j4jLulsT4Pxr6WDw=
-code.cloudfoundry.org/commandrunner v0.71.0 h1:7JExXQaXY9tOCNzpuh1G7x6wzWLURRBp1O4w+IR465E=
-code.cloudfoundry.org/commandrunner v0.71.0/go.mod h1:R0LhEU26yclN6Bp19nkgQ5uAEicwDG+0Mb0vsT1bw4U=
+code.cloudfoundry.org/commandrunner v0.72.0 h1:c45RUhI4OMygi0w7+GnBpBprBSSLXPI3IRGAKPF0fNg=
+code.cloudfoundry.org/commandrunner v0.72.0/go.mod h1:leLJy2zv0gI84grBKghxCw964jj93UhBX2un1vM+nb0=
 code.cloudfoundry.org/debugserver v0.106.0 h1:gHnlbrdYUaKU1Ja+GZLh/z02swvCLIiCfWGCaK1G4BI=
 code.cloudfoundry.org/debugserver v0.106.0/go.mod h1:3PL70LI5Nrb9ciERbw96YDrPZzJ28ITEJvipcO5z3ig=
 code.cloudfoundry.org/diego-logging-client v0.116.0 h1:VeZqOo4sMb3OrglVTXnXu1sE1PfsFLpyoA54n3NqtcI=
@@ -848,8 +848,8 @@ github.com/go-latex/latex v0.0.0-20210823091927-c0d11ff05a81/go.mod h1:SX0U8uGpx
 github.com/go-logr/logr v1.2.2/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
 github.com/go-logr/logr v1.2.3/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
 github.com/go-logr/logr v1.2.4/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
-github.com/go-logr/logr v1.4.3 h1:CjnDlHq8ikf6E492q6eKboGOC0T8CDaOvkHCIg8idEI=
-github.com/go-logr/logr v1.4.3/go.mod h1:9T104GzyrTigFIr8wt5mBrctHMim0Nb2HLGrmQ40KvY=
+github.com/go-logr/logr v1.4.4 h1:tG4xh9yMsRCAiodLVTxyrkzSZ9+o0L1Kg/+cPVcbP/8=
+github.com/go-logr/logr v1.4.4/go.mod h1:9T104GzyrTigFIr8wt5mBrctHMim0Nb2HLGrmQ40KvY=
 github.com/go-logr/stdr v1.2.2 h1:hSWxHoqTgW2S2qGc0LTAI563KZ5YKYRhT3MFKZMbjag=
 github.com/go-logr/stdr v1.2.2/go.mod h1:mMo/vtBO5dYbehREoey6XUKy/eSumjCCveDpRre4VKE=
 github.com/go-logr/zapr v1.3.0 h1:XGdV8XW8zdwFiwOA2Dryh1gj2KRQyOOoNmBy4EplIcQ=
