@@ -434,6 +434,7 @@ func Initialize(
 		deletionWorkPool,
 		readWorkPool,
 		metricsWorkPool,
+		"",
 	)
 
 	// healthcheckSpec := garden.ProcessSpec{
@@ -788,7 +789,7 @@ func CredManagerFromConfig(logger lager.Logger, metronClient loggingclient.Ingre
 			clock,
 			certs[0],
 			privateKey,
-			handlers...,
+			handlers,
 		), nil
 	}
 
