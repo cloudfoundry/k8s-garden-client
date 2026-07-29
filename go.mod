@@ -14,10 +14,10 @@ require (
 	code.cloudfoundry.org/diego-logging-client v0.117.0
 	code.cloudfoundry.org/durationjson v0.82.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
-	code.cloudfoundry.org/garden v0.0.0-20260722020902-0d62a2590a0f
+	code.cloudfoundry.org/garden v0.0.0-20260729020900-a0441c36f7b5
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 	code.cloudfoundry.org/guardian v0.0.0-20260722021324-599e660ac834
-	code.cloudfoundry.org/lager/v3 v3.79.0
+	code.cloudfoundry.org/lager/v3 v3.80.0
 	code.cloudfoundry.org/localip v0.81.0
 	code.cloudfoundry.org/locket v1.5.0
 	code.cloudfoundry.org/operationq v0.0.0-20250911185924-b1c6a9c2437f
@@ -160,7 +160,7 @@ require (
 	go.opentelemetry.io/otel/metric v1.44.0 // indirect
 	go.opentelemetry.io/otel/trace v1.44.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
-	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/mod v0.38.0 // indirect
 	golang.org/x/net v0.57.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
