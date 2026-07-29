@@ -610,8 +610,8 @@ code.cloudfoundry.org/commandrunner v0.72.0 h1:c45RUhI4OMygi0w7+GnBpBprBSSLXPI3I
 code.cloudfoundry.org/commandrunner v0.72.0/go.mod h1:leLJy2zv0gI84grBKghxCw964jj93UhBX2un1vM+nb0=
 code.cloudfoundry.org/debugserver v0.107.0 h1:JLZScnPlBum+kVlRtz0yBlRAmupGnCs5D/NGVRBs4Kg=
 code.cloudfoundry.org/debugserver v0.107.0/go.mod h1:Q81YrrsTRahfhWgma6wvvo00MKpVQLSHr4f+FbeOsvw=
-code.cloudfoundry.org/diego-logging-client v0.117.0 h1:SefG1WTu60MK2SX6cb+misgeUFI7AUlqGAOBlqLEvcs=
-code.cloudfoundry.org/diego-logging-client v0.117.0/go.mod h1:aPUU7L4vOPJCiu8K4eN4zeGH88HCL4YEyTR+hsihGl4=
+code.cloudfoundry.org/diego-logging-client v0.118.0 h1:ETDG+II5l0wVKGZNkBZyfAyWUyAQR3g/aJEYscY3ANM=
+code.cloudfoundry.org/diego-logging-client v0.118.0/go.mod h1:ydxrL74K+Sd0hipO2S0e6xaYJdhBqjAeauurdw+pwZY=
 code.cloudfoundry.org/dockerdriver v0.62.0 h1:/4whmpmdxwIrDL/67qrX0D3pvsgVcW+taIDPPN5XtKc=
 code.cloudfoundry.org/dockerdriver v0.62.0/go.mod h1:PRGZ1LKjch2lbAubHQ/56YjMrYWWQAg/YMl49Yz6kb4=
 code.cloudfoundry.org/durationjson v0.82.0 h1:Mk6NQUxM7voITbJzy9vqooCP+R6slZ/P3TTpGqO3krQ=
@@ -1878,8 +1878,8 @@ google.golang.org/genproto v0.0.0-20230331144136-dcfb400f0633/go.mod h1:UUQDJDOl
 google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1/go.mod h1:nKE/iIaLqn2bQwXBg8f1g2Ylh6r5MN5CmZvuzZCgsCU=
 google.golang.org/genproto/googleapis/api v0.0.0-20260414002931-afd174a4e478 h1:yQugLulqltosq0B/f8l4w9VryjV+N/5gcW0jQ3N8Qec=
 google.golang.org/genproto/googleapis/api v0.0.0-20260414002931-afd174a4e478/go.mod h1:C6ADNqOxbgdUUeRTU+LCHDPB9ttAMCTff6auwCVa4uc=
-google.golang.org/genproto/googleapis/rpc v0.0.0-20260720211330-0afa2a65878a h1:qI/YMH1ep2qQtqcp00gMQyoU7mjvbhg88GJKCvfoLj0=
-google.golang.org/genproto/googleapis/rpc v0.0.0-20260720211330-0afa2a65878a/go.mod h1:4Hqkh8ycfw05ld/3BWL7rJOSfebL2Q+DVDeRgYgxUU8=
+google.golang.org/genproto/googleapis/rpc v0.0.0-20260727163830-6c54dddc4772 h1:zuslGE3FGxH0hC6veLvSLME3TZzun9MQzjYwo1CBN+k=
+google.golang.org/genproto/googleapis/rpc v0.0.0-20260727163830-6c54dddc4772/go.mod h1:4Hqkh8ycfw05ld/3BWL7rJOSfebL2Q+DVDeRgYgxUU8=
 google.golang.org/grpc v1.19.0/go.mod h1:mqu4LbDTu4XGKhr4mRzUsmM4RtVoemTSY81AxZiDr8c=
 google.golang.org/grpc v1.20.1/go.mod h1:10oTOabMzJvdu6/UiuZezV6QK5dSlG84ov/aaiqXj38=
 google.golang.org/grpc v1.21.1/go.mod h1:oYelfM1adQP15Ek0mdvEgi9Df8B9CZIaU1084ijfRaM=
