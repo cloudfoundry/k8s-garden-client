@@ -8,7 +8,7 @@ require (
 	code.cloudfoundry.org/archiver v0.81.0
 	code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
-	code.cloudfoundry.org/clock v1.81.0
+	code.cloudfoundry.org/clock v1.82.0
 	code.cloudfoundry.org/commandrunner v0.72.0
 	code.cloudfoundry.org/debugserver v0.107.0
 	code.cloudfoundry.org/diego-logging-client v0.118.0
@@ -118,7 +118,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/gnostic-models v0.7.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/pprof v0.0.0-20260709232956-b9395ee17fa0 // indirect
+	github.com/google/pprof v0.0.0-20260802141513-ef3492d7dac3 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
