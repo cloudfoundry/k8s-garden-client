@@ -594,8 +594,8 @@ cloud.google.com/go/workflows v1.7.0/go.mod h1:JhSrZuVZWuiDfKEFxU0/F1PQjmpnpcoIS
 cloud.google.com/go/workflows v1.8.0/go.mod h1:ysGhmEajwZxGn1OhGOGKsTXc5PyxOc0vfKf5Af+to4M=
 cloud.google.com/go/workflows v1.9.0/go.mod h1:ZGkj1aFIOd9c8Gerkjjq7OW7I5+l6cSvT3ujaO/WwSA=
 cloud.google.com/go/workflows v1.10.0/go.mod h1:fZ8LmRmZQWacon9UCX1r/g/DfAXx5VcPALq2CxzdePw=
-code.cloudfoundry.org/archiver v0.81.0 h1:rgKXuUH0mwlB8yep+qNIKqjcoKbevWY0G8O2ToNPRuk=
-code.cloudfoundry.org/archiver v0.81.0/go.mod h1:j0ICCxoNIpveqUrxceaMWBhi3yRGxFhFVlFafWMjBfE=
+code.cloudfoundry.org/archiver v0.82.0 h1:I4/ecSS72NpK27lXpT4h7vAJMqL8Egj/ac7pcEMK9cw=
+code.cloudfoundry.org/archiver v0.82.0/go.mod h1:kpKZZZhTh0Mj6ItiG46fQEuVaIqrCrO9Nerf4TbrOXY=
 code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842 h1:gxO1l3XeHR+KKEsOb7MeZbcuOz7HoQy5/3Lghb828l4=
 code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842/go.mod h1:XKlGVVXFi5EcHHMPzw3xgONK9PeEZuUbIC43XNwxD10=
 code.cloudfoundry.org/bytefmt v0.56.0 h1:qsCKmisDuotACI4KYPNdORvN6WaWEEb6RX2d9gyysNw=
@@ -965,8 +965,8 @@ github.com/google/pprof v0.0.0-20210407192527-94a9f03dee38/go.mod h1:kpwsk12EmLe
 github.com/google/pprof v0.0.0-20210601050228-01bbb1931b22/go.mod h1:kpwsk12EmLew5upagYY7GY0pfYCcupk39gWOCRROcvE=
 github.com/google/pprof v0.0.0-20210609004039-a478d1d731e9/go.mod h1:kpwsk12EmLew5upagYY7GY0pfYCcupk39gWOCRROcvE=
 github.com/google/pprof v0.0.0-20210720184732-4bb14d4b1be1/go.mod h1:kpwsk12EmLew5upagYY7GY0pfYCcupk39gWOCRROcvE=
-github.com/google/pprof v0.0.0-20260709232956-b9395ee17fa0 h1:du0WGc8xSKq/++e0cglxhS/mXVqsR7+c7jLEi5Vqduw=
-github.com/google/pprof v0.0.0-20260709232956-b9395ee17fa0/go.mod h1:MxpfABSjhmINe3F1It9d+8exIHFvUqtLIRCdOGNXqiI=
+github.com/google/pprof v0.0.0-20260802141513-ef3492d7dac3 h1:LMLX+LgTNWpfvCBdFebv6EsYotImrt/Ppc5cXIriCSo=
+github.com/google/pprof v0.0.0-20260802141513-ef3492d7dac3/go.mod h1:jl5iWTm0/hd5PjEYEOuwAJ57L/CibdZfrqZ5XA5GrCk=
 github.com/google/renameio v0.1.0/go.mod h1:KWCgfxg9yswjAJkECMjeO8J8rahYeXnNhOm40UhjYkI=
 github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 h1:El6M4kTTCOh6aBiKaUGG7oYTSPP8MxqL4YI3kZKwcP4=
 github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510/go.mod h1:pupxD2MaaD3pAXIBCelhxNneeOaAeabZDe5s4K6zSpQ=
