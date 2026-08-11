@@ -8,11 +8,6 @@ import (
 
 const startPort uint32 = 62000
 
-type PortManager interface {
-	Next() (uint32, error)
-	Release(port uint32)
-}
-
 type portManager struct {
 	allocated map[uint32]struct{}
 	mu        sync.Mutex

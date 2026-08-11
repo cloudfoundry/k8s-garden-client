@@ -5,5 +5,3 @@ coverage.out
 __debug_bin
 .claude/
 devcontainer-lock.json
-kind/
-cf-smoke-tests/

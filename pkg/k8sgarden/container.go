@@ -275,50 +275,50 @@ func (c *container) SetGraceTime(t time.Duration) error {
 
 // Attach implements [garden.Container].
 func (c *container) Attach(processID string, io garden.ProcessIO) (garden.Process, error) {
-	panic("unimplemented")
+	return nil, ErrNotSupported
 }
 
 // BulkNetOut implements [garden.Container].
 func (c *container) BulkNetOut(netOutRules []garden.NetOutRule) error {
-	panic("unimplemented")
+	return ErrNotSupported
 }
 
 // CurrentBandwidthLimits implements [garden.Container].
 func (c *container) CurrentBandwidthLimits() (garden.BandwidthLimits, error) {
-	panic("unimplemented")
+	return garden.BandwidthLimits{}, ErrNotSupported
 }
 
 // CurrentCPULimits implements [garden.Container].
 func (c *container) CurrentCPULimits() (garden.CPULimits, error) {
-	panic("unimplemented")
+	return garden.CPULimits{}, ErrNotSupported
 }
 
 // CurrentDiskLimits implements [garden.Container].
 func (c *container) CurrentDiskLimits() (garden.DiskLimits, error) {
-	panic("unimplemented")
+	return garden.DiskLimits{}, ErrNotSupported
 }
 
 // CurrentMemoryLimits implements [garden.Container].
 func (c *container) CurrentMemoryLimits() (garden.MemoryLimits, error) {
-	panic("unimplemented")
+	return garden.MemoryLimits{}, ErrNotSupported
 }
 
 // Metrics implements [garden.Container].
 func (c *container) Metrics() (garden.Metrics, error) {
-	panic("unimplemented")
+	return garden.Metrics{}, ErrNotSupported
 }
 
 // NetIn implements [garden.Container].
 func (c *container) NetIn(hostPort uint32, containerPort uint32) (uint32, uint32, error) {
-	panic("unimplemented")
+	return 0, 0, ErrNotSupported
 }
 
 // NetOut implements [garden.Container].
 func (c *container) NetOut(netOutRule garden.NetOutRule) error {
-	panic("unimplemented")
+	return ErrNotSupported
 }
 
 // Stop implements [garden.Container].
 func (c *container) Stop(kill bool) error {
-	panic("unimplemented")
+	return ErrNotSupported
 }

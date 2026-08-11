@@ -128,5 +128,5 @@ func (p *process) Task() ctrdclient.Task {
 }
 
 func (p *process) SetTTY(garden.TTYSpec) error {
-	panic("unimplemented")
+	return ErrNotSupported
 }
