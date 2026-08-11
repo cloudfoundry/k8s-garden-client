@@ -9,7 +9,7 @@ require (
 	code.cloudfoundry.org/bbs v0.0.0-20260507155651-045cbe358842
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.82.0
-	code.cloudfoundry.org/commandrunner v0.72.0
+	code.cloudfoundry.org/commandrunner v0.73.0
 	code.cloudfoundry.org/debugserver v0.108.0
 	code.cloudfoundry.org/diego-logging-client v0.119.0
 	code.cloudfoundry.org/durationjson v0.82.0
