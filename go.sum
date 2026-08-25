@@ -10,8 +10,8 @@ code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3 h1:Spr
 code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3/go.mod h1:0jlSZ/0cP6YdlPxYgS5VAocLErClDVeTnMQ7DciFhx0=
 code.cloudfoundry.org/cfhttp/v2 v2.51.0 h1:ABkKbJM0rmVHqAUR5OyjNKBD7nYrZ29hgN/cANMf37E=
 code.cloudfoundry.org/cfhttp/v2 v2.51.0/go.mod h1:oA8xQD5fGZ+QRTO9JUHrRZEzdLJnXwn3nYpjH/pQeL0=
-code.cloudfoundry.org/clock v1.84.0 h1:nYJHcG5WSDSxVYNOp+/GwqVHN5Y0VAMbbRZwetw+RJ4=
-code.cloudfoundry.org/clock v1.84.0/go.mod h1:POPXUjWjYxGzHXU/AYe6P0f4rell+a7X5SZG0Q6UxAU=
+code.cloudfoundry.org/clock v1.85.0 h1:482FGvM6L9cfOlDjVvkeMFZ0xOSaxWgxJj1GPkY+YEQ=
+code.cloudfoundry.org/clock v1.85.0/go.mod h1:6hXp4cwmAAQajTDprxsFAPqs3QN2YoeExgxJMWaf1+8=
 code.cloudfoundry.org/commandrunner v0.73.0 h1:Ww3JD0RKepLboSii0dWZU8rSLuPey4wS3QOcerpUs0U=
 code.cloudfoundry.org/commandrunner v0.73.0/go.mod h1:RMtGRHGmKTlvKOS3vZDakn+pbdkt6y8Bbyqn19UkApw=
 code.cloudfoundry.org/debugserver v0.111.0 h1:G3iQdarMY9xBIvZ9tz6S3neOR4b9ftdLPk7R90LuHtY=
@@ -215,8 +215,8 @@ github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
 github.com/google/gofuzz v1.2.0 h1:xRy4A+RhZaiKjJ1bPfwQ8sedCA+YS2YcCHW6ec7JMi0=
 github.com/google/gofuzz v1.2.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
-github.com/google/pprof v0.0.0-20260802141513-ef3492d7dac3 h1:LMLX+LgTNWpfvCBdFebv6EsYotImrt/Ppc5cXIriCSo=
-github.com/google/pprof v0.0.0-20260802141513-ef3492d7dac3/go.mod h1:jl5iWTm0/hd5PjEYEOuwAJ57L/CibdZfrqZ5XA5GrCk=
+github.com/google/pprof v0.0.0-20260824235931-c0b50f2f6510 h1:CQYko0lanR9GRMWuUwgBH5CBCWz0UTXNkDHFOZvNA0w=
+github.com/google/pprof v0.0.0-20260824235931-c0b50f2f6510/go.mod h1:jl5iWTm0/hd5PjEYEOuwAJ57L/CibdZfrqZ5XA5GrCk=
 github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 h1:El6M4kTTCOh6aBiKaUGG7oYTSPP8MxqL4YI3kZKwcP4=
 github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510/go.mod h1:pupxD2MaaD3pAXIBCelhxNneeOaAeabZDe5s4K6zSpQ=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
