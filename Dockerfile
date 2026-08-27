@@ -1,19 +1,17 @@
-FROM gcc:15 AS gccbuild
+ARG GO_VERSION=1.27
 
-ARG TAR_VERSION=1.35
+FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS builder
+
+ARG TARGETARCH
+ARG GO_VERSION
 
 WORKDIR /src
 
-ADD https://github.com/cloudfoundry/guardian.git#main:rundmc/nstar ./nstar
-RUN mkdir -p ./tar && curl -L http://ftp.gnu.org/gnu/tar/tar-${TAR_VERSION}.tar.xz | tar -xJ -C ./tar
+COPY . .
+RUN go mod download
 
-ENV LDFLAGS=-static
-ENV FORCE_UNSAFE_CONFIGURE=1
-
-RUN apt update && apt install musl musl-dev musl-tools -y && \
-    sed -i '/#include <unistd.h>/a #include <fcntl.h>' nstar/nstar.c && \
-    make -C ./nstar nstar && \
-    cd ./tar/tar-${TAR_VERSION} && CC="musl-gcc -static" ./configure && CC="musl-gcc -static" make && mv src/tar /src/tar/tar
+RUN GOFLAGS="-gcflags=all=-lang=go${GO_VERSION}" GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -o bin/rep ./cmd/rep
+RUN GOFLAGS="-gcflags=all=-lang=go${GO_VERSION}" GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -o bin/watcher ./cmd/watch
 
 FROM ubuntu:26.04
 ARG TARGETARCH
@@ -23,10 +21,8 @@ RUN apt-get update && apt-get install -y \
     && \
     update-ca-certificates
 
-COPY bin/rep /bin/rep
-COPY bin/watcher /bin/watcher
-COPY --from=gccbuild /src/nstar/nstar /bin/
-COPY --from=gccbuild /src/tar/tar /bin/
+COPY --from=builder /src/bin/rep /bin/rep
+COPY --from=builder /src/bin/watcher /bin/watcher
 
 EXPOSE 8080 443
 

@@ -411,6 +411,13 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		return nil, fmt.Errorf("failed to load containerD container: %w", err)
 	}
 
+	containerIDMap := map[string]string{}
+	for _, status := range pod.Status.ContainerStatuses {
+		containerdID, _ := strings.CutPrefix(status.ContainerID, "containerd://")
+		containerIDMap[status.Name] = containerdID
+	}
+	container.containerIDMap = containerIDMap
+
 	if err := container.SetProperty("garden.state", "created"); err != nil {
 		return nil, err
 	}
