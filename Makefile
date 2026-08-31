@@ -7,6 +7,7 @@ build:
 	@mkdir -p bin
 	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/rep ./cmd/rep
 	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/watcher ./cmd/watch
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" CGO_ENABLED=0 GOOS=linux go build -ldflags "-w -s" -trimpath -o bin/untar ./cmd/untar
 
 image:
 	docker build -t k8s-rep:latest .
