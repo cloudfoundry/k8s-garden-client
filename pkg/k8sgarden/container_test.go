@@ -72,7 +72,7 @@ var _ = Describe("Container", func() {
 			"sidecar": fakeSidecarTask,
 		}
 
-		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeNstarRunner, fakeUserLookupper, properties.NewManager(), 0, taskMap)
+		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, taskMap, "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io")
 	})
 
 	Describe("Handle", func() {

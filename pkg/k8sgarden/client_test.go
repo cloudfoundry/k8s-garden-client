@@ -10,7 +10,6 @@ import (
 	"code.cloudfoundry.org/executor"
 	"code.cloudfoundry.org/executor/initializer"
 	"code.cloudfoundry.org/garden"
-	"code.cloudfoundry.org/guardian/rundmc/rundmcfakes"
 	"code.cloudfoundry.org/guardian/rundmc/users/usersfakes"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/containerd/containerdfakes"
@@ -38,7 +37,6 @@ var _ = Describe("Client", func() {
 		fakeContainerdClient *containerdfakes.FakeClient
 		fakeKubeletClient    *kubeletfakes.FakeClient
 		fakeCmdRunner        *fake_command_runner.FakeCommandRunner
-		fakeNstarRunner      *rundmcfakes.FakeNstarRunner
 		fakeUserLookupper    *usersfakes.FakeUserLookupper
 		repConfig            config.RepConfig
 		sidecarRootfs        string
@@ -58,7 +56,6 @@ var _ = Describe("Client", func() {
 		fakeContainerdClient = &containerdfakes.FakeClient{}
 		fakeKubeletClient = &kubeletfakes.FakeClient{}
 		fakeCmdRunner = fake_command_runner.New()
-		fakeNstarRunner = &rundmcfakes.FakeNstarRunner{}
 		fakeUserLookupper = &usersfakes.FakeUserLookupper{}
 		sidecarRootfs = "sidecar-rootfs"
 
@@ -133,7 +130,6 @@ var _ = Describe("Client", func() {
 			fakeContainerdClient,
 			fakeKubeletClient,
 			fakeCmdRunner,
-			fakeNstarRunner,
 			fakeUserLookupper,
 			repConfig,
 			sidecarRootfs,
@@ -158,7 +154,6 @@ var _ = Describe("Client", func() {
 					fakeContainerdClient,
 					fakeKubeletClient,
 					fakeCmdRunner,
-					fakeNstarRunner,
 					fakeUserLookupper,
 					repConfig,
 					sidecarRootfs,
@@ -182,7 +177,6 @@ var _ = Describe("Client", func() {
 					fakeContainerdClient,
 					fakeKubeletClient,
 					fakeCmdRunner,
-					fakeNstarRunner,
 					fakeUserLookupper,
 					repConfig,
 					sidecarRootfs,
@@ -227,7 +221,6 @@ var _ = Describe("Client", func() {
 					fakeContainerdClient,
 					fakeKubeletClient,
 					fakeCmdRunner,
-					fakeNstarRunner,
 					fakeUserLookupper,
 					repConfig,
 					sidecarRootfs,
@@ -300,7 +293,6 @@ var _ = Describe("Client", func() {
 					fakeContainerdClient,
 					fakeKubeletClient,
 					fakeCmdRunner,
-					fakeNstarRunner,
 					fakeUserLookupper,
 					repConfig,
 					sidecarRootfs,

@@ -11,7 +11,6 @@ import (
 
 	"code.cloudfoundry.org/garden"
 	"code.cloudfoundry.org/guardian/gardener"
-	"code.cloudfoundry.org/guardian/rundmc"
 	"code.cloudfoundry.org/guardian/rundmc/goci"
 	"code.cloudfoundry.org/guardian/rundmc/processes"
 	"code.cloudfoundry.org/guardian/rundmc/users"
@@ -32,11 +31,11 @@ type container struct {
 	env             []string
 	cpuAssignment   float64
 	rootfsSize      uint64
-	nstar           rundmc.NstarRunner
 	userLookupper   users.UserLookupper
 	taskMap         map[string]ctrdclient.Task
 	containerIDMap  map[string]string
 	propertyManager gardener.PropertyManager
+	sandboxPath     string
 	mu              sync.RWMutex
 }
 
@@ -45,11 +44,11 @@ func NewContainer(
 	pod *corev1.Pod,
 	env []string,
 	cpuAssignment float64,
-	nstar rundmc.NstarRunner,
 	userLookupper users.UserLookupper,
 	propertyManager gardener.PropertyManager,
 	rootfsSize uint64,
 	taskMap map[string]ctrdclient.Task,
+	sandboxPath string,
 ) *container {
 	return &container{
 		log:             log,
@@ -57,10 +56,10 @@ func NewContainer(
 		env:             env,
 		cpuAssignment:   cpuAssignment,
 		rootfsSize:      rootfsSize,
-		nstar:           nstar,
 		userLookupper:   userLookupper,
 		taskMap:         taskMap,
 		propertyManager: propertyManager,
+		sandboxPath:     sandboxPath,
 		mu:              sync.RWMutex{},
 	}
 }
@@ -109,7 +108,7 @@ func (c *container) run(spec garden.ProcessSpec, io garden.ProcessIO, cleanEnv b
 		targetContainer = sidecarContainerName
 	}
 
-	execUser, err := c.userLookupper.Lookup(fmt.Sprintf("/var/run/containerd/io.containerd.runtime.v2.task/k8s.io/%s/rootfs", c.containerIDMap[targetContainer]), spec.User)
+	execUser, err := c.userLookupper.Lookup(filepath.Join(c.sandboxPath, c.containerIDMap[targetContainer], "rootfs"), spec.User)
 	if err != nil {
 		return nil, fmt.Errorf("get user %q: %w", spec.User, err)
 	}
@@ -160,36 +159,12 @@ func (c *container) StreamIn(spec garden.StreamInSpec) error {
 	c.log.Info("stream-in-starting", lager.Data{"path": spec.Path, "user": spec.User})
 	defer c.log.Info("stream-in-completed", lager.Data{"path": spec.Path, "user": spec.User})
 
-	mkdirProcess, err := c.run(garden.ProcessSpec{
-		ID:   "stream-in-mkdir-" + uuid.NewString(),
-		Path: "bash",
-		Args: []string{"-c", fmt.Sprintf("mkdir -p %s && chown %s:%s %s", spec.Path, spec.User, spec.User, spec.Path)},
-		User: "root",
-	}, garden.ProcessIO{
-		Stdout: io.Discard,
-		Stderr: io.Discard,
-	}, true)
-	if err != nil {
-		c.log.Error("failed-to-run-stream-in-mkdir", err)
-		return fmt.Errorf("stream-in: failed to run mkdir: %w", err)
-	}
-
-	exitCode, err := mkdirProcess.Wait()
-	if err != nil {
-		c.log.Error("failed-to-wait-for-stream-in-mkdir", err)
-		return fmt.Errorf("stream-in: failed to wait for mkdir: %w", err)
-	}
-
-	if exitCode != 0 {
-		return fmt.Errorf("stream-in: mkdir exited %d", exitCode)
-	}
-
 	output := new(bytes.Buffer)
 	streamProcess, err := c.run(garden.ProcessSpec{
 		ID:   "stream-in-" + uuid.NewString(),
-		Path: "tar",
-		Args: []string{"--no-same-permissions", "--no-same-owner", "--xattrs", "--xattrs-include=*", "-C", spec.Path, "-xf", "-"},
-		User: streamUser(spec.User),
+		Path: "/tmp/bin/untar",
+		Args: []string{"/tmp/bin/tar", streamUser(spec.User), spec.Path},
+		User: "root",
 	}, garden.ProcessIO{
 		Stdin:  spec.TarStream,
 		Stdout: io.Discard,
@@ -201,7 +176,7 @@ func (c *container) StreamIn(spec garden.StreamInSpec) error {
 		return fmt.Errorf("stream-in: failed to run tar: %w", err)
 	}
 
-	exitCode, err = streamProcess.Wait()
+	exitCode, err := streamProcess.Wait()
 	if err != nil {
 		c.log.Error("failed-to-wait-for-stream-in-tar", err)
 		return fmt.Errorf("stream-in: failed to wait for tar: %w", err)
@@ -231,7 +206,7 @@ func (c *container) StreamOut(spec garden.StreamOutSpec) (io.ReadCloser, error) 
 
 	streamProcess, err := c.run(garden.ProcessSpec{
 		ID:   "stream-out-" + uuid.NewString(),
-		Path: "tar",
+		Path: "/tmp/bin/tar",
 		Args: []string{"--no-same-permissions", "--no-same-owner", "--xattrs", "--xattrs-include=*", "-C", sourcePath, "-cf", "-", compressPath},
 		User: streamUser(spec.User),
 	}, garden.ProcessIO{

@@ -33,7 +33,6 @@ import (
 	"code.cloudfoundry.org/executor/initializer/configuration"
 	"code.cloudfoundry.org/garden"
 	GardenClient "code.cloudfoundry.org/garden/client"
-	"code.cloudfoundry.org/guardian/rundmc"
 	"code.cloudfoundry.org/guardian/rundmc/users"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/containerd"
@@ -246,7 +245,7 @@ func Initialize(
 	if err != nil {
 		return nil, nil, grouper.Members{}, err
 	}
-	gardenClient, err := k8sgarden.NewClient(logger.Session("k8sgarden"), mgr.GetClient(), containerd.NewClientWrapper(containerdClient), kubeletClient, cmdrunner, rundmc.NewNstarRunner("/bin/nstar", "/bin/tar", cmdrunner), users.LookupFunc(users.LookupUser), config, sidecarRootFSPath, workloadsNamespace)
+	gardenClient, err := k8sgarden.NewClient(logger.Session("k8sgarden"), mgr.GetClient(), containerd.NewClientWrapper(containerdClient), kubeletClient, cmdrunner, users.LookupFunc(users.LookupUser), config, sidecarRootFSPath, workloadsNamespace)
 	if err != nil {
 		return nil, nil, grouper.Members{}, err
 	}
