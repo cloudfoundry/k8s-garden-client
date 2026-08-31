@@ -75,8 +75,6 @@ jobs:
       uses: actions/setup-go@v7
       with:
         go-version-file: "go.mod"
-    - name: Build application
-      run: make build
     - name: Build container image
       run: make image
 
@@ -91,8 +89,6 @@ jobs:
       uses: actions/setup-go@v7
       with:
         go-version-file: "go.mod"
-    - name: Build application
-      run: make build
     - name: Build image
       run: make image
     - name: Install the latest version of kind
