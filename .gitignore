@@ -3,3 +3,7 @@ certs/
 coverage.out
 .srl
 __debug_bin
+.claude/
+devcontainer-lock.json
+kind/
+cf-smoke-tests/

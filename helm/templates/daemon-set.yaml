@@ -101,9 +101,15 @@ spec:
         - name: k8s-rep
           image: {{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash"]
           args:
-          - --config
-          - /tmp/rep.json
+          - -c
+          - |
+            set -e
+            cp /bin/untar /var/lib/rep/bin/untar
+            cp /bin/tar /var/lib/rep/bin/tar
+
+            exec /bin/rep --config /tmp/rep.json
           ports:
             - containerPort: 1801
               hostPort: 1801

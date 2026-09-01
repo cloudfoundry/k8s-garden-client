@@ -1,14 +1,16 @@
 package k8sgarden
 
 import (
+	"bytes"
 	"fmt"
 	"io"
+	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 
 	"code.cloudfoundry.org/garden"
 	"code.cloudfoundry.org/guardian/gardener"
-	"code.cloudfoundry.org/guardian/rundmc"
 	"code.cloudfoundry.org/guardian/rundmc/goci"
 	"code.cloudfoundry.org/guardian/rundmc/processes"
 	"code.cloudfoundry.org/guardian/rundmc/users"
@@ -29,10 +31,11 @@ type container struct {
 	env             []string
 	cpuAssignment   float64
 	rootfsSize      uint64
-	nstar           rundmc.NstarRunner
 	userLookupper   users.UserLookupper
 	taskMap         map[string]ctrdclient.Task
+	containerIDMap  map[string]string
 	propertyManager gardener.PropertyManager
+	sandboxPath     string
 	mu              sync.RWMutex
 }
 
@@ -41,11 +44,11 @@ func NewContainer(
 	pod *corev1.Pod,
 	env []string,
 	cpuAssignment float64,
-	nstar rundmc.NstarRunner,
 	userLookupper users.UserLookupper,
 	propertyManager gardener.PropertyManager,
 	rootfsSize uint64,
 	taskMap map[string]ctrdclient.Task,
+	sandboxPath string,
 ) *container {
 	return &container{
 		log:             log,
@@ -53,10 +56,10 @@ func NewContainer(
 		env:             env,
 		cpuAssignment:   cpuAssignment,
 		rootfsSize:      rootfsSize,
-		nstar:           nstar,
 		userLookupper:   userLookupper,
 		taskMap:         taskMap,
 		propertyManager: propertyManager,
+		sandboxPath:     sandboxPath,
 		mu:              sync.RWMutex{},
 	}
 }
@@ -95,21 +98,29 @@ func (c *container) Info() (garden.ContainerInfo, error) {
 
 // Run implements [garden.Container].
 func (c *container) Run(spec garden.ProcessSpec, io garden.ProcessIO) (garden.Process, error) {
+	return c.run(spec, io, false)
+}
+
+func (c *container) run(spec garden.ProcessSpec, io garden.ProcessIO, cleanEnv bool) (garden.Process, error) {
 	c.log.Info("running-process", lager.Data{"processSpec": spec})
 	targetContainer := appContainerName
 	if spec.Image.URI != "" {
 		targetContainer = sidecarContainerName
 	}
 
-	task := c.taskMap[targetContainer]
-	execUser, err := c.userLookupper.Lookup(fmt.Sprintf("/proc/%d/root", task.Pid()), spec.User)
+	execUser, err := c.userLookupper.Lookup(filepath.Join(c.sandboxPath, c.containerIDMap[targetContainer], "rootfs"), spec.User)
 	if err != nil {
 		return nil, fmt.Errorf("get user %q: %w", spec.User, err)
 	}
 
+	baseEnv := c.env
+	if cleanEnv {
+		baseEnv = nil
+	}
+
 	processSpec := &specs.Process{
 		Args: append([]string{spec.Path}, spec.Args...),
-		Env:  c.env,
+		Env:  baseEnv,
 		Cwd:  spec.Dir,
 		User: specs.User{
 			UID:      uint32(execUser.Uid),
@@ -119,6 +130,7 @@ func (c *container) Run(spec garden.ProcessSpec, io garden.ProcessIO) (garden.Pr
 		Capabilities: &specs.LinuxCapabilities{
 			Bounding:    Caps,
 			Inheritable: Caps,
+			Permitted:   Caps,
 		},
 		NoNewPrivileges: false,
 	}
@@ -139,7 +151,7 @@ func (c *container) Run(spec garden.ProcessSpec, io garden.ProcessIO) (garden.Pr
 		id,
 		processSpec,
 		io,
-		task,
+		c.taskMap[targetContainer],
 	), nil
 }
 
@@ -148,9 +160,32 @@ func (c *container) StreamIn(spec garden.StreamInSpec) error {
 	c.log.Info("stream-in-starting", lager.Data{"path": spec.Path, "user": spec.User})
 	defer c.log.Info("stream-in-completed", lager.Data{"path": spec.Path, "user": spec.User})
 
-	if err := c.nstar.StreamIn(c.log.Session("nstar"), int(c.taskMap[appContainerName].Pid()), spec.Path, spec.User, spec.TarStream); err != nil {
-		c.log.Error("nstar-failed", err)
-		return fmt.Errorf("stream-in: nstar: %s", err)
+	c.log.Info("stream-in-running-tar", lager.Data{"path": spec.Path, "user": spec.User})
+	output := new(bytes.Buffer)
+	streamProcess, err := c.run(garden.ProcessSpec{
+		ID:   "stream-in-" + uuid.NewString(),
+		Path: "/tmp/bin/untar",
+		Args: []string{"/tmp/bin/tar", streamUser(spec.User), spec.Path},
+		User: "root",
+	}, garden.ProcessIO{
+		Stdin:  spec.TarStream,
+		Stdout: io.Discard,
+		Stderr: output,
+	}, true)
+
+	if err != nil {
+		c.log.Error("failed-to-run-stream-in-tar", err)
+		return fmt.Errorf("stream-in: failed to run tar: %w", err)
+	}
+
+	exitCode, err := streamProcess.Wait()
+	if err != nil {
+		c.log.Error("failed-to-wait-for-stream-in-tar", err)
+		return fmt.Errorf("stream-in: failed to wait for tar: %w", err)
+	}
+
+	if exitCode != 0 {
+		return fmt.Errorf("stream-in: tar exited %d: %s", exitCode, output.String())
 	}
 
 	return nil
@@ -161,13 +196,53 @@ func (c *container) StreamOut(spec garden.StreamOutSpec) (io.ReadCloser, error) 
 	c.log.Info("stream-out-starting", lager.Data{"path": spec.Path, "user": spec.User})
 	defer c.log.Info("stream-out-completed", lager.Data{"path": spec.Path, "user": spec.User})
 
-	stream, err := c.nstar.StreamOut(c.log.Session("nstar"), int(c.taskMap[appContainerName].Pid()), spec.Path, spec.User)
-	if err != nil {
-		c.log.Error("nstar-failed", err)
-		return nil, fmt.Errorf("stream-out: nstar: %s", err)
+	sourcePath := filepath.Dir(spec.Path)
+	compressPath := filepath.Base(spec.Path)
+	if strings.HasSuffix(spec.Path, "/") {
+		sourcePath = spec.Path
+		compressPath = "."
 	}
 
-	return stream, nil
+	errOut := new(bytes.Buffer)
+	reader, writer := io.Pipe()
+
+	c.log.Info("stream-out-running-tar", lager.Data{"sourcePath": sourcePath, "compressPath": compressPath, "user": spec.User})
+	streamProcess, err := c.run(garden.ProcessSpec{
+		ID:   "stream-out-" + uuid.NewString(),
+		Path: "/tmp/bin/tar",
+		Args: []string{"--no-same-permissions", "--no-same-owner", "--xattrs", "--xattrs-include=*", "-C", sourcePath, "-cf", "-", compressPath},
+		User: streamUser(spec.User),
+	}, garden.ProcessIO{
+		Stdout: writer,
+		Stderr: errOut,
+	}, true)
+	if err != nil {
+		c.log.Error("failed-to-run-stream-out-tar", err)
+		return nil, fmt.Errorf("stream-out: failed to run tar: %w", err)
+	}
+
+	go func() {
+		exitCode, waitErr := streamProcess.Wait()
+		switch {
+		case waitErr != nil:
+			waitErr = fmt.Errorf("stream-out: failed to wait for tar: %w (output: %s)", waitErr, errOut.String())
+			c.log.Error("failed-to-wait-for-stream-out-tar", waitErr)
+		case exitCode != 0:
+			waitErr = fmt.Errorf("stream-out: tar exited %d: %s", exitCode, errOut.String())
+			c.log.Error("stream-out-tar-non-zero-exit", waitErr)
+		}
+
+		writer.CloseWithError(waitErr)
+	}()
+
+	return reader, nil
+}
+
+func streamUser(user string) string {
+	if user == "" {
+		return "root"
+	}
+	return user
 }
 
 func (c *container) Properties() (garden.Properties, error) {

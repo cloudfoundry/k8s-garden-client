@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"syscall"
+	"time"
 
 	"code.cloudfoundry.org/garden"
 	"code.cloudfoundry.org/lager/v3"
@@ -75,6 +76,15 @@ func (p *process) Wait() (int, error) {
 		return -1, err
 	}
 
+	// The shim keeps its own writer open on the stdin FIFO, so the process never
+	// sees EOF on stdin until we explicitly close it. Without this, stdin-reading
+	// processes such as the `tar -xf -` used by StreamIn block forever. The tar
+	// bytes still flow through cio's own stdin writer; this only drops the shim's
+	// redundant keep-alive writer.
+	if p.io.Stdin != nil {
+		go p.closeStdin()
+	}
+
 	statusChan, err := p.process.Wait(context.Background())
 	if err != nil {
 		return -1, err
@@ -92,6 +102,21 @@ func (p *process) Wait() (int, error) {
 	_, err = p.process.Delete(context.Background())
 
 	return int(exitStatus.ExitCode()), errors.Join(exitStatus.Error(), err, closeErr)
+}
+
+// closeStdin closes the process's stdin so stdin-reading processes get EOF,
+// retrying with exponential backoff as the shim may not yet have wired up IO.
+func (p *process) closeStdin() {
+	backoff := 100 * time.Millisecond
+	for i := 0; i < 10; i++ {
+		if err := p.process.CloseIO(context.Background(), ctrdclient.WithStdinCloser); err != nil {
+			p.log.Error("failed-closing-stdin", err)
+			time.Sleep(backoff)
+			backoff *= 2
+			continue
+		}
+		return
+	}
 }
 
 func (p *process) Spec() *specs.Process {

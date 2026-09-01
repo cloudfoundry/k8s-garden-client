@@ -13,7 +13,6 @@ import (
 	"code.cloudfoundry.org/executor"
 	"code.cloudfoundry.org/garden"
 	"code.cloudfoundry.org/guardian/properties"
-	"code.cloudfoundry.org/guardian/rundmc"
 	"code.cloudfoundry.org/guardian/rundmc/users"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/containerd"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/kubelet"
@@ -58,7 +57,6 @@ type client struct {
 	containers           *containerMap
 	portManager          PortManager
 	cmdRunner            commandrunner.CommandRunner
-	nstarRunner          rundmc.NstarRunner
 	userLookupper        users.UserLookupper
 	propertyManager      *properties.Manager
 	trustedCertsDir      string
@@ -67,11 +65,12 @@ type client struct {
 	sidecarRootfs        string
 	enableContainerProxy bool
 	workloadsNamespace   string
+	sandboxPath          string
 }
 
 var _ garden.Client = &client{}
 
-func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClient containerd.Client, kubeletClient kubelet.Client, cmdRunner commandrunner.CommandRunner, nstarRunner rundmc.NstarRunner, userLookupper users.UserLookupper, repConfig config.RepConfig, sidecarRootfs, workloadsNamespace string) (garden.Client, error) {
+func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClient containerd.Client, kubeletClient kubelet.Client, cmdRunner commandrunner.CommandRunner, userLookupper users.UserLookupper, repConfig config.RepConfig, sidecarRootfs, workloadsNamespace string) (garden.Client, error) {
 	node := &corev1.Node{}
 	if err := k8sclient.Get(context.Background(), ctrlclient.ObjectKey{Name: os.Getenv("NODE_NAME")}, node); err != nil {
 		return nil, fmt.Errorf("failed to get node %s: %w", os.Getenv("NODE_NAME"), err)
@@ -97,12 +96,12 @@ func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClien
 		trustedCertsDir:      repConfig.TrustedSystemCertificatesPath,
 		enableContainerProxy: repConfig.EnableContainerProxy,
 		cmdRunner:            cmdRunner,
-		nstarRunner:          nstarRunner,
 		userLookupper:        userLookupper,
 		containers:           containerMap,
 		portManager:          newPortManager(),
 		propertyManager:      propertyManager,
 		workloadsNamespace:   workloadsNamespace,
+		sandboxPath:          "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io",
 	}, nil
 }
 
@@ -279,6 +278,22 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 						},
 					},
 				},
+				{
+					Name: "tar-bin",
+					VolumeSource: corev1.VolumeSource{
+						HostPath: &corev1.HostPathVolumeSource{
+							Path: "/var/lib/rep/bin/tar",
+						},
+					},
+				},
+				{
+					Name: "untar-bin",
+					VolumeSource: corev1.VolumeSource{
+						HostPath: &corev1.HostPathVolumeSource{
+							Path: "/var/lib/rep/bin/untar",
+						},
+					},
+				},
 			},
 			Containers: []corev1.Container{
 				{
@@ -295,6 +310,16 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 						{
 							Name:      "init-bin",
 							MountPath: "/tmp/garden-init",
+							ReadOnly:  true,
+						},
+						{
+							Name:      "tar-bin",
+							MountPath: "/tmp/bin/tar",
+							ReadOnly:  true,
+						},
+						{
+							Name:      "untar-bin",
+							MountPath: "/tmp/bin/untar",
 							ReadOnly:  true,
 						},
 					},
@@ -368,11 +393,11 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		pod,
 		append(dockerEnv, spec.Env...),
 		cpuAssignment,
-		c.nstarRunner,
 		c.userLookupper,
 		c.propertyManager,
 		rootfsSize,
 		nil,
+		c.sandboxPath,
 	)
 	if err := c.containers.Add(spec.Handle, container); err != nil {
 		return nil, err
@@ -410,6 +435,13 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to load containerD container: %w", err)
 	}
+
+	containerIDMap := map[string]string{}
+	for _, status := range pod.Status.ContainerStatuses {
+		containerdID, _ := strings.CutPrefix(status.ContainerID, "containerd://")
+		containerIDMap[status.Name] = containerdID
+	}
+	container.containerIDMap = containerIDMap
 
 	if err := container.SetProperty("garden.state", "created"); err != nil {
 		return nil, err
@@ -549,10 +581,10 @@ func containerRestoreInfo(client ctrlclient.Client, workloadsNamespace string) (
 			[]string{},
 			0,
 			nil,
-			nil,
 			propertyManager,
 			0,
 			nil,
+			"",
 		)
 		err := containerMap.Add(pod.Name, container)
 		if err != nil {
