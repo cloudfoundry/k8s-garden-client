@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/kubelet"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet"
 	"code.cloudfoundry.org/lager/v3"
 	"github.com/jarcoal/httpmock"
 	. "github.com/onsi/ginkgo/v2"

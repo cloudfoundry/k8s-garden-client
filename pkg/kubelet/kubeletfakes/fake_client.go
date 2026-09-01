@@ -4,7 +4,7 @@ package kubeletfakes
 import (
 	"sync"
 
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/kubelet"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet"
 	lager "code.cloudfoundry.org/lager/v3"
 )
 

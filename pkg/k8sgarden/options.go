@@ -3,8 +3,8 @@ package k8sgarden
 import (
 	"code.cloudfoundry.org/commandrunner"
 	"code.cloudfoundry.org/guardian/rundmc/users"
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/containerd"
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/kubelet"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet"
 )
 
 type Config struct {
