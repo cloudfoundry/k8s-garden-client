@@ -111,6 +111,12 @@ jobs:
         path: cf-smoke-tests
     - name: Run integration tests
       run: make integration
+    - name: debug pods
+      if: failure()
+      run: |
+        echo "===== k8s-rep ====="
+        kubectl get pod -n cf-system -l app=k8s-rep -o wide
+        kubectl logs -n cf-system -l app=k8s-rep
 
   draft-release:
     runs-on: ubuntu-latest

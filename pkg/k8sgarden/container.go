@@ -160,6 +160,7 @@ func (c *container) StreamIn(spec garden.StreamInSpec) error {
 	c.log.Info("stream-in-starting", lager.Data{"path": spec.Path, "user": spec.User})
 	defer c.log.Info("stream-in-completed", lager.Data{"path": spec.Path, "user": spec.User})
 
+	c.log.Info("stream-in-running-tar", lager.Data{"path": spec.Path, "user": spec.User})
 	output := new(bytes.Buffer)
 	streamProcess, err := c.run(garden.ProcessSpec{
 		ID:   "stream-in-" + uuid.NewString(),
@@ -205,6 +206,7 @@ func (c *container) StreamOut(spec garden.StreamOutSpec) (io.ReadCloser, error) 
 	errOut := new(bytes.Buffer)
 	reader, writer := io.Pipe()
 
+	c.log.Info("stream-out-running-tar", lager.Data{"sourcePath": sourcePath, "compressPath": compressPath, "user": spec.User})
 	streamProcess, err := c.run(garden.ProcessSpec{
 		ID:   "stream-out-" + uuid.NewString(),
 		Path: "/tmp/bin/tar",
