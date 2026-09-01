@@ -1,2 +1,0 @@
-CREATE DATABASE locket;
-CREATE DATABASE diego;

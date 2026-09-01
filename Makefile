@@ -13,7 +13,7 @@ image:
 	docker build -t k8s-rep:latest .
 
 unit:
-	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" go test -count=1 ./... -vet=off -cover -coverprofile=coverage.out -args --ginkgo.label-filter=!integration
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" go test -count=1 ./... -vet=off -cover -coverprofile=coverage.out
 
 lint:
 	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" golangci-lint run
