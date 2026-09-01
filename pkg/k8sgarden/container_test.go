@@ -4,10 +4,10 @@ import (
 	"errors"
 	"io"
 	"strings"
+	"time"
 
 	"code.cloudfoundry.org/garden"
 	"code.cloudfoundry.org/guardian/properties"
-	"code.cloudfoundry.org/guardian/rundmc/rundmcfakes"
 	"code.cloudfoundry.org/guardian/rundmc/users"
 	"code.cloudfoundry.org/guardian/rundmc/users/usersfakes"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden"
@@ -26,24 +26,33 @@ var _ = Describe("Container", func() {
 		logger            *lagertest.TestLogger
 		pod               *corev1.Pod
 		env               []string
-		fakeNstarRunner   *rundmcfakes.FakeNstarRunner
 		fakeUserLookupper *usersfakes.FakeUserLookupper
 		fakeAppTask       *containerdfakes.FakeTask
 		fakeSidecarTask   *containerdfakes.FakeTask
+		fakeProcess       *containerdfakes.FakeProcess
+		exitChan          chan ctrdclient.ExitStatus
 		taskMap           map[string]ctrdclient.Task
+		sandboxPath       string
+		expectedRootfs    string
 	)
 
 	BeforeEach(func() {
 		logger = lagertest.NewTestLogger("container-test")
-		fakeNstarRunner = &rundmcfakes.FakeNstarRunner{}
 		fakeUserLookupper = &usersfakes.FakeUserLookupper{}
+
+		exitChan = make(chan ctrdclient.ExitStatus, 1)
+		fakeProcess = &containerdfakes.FakeProcess{}
+		fakeProcess.WaitReturns(exitChan, nil)
+
 		fakeAppTask = &containerdfakes.FakeTask{}
 		fakeAppTask.IDReturns("app-task")
 		fakeAppTask.PidReturns(12345)
+		fakeAppTask.ExecReturns(fakeProcess, nil)
 
 		fakeSidecarTask = &containerdfakes.FakeTask{}
 		fakeSidecarTask.IDReturns("sidecar-task")
 		fakeSidecarTask.PidReturns(67890)
+		fakeSidecarTask.ExecReturns(fakeProcess, nil)
 
 		pod = &corev1.Pod{
 			ObjectMeta: metav1.ObjectMeta{
@@ -72,7 +81,12 @@ var _ = Describe("Container", func() {
 			"sidecar": fakeSidecarTask,
 		}
 
-		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, taskMap, "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io")
+		sandboxPath = "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io"
+		// containerIDMap is populated by the client after pod creation and is not
+		// set via NewContainer, so the container id segment is empty in tests.
+		expectedRootfs = sandboxPath + "/rootfs"
+
+		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, taskMap, sandboxPath)
 	})
 
 	Describe("Handle", func() {
@@ -116,7 +130,7 @@ var _ = Describe("Container", func() {
 			Expect(proc).NotTo(BeNil())
 			Expect(fakeUserLookupper.LookupCallCount()).To(Equal(1))
 			rootPath, user := fakeUserLookupper.LookupArgsForCall(0)
-			Expect(rootPath).To(Equal("/proc/12345/root"))
+			Expect(rootPath).To(Equal(expectedRootfs))
 			Expect(user).To(Equal("vcap"))
 
 			process, ok := proc.(k8sgarden.Process)
@@ -148,7 +162,7 @@ var _ = Describe("Container", func() {
 
 			Expect(fakeUserLookupper.LookupCallCount()).To(Equal(1))
 			rootPath, user := fakeUserLookupper.LookupArgsForCall(0)
-			Expect(rootPath).To(Equal("/proc/67890/root"))
+			Expect(rootPath).To(Equal(expectedRootfs))
 			Expect(user).To(Equal("root"))
 
 			process, ok := proc.(k8sgarden.Process)
@@ -196,8 +210,7 @@ var _ = Describe("Container", func() {
 			Expect(proc.ID()).NotTo(BeEmpty())
 		})
 
-		It("handles errors from user lookup, StreamIn and StreamOut", func() {
-			// Test Run error when user lookup fails
+		It("returns error when user lookup fails", func() {
 			fakeUserLookupper.LookupReturns(nil, errors.New("user not found"))
 			_, err := testContainer.Run(garden.ProcessSpec{
 				Path: "/bin/sh",
@@ -209,7 +222,13 @@ var _ = Describe("Container", func() {
 	})
 
 	Describe("StreamIn", func() {
-		It("streams data into the container using nstar", func() {
+		BeforeEach(func() {
+			fakeUserLookupper.LookupReturns(&users.ExecUser{Uid: 0, Gid: 0, Home: "/root"}, nil)
+		})
+
+		It("extracts the tar stream via the untar binary in the app container", func() {
+			exitChan <- *ctrdclient.NewExitStatus(0, time.Now(), nil)
+
 			tarStream := io.NopCloser(strings.NewReader("tar-data"))
 			err := testContainer.StreamIn(garden.StreamInSpec{
 				Path:      "/app/data",
@@ -217,51 +236,128 @@ var _ = Describe("Container", func() {
 				TarStream: tarStream,
 			})
 			Expect(err).NotTo(HaveOccurred())
-			Expect(fakeNstarRunner.StreamInCallCount()).To(Equal(1))
-			_, pid, path, user, stream := fakeNstarRunner.StreamInArgsForCall(0)
-			Expect(pid).To(Equal(12345))
-			Expect(path).To(Equal("/app/data"))
-			Expect(user).To(Equal("vcap"))
-			Expect(stream).To(Equal(tarStream))
 
+			Expect(fakeAppTask.ExecCallCount()).To(Equal(1))
+			Expect(fakeSidecarTask.ExecCallCount()).To(Equal(0))
+
+			_, id, spec, _ := fakeAppTask.ExecArgsForCall(0)
+			Expect(id).To(HavePrefix("stream-in-"))
+			Expect(spec.Args).To(Equal([]string{"/tmp/bin/untar", "/tmp/bin/tar", "vcap", "/app/data"}))
+			Expect(spec.User.Username).To(Equal("root"))
 		})
 
-		It("returns error when nstar StreamIn fails", func() {
-			fakeNstarRunner.StreamInReturns(errors.New("stream-in failed"))
+		It("defaults the user to root when none is provided", func() {
+			exitChan <- *ctrdclient.NewExitStatus(0, time.Now(), nil)
+
+			err := testContainer.StreamIn(garden.StreamInSpec{
+				Path:      "/app/data",
+				TarStream: io.NopCloser(strings.NewReader("tar-data")),
+			})
+			Expect(err).NotTo(HaveOccurred())
+
+			_, _, spec, _ := fakeAppTask.ExecArgsForCall(0)
+			Expect(spec.Args).To(Equal([]string{"/tmp/bin/untar", "/tmp/bin/tar", "root", "/app/data"}))
+		})
+
+		It("returns an error when the user lookup fails", func() {
+			fakeUserLookupper.LookupReturns(nil, errors.New("user not found"))
 			err := testContainer.StreamIn(garden.StreamInSpec{
 				Path:      "/app/data",
 				User:      "vcap",
-				TarStream: io.NopCloser(strings.NewReader("data")),
+				TarStream: io.NopCloser(strings.NewReader("tar-data")),
 			})
-			Expect(err).To(HaveOccurred())
-			Expect(err.Error()).To(ContainSubstring("stream-in failed"))
+			Expect(err).To(MatchError(ContainSubstring("stream-in: failed to run tar")))
+			Expect(fakeAppTask.ExecCallCount()).To(Equal(0))
+		})
+
+		It("returns an error when tar exits non-zero", func() {
+			exitChan <- *ctrdclient.NewExitStatus(3, time.Now(), nil)
+
+			err := testContainer.StreamIn(garden.StreamInSpec{
+				Path:      "/app/data",
+				User:      "vcap",
+				TarStream: io.NopCloser(strings.NewReader("tar-data")),
+			})
+			Expect(err).To(MatchError(ContainSubstring("stream-in: tar exited 3")))
 		})
 	})
 
 	Describe("StreamOut", func() {
-		It("streams data out of the container using nstar", func() {
-			fakeReadCloser := io.NopCloser(strings.NewReader("stream-out-data"))
-			fakeNstarRunner.StreamOutReturns(fakeReadCloser, nil)
+		BeforeEach(func() {
+			fakeUserLookupper.LookupReturns(&users.ExecUser{Uid: 1000, Gid: 2000, Home: "/home/vcap"}, nil)
+		})
+
+		It("compresses a file via tar in the app container", func() {
 			reader, err := testContainer.StreamOut(garden.StreamOutSpec{
 				Path: "/app/logs",
 				User: "vcap",
 			})
 			Expect(err).NotTo(HaveOccurred())
-			Expect(reader).To(Equal(fakeReadCloser))
-			Expect(fakeNstarRunner.StreamOutCallCount()).To(Equal(1))
-			_, outPid, outPath, outUser := fakeNstarRunner.StreamOutArgsForCall(0)
-			Expect(outPid).To(Equal(12345))
-			Expect(outPath).To(Equal("/app/logs"))
-			Expect(outUser).To(Equal("vcap"))
+			Expect(reader).NotTo(BeNil())
+
+			Eventually(fakeAppTask.ExecCallCount).Should(Equal(1))
+			Expect(fakeSidecarTask.ExecCallCount()).To(Equal(0))
+
+			_, id, spec, _ := fakeAppTask.ExecArgsForCall(0)
+			Expect(id).To(HavePrefix("stream-out-"))
+			Expect(spec.Args).To(Equal([]string{"/tmp/bin/tar", "--no-same-permissions", "--no-same-owner", "--xattrs", "--xattrs-include=*", "-C", "/app", "-cf", "-", "logs"}))
+			Expect(spec.User.Username).To(Equal("vcap"))
+
+			exitChan <- *ctrdclient.NewExitStatus(0, time.Now(), nil)
+			data, readErr := io.ReadAll(reader)
+			Expect(readErr).NotTo(HaveOccurred())
+			Expect(data).To(BeEmpty())
 		})
 
-		It("returns error when nstar StreamOut fails", func() {
-			fakeNstarRunner.StreamOutReturns(nil, errors.New("stream-out failed"))
-			_, err := testContainer.StreamOut(garden.StreamOutSpec{
+		It("compresses a directory's contents when the path ends with a slash", func() {
+			reader, err := testContainer.StreamOut(garden.StreamOutSpec{
+				Path: "/app/logs/",
+				User: "vcap",
+			})
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(fakeAppTask.ExecCallCount).Should(Equal(1))
+			_, _, spec, _ := fakeAppTask.ExecArgsForCall(0)
+			Expect(spec.Args).To(Equal([]string{"/tmp/bin/tar", "--no-same-permissions", "--no-same-owner", "--xattrs", "--xattrs-include=*", "-C", "/app/logs/", "-cf", "-", "."}))
+
+			exitChan <- *ctrdclient.NewExitStatus(0, time.Now(), nil)
+			_, _ = io.ReadAll(reader)
+		})
+
+		It("defaults the user to root when none is provided", func() {
+			reader, err := testContainer.StreamOut(garden.StreamOutSpec{
 				Path: "/app/logs",
 			})
-			Expect(err).To(HaveOccurred())
-			Expect(err.Error()).To(ContainSubstring("stream-out failed"))
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(fakeAppTask.ExecCallCount).Should(Equal(1))
+			_, _, spec, _ := fakeAppTask.ExecArgsForCall(0)
+			Expect(spec.User.Username).To(Equal("root"))
+
+			exitChan <- *ctrdclient.NewExitStatus(0, time.Now(), nil)
+			_, _ = io.ReadAll(reader)
+		})
+
+		It("returns an error when the user lookup fails", func() {
+			fakeUserLookupper.LookupReturns(nil, errors.New("user not found"))
+			_, err := testContainer.StreamOut(garden.StreamOutSpec{
+				Path: "/app/logs",
+				User: "vcap",
+			})
+			Expect(err).To(MatchError(ContainSubstring("stream-out: failed to run tar")))
+			Expect(fakeAppTask.ExecCallCount()).To(Equal(0))
+		})
+
+		It("propagates a non-zero tar exit through the reader", func() {
+			reader, err := testContainer.StreamOut(garden.StreamOutSpec{
+				Path: "/app/logs",
+				User: "vcap",
+			})
+			Expect(err).NotTo(HaveOccurred())
+
+			exitChan <- *ctrdclient.NewExitStatus(2, time.Now(), nil)
+			_, readErr := io.ReadAll(reader)
+			Expect(readErr).To(MatchError(ContainSubstring("stream-out: tar exited 2")))
 		})
 	})
 })

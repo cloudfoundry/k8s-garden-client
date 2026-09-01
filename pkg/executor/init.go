@@ -87,7 +87,9 @@ func (containers *executorContainers) Containers() ([]garden.Container, error) {
 	})
 }
 
-//go:generate counterfeiter -o fakes/fake_cert_pool_retriever.go . CertPoolRetriever
+//go:generate go tool counterfeiter -generate
+
+//counterfeiter:generate -o fakes/fake_cert_pool_retriever.go . CertPoolRetriever
 type CertPoolRetriever interface {
 	SystemCerts() (*x509.CertPool, error)
 }

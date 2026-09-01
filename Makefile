@@ -19,7 +19,7 @@ lint:
 	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" golangci-lint run
 
 generate:
-	go generate ./...
+	GOFLAGS="-gcflags=all=-lang=$(GOVERSION)" go generate ./...
 
 kind:
 	$(KIND) create cluster --name $(KIND_CLUSTER) --config="./integration/assets/values-files/kind.yaml"

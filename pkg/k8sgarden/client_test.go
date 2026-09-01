@@ -435,7 +435,7 @@ var _ = Describe("Client", func() {
 			Expect(pod.Spec.Containers[1].Ports[0].HostPort).To(Equal(int32(62000)))
 			Expect(pod.Spec.Containers[1].Ports[0].ContainerPort).To(Equal(int32(80)))
 
-			Expect(pod.Spec.Volumes).To(HaveLen(4))
+			Expect(pod.Spec.Volumes).To(HaveLen(6))
 			Expect(pod.Spec.Containers[0].VolumeMounts).To(ContainElements(
 				MatchFields(IgnoreExtras, Fields{
 					"MountPath": Equal("/container/data"),
@@ -444,12 +444,40 @@ var _ = Describe("Client", func() {
 					"MountPath": Equal("/etc/ssl/certs"),
 					"ReadOnly":  BeTrue(),
 				}),
+				MatchFields(IgnoreExtras, Fields{
+					"Name":      Equal("tar-bin"),
+					"MountPath": Equal("/tmp/bin/tar"),
+					"ReadOnly":  BeTrue(),
+				}),
+				MatchFields(IgnoreExtras, Fields{
+					"Name":      Equal("untar-bin"),
+					"MountPath": Equal("/tmp/bin/untar"),
+					"ReadOnly":  BeTrue(),
+				}),
 			))
 			Expect(pod.Spec.Volumes).To(ContainElement(MatchFields(IgnoreExtras, Fields{
 				"VolumeSource": MatchFields(IgnoreExtras, Fields{
 					"ConfigMap": Not(BeNil()),
 				}),
 			})))
+			Expect(pod.Spec.Volumes).To(ContainElements(
+				MatchFields(IgnoreExtras, Fields{
+					"Name": Equal("tar-bin"),
+					"VolumeSource": MatchFields(IgnoreExtras, Fields{
+						"HostPath": PointTo(MatchFields(IgnoreExtras, Fields{
+							"Path": Equal("/var/lib/rep/bin/tar"),
+						})),
+					}),
+				}),
+				MatchFields(IgnoreExtras, Fields{
+					"Name": Equal("untar-bin"),
+					"VolumeSource": MatchFields(IgnoreExtras, Fields{
+						"HostPath": PointTo(MatchFields(IgnoreExtras, Fields{
+							"Path": Equal("/var/lib/rep/bin/untar"),
+						})),
+					}),
+				}),
+			))
 
 			containers, err := gardenClient.Containers(nil)
 			Expect(err).NotTo(HaveOccurred())
