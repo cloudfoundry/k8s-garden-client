@@ -38,7 +38,7 @@ func main() {
 		exitWithError(fmt.Errorf("failed to set uid: %w", err))
 	}
 
-	if execerr := unix.Exec(tarPath, []string{tarPath, "-xf", "-", "-C", targetPath}, os.Environ()); execerr != nil {
+	if execerr := unix.Exec(tarPath, []string{tarPath, "--no-same-permissions", "--no-same-owner", "--xattrs", "--xattrs-include=*", "-xf", "-", "-C", targetPath}, os.Environ()); execerr != nil {
 		exitWithError(fmt.Errorf("failed to exec tar command: %w", execerr))
 	}
 }
