@@ -21,9 +21,13 @@ func main() {
 	username := os.Args[2]
 	targetPath := os.Args[3]
 
-	uid, gid, err := getUserIdAndGroupId(username)
+	uid, gid, homeDir, err := getUserInfo(username)
 	if err != nil {
 		exitWithError(fmt.Errorf("failed to get user id and group id: %v", err))
+	}
+
+	if err := os.Chdir(homeDir); err != nil {
+		exitWithError(fmt.Errorf("failed to chdir to home directory %q: %w", homeDir, err))
 	}
 
 	if err := mkdirPAs(targetPath, uid, gid); err != nil {
@@ -75,23 +79,23 @@ func mkdirPAs(dir string, uid, gid int) error {
 	return mkdirAs(dir, uid, gid)
 }
 
-func getUserIdAndGroupId(username string) (int, int, error) {
+func getUserInfo(username string) (int, int, string, error) {
 	u, err := user.Lookup(username)
 	if err != nil {
-		return 0, 0, fmt.Errorf("failed to lookup user %q: %w", username, err)
+		return 0, 0, "", fmt.Errorf("failed to lookup user %q: %w", username, err)
 	}
 
 	uid, err := strconv.Atoi(u.Uid)
 	if err != nil {
-		return 0, 0, fmt.Errorf("invalid uid %q: %w", u.Uid, err)
+		return 0, 0, "", fmt.Errorf("invalid uid %q: %w", u.Uid, err)
 	}
 
 	gid, err := strconv.Atoi(u.Gid)
 	if err != nil {
-		return 0, 0, fmt.Errorf("invalid gid %q: %w", u.Gid, err)
+		return 0, 0, "", fmt.Errorf("invalid gid %q: %w", u.Gid, err)
 	}
 
-	return uid, gid, nil
+	return uid, gid, u.HomeDir, nil
 }
 
 func exitWithError(err error) {
