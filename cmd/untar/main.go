@@ -13,7 +13,7 @@ import (
 
 func main() {
 	if len(os.Args) != 4 {
-		fmt.Fprintf(os.Stderr, "Usage: %s <tar_path> <username> <target_path>\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Usage: %s <tar_path> <username> <target_path>", os.Args[0])
 		os.Exit(1)
 	}
 
@@ -23,7 +23,7 @@ func main() {
 
 	uid, gid, err := getUserIdAndGroupId(username)
 	if err != nil {
-		exitWithError(fmt.Errorf("failed to get user id and group id: %v\n", err))
+		exitWithError(fmt.Errorf("failed to get user id and group id: %v", err))
 	}
 
 	if err := mkdirPAs(targetPath, uid, gid); err != nil {
