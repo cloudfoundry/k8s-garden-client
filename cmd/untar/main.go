@@ -30,6 +30,10 @@ func main() {
 		exitWithError(fmt.Errorf("failed to chown directory %q: %w", targetPath, err))
 	}
 
+	if err := os.Chdir(targetPath); err != nil {
+		exitWithError(fmt.Errorf("failed to chdir to %q: %w", targetPath, err))
+	}
+
 	if err := unix.Setgid(gid); err != nil {
 		exitWithError(fmt.Errorf("failed to set gid: %w", err))
 	}
@@ -38,7 +42,7 @@ func main() {
 		exitWithError(fmt.Errorf("failed to set uid: %w", err))
 	}
 
-	if execerr := unix.Exec(tarPath, []string{tarPath, "--no-same-permissions", "--no-same-owner", "--xattrs", "--xattrs-include=*", "-xf", "-", "-C", targetPath}, os.Environ()); execerr != nil {
+	if execerr := unix.Exec(tarPath, []string{tarPath, "--no-same-permissions", "--no-same-owner", "--xattrs", "--xattrs-include=*", "-xf", "-"}, os.Environ()); execerr != nil {
 		exitWithError(fmt.Errorf("failed to exec tar command: %w", execerr))
 	}
 }
