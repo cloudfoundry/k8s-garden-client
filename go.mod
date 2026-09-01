@@ -10,7 +10,7 @@ require (
 	code.cloudfoundry.org/cacheddownloader v0.0.0-20250312193827-23c030d5e4f3
 	code.cloudfoundry.org/clock v1.85.0
 	code.cloudfoundry.org/commandrunner v0.73.0
-	code.cloudfoundry.org/debugserver v0.111.0
+	code.cloudfoundry.org/debugserver v0.112.0
 	code.cloudfoundry.org/diego-logging-client v0.121.0
 	code.cloudfoundry.org/durationjson v0.87.0
 	code.cloudfoundry.org/executor v0.0.0-20260501165308-848778d83610
@@ -42,6 +42,7 @@ require (
 	github.com/opencontainers/runtime-spec v1.3.0
 	github.com/tedsuo/ifrit v0.0.0-20260813155221-94822c932811
 	github.com/tedsuo/rata v1.0.0
+	golang.org/x/sys v0.47.0
 	k8s.io/api v0.36.4
 	k8s.io/apimachinery v0.36.4
 	k8s.io/client-go v0.36.4
@@ -164,7 +165,6 @@ require (
 	golang.org/x/net v0.58.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
-	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/term v0.45.0 // indirect
 	golang.org/x/text v0.41.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
