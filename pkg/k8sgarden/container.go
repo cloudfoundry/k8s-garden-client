@@ -130,6 +130,7 @@ func (c *container) run(spec garden.ProcessSpec, io garden.ProcessIO, cleanEnv b
 		Capabilities: &specs.LinuxCapabilities{
 			Bounding:    Caps,
 			Inheritable: Caps,
+			Permitted:   Caps,
 		},
 		NoNewPrivileges: false,
 	}
