@@ -171,8 +171,6 @@ spec:
               mountPath: /var/lib/rep/download_cache
             - name: bin
               mountPath: /var/lib/rep/bin
-            - name: streamer-bin
-              mountPath: /var/lib/rep/streamer
             - name: voldrivers
               mountPath: /var/lib/rep/voldrivers
             - name: containerd
@@ -248,9 +246,6 @@ spec:
         - name: bin
           hostPath:
             path: /var/lib/rep/bin
-        - name: streamer-bin
-          hostPath:
-            path: /var/lib/rep/streamer
         - name: volume-mounted-files
           hostPath:
             path: /var/lib/rep/volume_mounted_files

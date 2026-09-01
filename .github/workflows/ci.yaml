@@ -85,21 +85,32 @@ jobs:
     - uses: actions/checkout@v7
       with:
         fetch-depth: 0
+    - name: Set kernel settings
+      run: |
+        docker run --rm \
+          --privileged \
+          --pid host \
+          alpine sh -c "sysctl -w fs.inotify.max_user_instances=512"
+    - name: Install CF CLI
+      run: |
+        mkdir -p $HOME/.local/bin && echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+        curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=${CF_CLI_VERSION}&source=github" | tar -zx
+        mv cf8 $HOME/.local/bin/cf
+      env:
+        # renovate: dataSource=github-releases depName=cloudfoundry/cli
+        CF_CLI_VERSION: "8.19.0"
     - name: Set up Go
       uses: actions/setup-go@v7
       with:
         go-version-file: "go.mod"
-    - name: Build image
-      run: make image
-    - name: Install the latest version of kind
-      run: |
-        curl -Lo ${{ runner.temp }}/kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
-        chmod +x ${{ runner.temp }}/kind
-        ${{ runner.temp }}/kind version
+    - name: checkout CF test repository
+      uses: actions/checkout@v7
+      with:
+        repository: cloudfoundry/cf-smoke-tests
+        ref: main
+        path: cf-smoke-tests
     - name: Run integration tests
       run: make integration
-      env:
-        KIND: ${{ runner.temp }}/kind
 
   draft-release:
     runs-on: ubuntu-latest

@@ -25,9 +25,9 @@ WORKDIR /src
 COPY . .
 RUN go mod download
 
-RUN GOFLAGS="-gcflags=all=-lang=go${GO_VERSION}" GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -o bin/rep ./cmd/rep
-RUN GOFLAGS="-gcflags=all=-lang=go${GO_VERSION}" GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -o bin/watcher ./cmd/watch
-RUN GOFLAGS="-gcflags=all=-lang=go${GO_VERSION}" GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -o bin/untar ./cmd/untar
+RUN CGO_ENABLED=0 GOFLAGS="-gcflags=all=-lang=go${GO_VERSION}" GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -o bin/rep ./cmd/rep
+RUN CGO_ENABLED=0 GOFLAGS="-gcflags=all=-lang=go${GO_VERSION}" GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -o bin/watcher ./cmd/watch
+RUN CGO_ENABLED=0 GOFLAGS="-gcflags=all=-lang=go${GO_VERSION}" GOOS=linux GOARCH=${TARGETARCH} go build -ldflags "-w -s" -o bin/untar ./cmd/untar
 
 FROM ubuntu:26.04
 ARG TARGETARCH
