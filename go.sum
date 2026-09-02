@@ -32,6 +32,8 @@ code.cloudfoundry.org/garden v0.0.0-20260826021137-674e52f7c65b h1:V6b2+BN0QmWEA
 code.cloudfoundry.org/garden v0.0.0-20260826021137-674e52f7c65b/go.mod h1:kD5kZgKX9ypybJfE4ekpptd/64dYb+tBx+DgkElLYQo=
 code.cloudfoundry.org/go-diodes v0.0.0-20260818081020-5f89c9327272 h1:GAdBWzt881Ulr6ELFZHH8Brii1a9gYJhC3kKYrOJmjY=
 code.cloudfoundry.org/go-diodes v0.0.0-20260818081020-5f89c9327272/go.mod h1:S9HJ0GGRD/g86IiyDdweYgKLP7nbdVfxrCVV4aNSFSE=
+code.cloudfoundry.org/go-loggregator/v10 v10.3.1 h1:iuAoFA4ajpH1pBmVGQlUNRMvVAHC71ToU1tRjEAbYyg=
+code.cloudfoundry.org/go-loggregator/v10 v10.3.1/go.mod h1:Md5WIfzcFSiT//dNHTS6Zfj4MCmO+Zz9d/2ihZjaj+0=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1 h1:S6Lgg5UJbhh2bt2TGQxs6R00CF8PrUA3GFPYDxy56Fk=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1/go.mod h1:FTFFruqGeOhVCDFvyLgl8EV8YW63NNwRzLhxJcporu8=
 code.cloudfoundry.org/goshims v0.84.0 h1:IRFD4Ql7MaetmMvKIU7JS5kggx2L8Fnu6CYJVSVPVdY=
