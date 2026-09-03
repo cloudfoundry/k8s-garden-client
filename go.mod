@@ -8,7 +8,7 @@ require (
 	code.cloudfoundry.org/commandrunner v0.76.0
 	code.cloudfoundry.org/garden v0.0.0-20260805020914-eb681524f408
 	code.cloudfoundry.org/guardian v0.0.0-20260730115415-6f75b111856e
-	code.cloudfoundry.org/lager/v3 v3.81.0
+	code.cloudfoundry.org/lager/v3 v3.85.0
 	github.com/containerd/containerd/api v1.11.1
 	github.com/containerd/containerd/v2 v2.3.4
 	github.com/containerd/continuity v0.5.0
