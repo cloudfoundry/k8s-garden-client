@@ -1,0 +1,1 @@
+{"go-coverage-action-fmt":1,"coverage_pct":79.05405405405406,"pkg_stats":{"code.cloudfoundry.org/k8s-garden-client/pkg/log":[100],"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet":[66.66666666666666],"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden":[79.74025974025975]},"skipped_count":6}
