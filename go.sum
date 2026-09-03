@@ -1,8 +1,8 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 code.cloudfoundry.org/commandrunner v0.76.0 h1:NqU8dfbLei8PfqOIBqjCxs1ZViYdEZ9Qf03Qo1vlhQw=
 code.cloudfoundry.org/commandrunner v0.76.0/go.mod h1:W5kWIgeY5X8XZvuYHGH/PG0TRINwOKUQGobKXsw4wDQ=
-code.cloudfoundry.org/garden v0.0.0-20260805020914-eb681524f408 h1:2nKOK2vrVVh/Wl6Z/7Ts6wZcrqHUu1lQCl6/JuMclBI=
-code.cloudfoundry.org/garden v0.0.0-20260805020914-eb681524f408/go.mod h1:aAgjqTzOtz6h8HksTOXR+1hd0nmj1OY148DxVvMWxxY=
+code.cloudfoundry.org/garden v0.2.0 h1:wgvHo1zmMywzGMUJhQuS1zvZw/hgGLqCwSqxiEWLzCs=
+code.cloudfoundry.org/garden v0.2.0/go.mod h1:C48Lw/gXbiyRugETUKDSRE1vz7HEJUtBNyDt1RCJ8Xw=
 code.cloudfoundry.org/guardian v0.0.0-20260730115415-6f75b111856e h1:idJ1dOtuIlPsVc+qismZmwMsNGMBU/7hf3HceI9QoBQ=
 code.cloudfoundry.org/guardian v0.0.0-20260730115415-6f75b111856e/go.mod h1:cidpflPaPKYO4uzhLBNom40oguUq3o+kJT6leXWujeE=
 code.cloudfoundry.org/lager/v3 v3.85.0 h1:4AebS51o+48Pxaba53K7ehogN8XJoKuW9ZEtq6Kjm4Y=
@@ -367,8 +367,8 @@ google.golang.org/protobuf v1.22.0/go.mod h1:EGpADcykh3NcUnDUJcl1+ZksZNG86OlYog2
 google.golang.org/protobuf v1.23.0/go.mod h1:EGpADcykh3NcUnDUJcl1+ZksZNG86OlYog2l/sGQquU=
 google.golang.org/protobuf v1.23.1-0.20200526195155-81db48ad09cc/go.mod h1:EGpADcykh3NcUnDUJcl1+ZksZNG86OlYog2l/sGQquU=
 google.golang.org/protobuf v1.25.0/go.mod h1:9JNX74DMeImyA3h4bdi1ymwjUzf21/xIlbajtzgsN7c=
-google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af h1:+5/Sw3GsDNlEmu7TfklWKPdQ0Ykja5VEmq2i817+jbI=
-google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
+google.golang.org/protobuf v1.36.12 h1:pJOKDDOyeXErUroCihFAd5LQuwXBSpVnKGrj5o/fwxc=
+google.golang.org/protobuf v1.36.12/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/evanphx/json-patch.v4 v4.13.0 h1:czT3CmqEaQ1aanPc5SdlgQrrEIb8w/wwCvWWnfEbYzo=
 gopkg.in/evanphx/json-patch.v4 v4.13.0/go.mod h1:p8EYWUEYMpynmqDbY58zCKCFZw8pRWMG4EsWvDvM72M=
