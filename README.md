@@ -10,11 +10,6 @@ Alternative [`garden.Client`](https://github.com/cloudfoundry/garden/blob/879cfc
 > This repository should be imported as
 > `code.cloudfoundry.org/k8s-garden-client`.
 
-> \[!NOTE\]
->
-> At the moment this repository contains copied parts of https://github.com/cloudfoundry/rep and https://github.com/cloudfoundry/executor
-> for incubation phase only. The changes are intended to be contributed after graduation.
-
 ## Contributing
 
 Please check our [contributing guidelines](/CONTRIBUTING.md).
