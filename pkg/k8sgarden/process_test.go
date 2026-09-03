@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"code.cloudfoundry.org/garden"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd/containerdfakes"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden"
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/containerd/containerdfakes"
 	"code.cloudfoundry.org/lager/v3/lagertest"
 	ctrdclient "github.com/containerd/containerd/v2/client"
 	. "github.com/onsi/ginkgo/v2"

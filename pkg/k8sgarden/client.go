@@ -5,22 +5,21 @@ import (
 	"errors"
 	"fmt"
 	"math/rand/v2"
-	"os"
 	"strings"
 	"time"
 
 	"code.cloudfoundry.org/commandrunner"
-	"code.cloudfoundry.org/executor"
+	"code.cloudfoundry.org/commandrunner/linux_command_runner"
 	"code.cloudfoundry.org/garden"
 	"code.cloudfoundry.org/guardian/properties"
 	"code.cloudfoundry.org/guardian/rundmc/users"
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/containerd"
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/kubelet"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet"
 	"code.cloudfoundry.org/lager/v3"
-	"code.cloudfoundry.org/rep/cmd/rep/config"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/utils/ptr"
 	ctrlclient "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -28,7 +27,7 @@ import (
 const (
 	AppGUIDLabelKey   = "cloudfoundry.org/app-guid"
 	OrgGUIDLabelKey   = "cloudfoundry.org/org-guid"
-	SpaceGUIDLabel    = "cloudfoundry.org/space-guid"
+	SpaceGUIDLabelKey = "cloudfoundry.org/space-guid"
 	WorkloadTypeKey   = "cloudfoundry.org/workload-type"
 	OwnerNameLabelKey = "cloudfoundry.org/owner-name"
 
@@ -36,6 +35,18 @@ const (
 	sidecarContainerName = "sidecar"
 
 	apiOperationTimeout = 10 * time.Second
+	podPollInterval     = 500 * time.Millisecond
+	podRunningTimeout   = 2 * time.Minute
+
+	ContainerStateProperty = "garden.state"
+
+	ContainerOwnerProperty    = "executor:owner"
+	ContainerWorkloadProperty = "network.container_workload"
+	SpaceIDProperty           = "network.space_id"
+	OrgIDProperty             = "network.org_id"
+	AppIDProperty             = "network.app_id"
+
+	DefaultSandboxPath = "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io"
 )
 
 var alphanum = []rune("abcdefghijklmnopqrstuvwxyz1234567890")
@@ -55,7 +66,7 @@ type client struct {
 	logger               lager.Logger
 	node                 *corev1.Node
 	containers           *containerMap
-	portManager          PortManager
+	portManager          *portManager
 	cmdRunner            commandrunner.CommandRunner
 	userLookupper        users.UserLookupper
 	propertyManager      *properties.Manager
@@ -70,39 +81,56 @@ type client struct {
 
 var _ garden.Client = &client{}
 
-func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, containerdClient containerd.Client, kubeletClient kubelet.Client, cmdRunner commandrunner.CommandRunner, userLookupper users.UserLookupper, repConfig config.RepConfig, sidecarRootfs, workloadsNamespace string) (garden.Client, error) {
-	node := &corev1.Node{}
-	if err := k8sclient.Get(context.Background(), ctrlclient.ObjectKey{Name: os.Getenv("NODE_NAME")}, node); err != nil {
-		return nil, fmt.Errorf("failed to get node %s: %w", os.Getenv("NODE_NAME"), err)
+func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, cfg Config, opts ...Option) (garden.Client, error) {
+	c := &client{
+		k8sclient:            k8sclient,
+		logger:               logger,
+		trustedCertsDir:      cfg.TrustedSystemCertificatesPath,
+		sidecarRootfs:        cfg.SidecarRootfs,
+		enableContainerProxy: cfg.EnableContainerProxy,
+		workloadsNamespace:   cfg.WorkloadsNamespace,
+		portManager:          newPortManager(),
 	}
 
-	nodeCPU, _ := node.Status.Capacity.Cpu().AsInt64()
-	nodeMemoryBytes, _ := node.Status.Capacity.Memory().AsInt64()
+	for _, opt := range opts {
+		opt(c)
+	}
 
-	containerMap, propertyManager, err := containerRestoreInfo(k8sclient, workloadsNamespace)
+	if c.containerdClient == nil {
+		return nil, errors.New("containerd client is required, use WithContainerdClient")
+	}
+	if c.kubeletClient == nil {
+		return nil, errors.New("kubelet client is required, use WithKubeletClient")
+	}
+
+	if c.cmdRunner == nil {
+		c.cmdRunner = linux_command_runner.New()
+	}
+
+	if c.sandboxPath == "" {
+		c.sandboxPath = DefaultSandboxPath
+	}
+
+	if c.userLookupper == nil {
+		c.userLookupper = users.LookupFunc(users.LookupUser)
+	}
+
+	node := &corev1.Node{}
+	if err := k8sclient.Get(context.Background(), ctrlclient.ObjectKey{Name: cfg.NodeName}, node); err != nil {
+		return nil, fmt.Errorf("failed to get node %s: %w", cfg.NodeName, err)
+	}
+	c.node = node
+	c.nodeCPU, _ = node.Status.Capacity.Cpu().AsInt64()
+	c.nodeMemoryInB, _ = node.Status.Capacity.Memory().AsInt64()
+
+	containerMap, propertyManager, err := containerRestoreInfo(logger, k8sclient, cfg.WorkloadsNamespace, c.userLookupper)
 	if err != nil {
 		return nil, err
 	}
+	c.containers = containerMap
+	c.propertyManager = propertyManager
 
-	return &client{
-		kubeletClient:        kubeletClient,
-		k8sclient:            k8sclient,
-		containerdClient:     containerdClient,
-		logger:               logger,
-		node:                 node,
-		nodeCPU:              nodeCPU,
-		nodeMemoryInB:        nodeMemoryBytes,
-		sidecarRootfs:        sidecarRootfs,
-		trustedCertsDir:      repConfig.TrustedSystemCertificatesPath,
-		enableContainerProxy: repConfig.EnableContainerProxy,
-		cmdRunner:            cmdRunner,
-		userLookupper:        userLookupper,
-		containers:           containerMap,
-		portManager:          newPortManager(),
-		propertyManager:      propertyManager,
-		workloadsNamespace:   workloadsNamespace,
-		sandboxPath:          "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io",
-	}, nil
+	return c, nil
 }
 
 func (c *client) BulkMetrics(handles []string) (map[string]garden.ContainerMetricsEntry, error) {
@@ -171,10 +199,10 @@ func (c *client) Containers(properties garden.Properties) ([]garden.Container, e
 	if properties == nil {
 		properties = garden.Properties{}
 	}
-	if _, ok := properties["garden.state"]; !ok {
-		properties["garden.state"] = "created"
-	} else if properties["garden.state"] == "all" {
-		delete(properties, "garden.state")
+	if _, ok := properties[ContainerStateProperty]; !ok {
+		properties[ContainerStateProperty] = "created"
+	} else if properties[ContainerStateProperty] == "all" {
+		delete(properties, ContainerStateProperty)
 	}
 
 	var matchedContainers []garden.Container
@@ -333,7 +361,7 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		},
 	}
 
-	if spec.Properties["network.container_workload"] == appContainerName { // can be one if these https://github.com/cloudfoundry/cloud_controller_ng/blob/169b6202c7a05f36e22cb1e6e7595e07f2872cf4/lib/cloud_controller/diego/protocol/container_network_info.rb#L7-L9
+	if spec.Properties[ContainerWorkloadProperty] == appContainerName { // can be one if these https://github.com/cloudfoundry/cloud_controller_ng/blob/169b6202c7a05f36e22cb1e6e7595e07f2872cf4/lib/cloud_controller/diego/protocol/container_network_info.rb#L7-L9
 		pod.Spec.Containers = append(pod.Spec.Containers, corev1.Container{
 			Name:    sidecarContainerName,
 			Image:   c.sidecarRootfs,
@@ -408,27 +436,26 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 	}
 
 	// wait until the pod is running
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
-	defer cancel()
-	for {
+	waitErr := wait.PollUntilContextTimeout(context.Background(), podPollInterval, podRunningTimeout, true, func(ctx context.Context) (bool, error) {
 		if err := c.k8sclient.Get(ctx, ctrlclient.ObjectKeyFromObject(pod), pod); ctrlclient.IgnoreNotFound(err) != nil {
-			return nil, fmt.Errorf("failed to get pod after creation: %w", err)
+			return false, fmt.Errorf("failed to get pod after creation: %w", err)
 		}
 
 		if pod.Status.Phase == corev1.PodRunning {
-			break
-		} else {
-			c.logger.Info("waiting-for-pod-to-be-running", lager.Data{"pod-name": spec.Handle, "current-phase": pod.Status.Phase})
+			return true, nil
 		}
 
-		select {
-		case <-ctx.Done():
+		c.logger.Info("waiting-for-pod-to-be-running", lager.Data{"pod-name": spec.Handle, "current-phase": pod.Status.Phase})
+		return false, nil
+	})
+	if waitErr != nil {
+		if wait.Interrupted(waitErr) {
 			_ = c.k8sclient.Delete(context.Background(), pod, &ctrlclient.DeleteOptions{
 				GracePeriodSeconds: ptr.To[int64](0),
 			})
 			return nil, fmt.Errorf("timed out waiting for pod to be running")
-		case <-time.After(500 * time.Millisecond):
 		}
+		return nil, waitErr
 	}
 
 	container.taskMap, err = c.containerdClient.LoadTasks(context.Background(), pod.Status.ContainerStatuses)
@@ -443,7 +470,7 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 	}
 	container.containerIDMap = containerIDMap
 
-	if err := container.SetProperty("garden.state", "created"); err != nil {
+	if err := container.SetProperty(ContainerStateProperty, "created"); err != nil {
 		return nil, err
 	}
 
@@ -487,7 +514,7 @@ func (c *client) Ping() error {
 }
 
 func (c *client) BulkInfo(handles []string) (map[string]garden.ContainerInfoEntry, error) {
-	panic("unimplemented")
+	return nil, ErrNotSupported
 }
 
 func deletePod(logger lager.Logger, pod *corev1.Pod, clnt ctrlclient.Client) error {
@@ -503,24 +530,20 @@ func deletePod(logger lager.Logger, pod *corev1.Pod, clnt ctrlclient.Client) err
 		return err
 	}
 
-	for {
+	return wait.PollUntilContextTimeout(ctx, podPollInterval, apiOperationTimeout, true, func(ctx context.Context) (bool, error) {
 		var p corev1.Pod
 		if err := clnt.Get(ctx, ctrlclient.ObjectKeyFromObject(pod), &p); err != nil {
 			if ctrlclient.IgnoreNotFound(err) == nil {
-				return nil
+				return true, nil
 			}
 
 			logger.Error("failed-to-get-pod", err)
-			return err
+			return false, err
 		}
 
 		logger.Info("waiting-for-pod-deletion", lager.Data{"pod-name": pod.Name})
-		select {
-		case <-ctx.Done():
-			return ctx.Err()
-		case <-time.After(500 * time.Millisecond):
-		}
-	}
+		return false, nil
+	})
 }
 
 func byteToQuantity(b int64, f resource.Format) resource.Quantity {
@@ -535,27 +558,27 @@ func cpuQuantity(memMb float64, nodeCPU, nodeMemoryInB int64) float64 {
 func podLabels(properties garden.Properties) map[string]string {
 	labels := map[string]string{}
 
-	appGUID, ok := properties["network.app_id"]
+	appGUID, ok := properties[AppIDProperty]
 	if ok {
 		labels[AppGUIDLabelKey] = appGUID
 	}
 
-	orgGUID, ok := properties["network.org_id"]
+	orgGUID, ok := properties[OrgIDProperty]
 	if ok {
 		labels[OrgGUIDLabelKey] = orgGUID
 	}
 
-	spaceGUID, ok := properties["network.space_id"]
+	spaceGUID, ok := properties[SpaceIDProperty]
 	if ok {
-		labels[SpaceGUIDLabel] = spaceGUID
+		labels[SpaceGUIDLabelKey] = spaceGUID
 	}
 
-	workloadType, ok := properties["network.container_workload"]
+	workloadType, ok := properties[ContainerWorkloadProperty]
 	if ok {
 		labels[WorkloadTypeKey] = workloadType
 	}
 
-	ownerName, ok := properties[executor.ContainerOwnerProperty]
+	ownerName, ok := properties[ContainerOwnerProperty]
 	if ok {
 		labels[OwnerNameLabelKey] = ownerName
 	}
@@ -563,7 +586,7 @@ func podLabels(properties garden.Properties) map[string]string {
 	return labels
 }
 
-func containerRestoreInfo(client ctrlclient.Client, workloadsNamespace string) (*containerMap, *properties.Manager, error) {
+func containerRestoreInfo(logger lager.Logger, client ctrlclient.Client, workloadsNamespace string, userLookupper users.UserLookupper) (*containerMap, *properties.Manager, error) {
 	podList := &corev1.PodList{}
 	if err := client.List(context.Background(), podList, ctrlclient.InNamespace(workloadsNamespace)); err != nil {
 		return nil, nil, fmt.Errorf("failed to list existing pods: %w", err)
@@ -573,14 +596,14 @@ func containerRestoreInfo(client ctrlclient.Client, workloadsNamespace string) (
 	propertyManager := properties.NewManager()
 
 	for _, pod := range podList.Items {
-		propertyManager.Set(pod.Name, executor.ContainerOwnerProperty, pod.Labels[OwnerNameLabelKey])
+		propertyManager.Set(pod.Name, ContainerOwnerProperty, pod.Labels[OwnerNameLabelKey])
 
 		container := NewContainer(
-			nil,
+			logger.Session(fmt.Sprintf("container-%s", pod.Name)),
 			&pod,
 			[]string{},
 			0,
-			nil,
+			userLookupper,
 			propertyManager,
 			0,
 			nil,

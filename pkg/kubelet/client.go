@@ -9,7 +9,6 @@ import (
 	"slices"
 	"time"
 
-	"code.cloudfoundry.org/executor"
 	"code.cloudfoundry.org/lager/v3"
 	statsapi "k8s.io/kubelet/pkg/apis/stats/v1alpha1"
 )
@@ -18,10 +17,19 @@ import (
 
 const summaryPath = "/stats/summary"
 
+type Metrics struct {
+	ContainerAgeInNanoseconds uint64
+	TimeSpentInCPU            time.Duration
+	MemoryUsageInBytes        uint64
+	DiskUsageInBytes          uint64
+	RxInBytes                 *uint64
+	TxInBytes                 *uint64
+}
+
 //counterfeiter:generate . Client
 type Client interface {
 	// GetMetrics returns the resource metrics for the given node.
-	GetMetrics(logger lager.Logger, guids []string) (map[string]executor.ContainerMetrics, error)
+	GetMetrics(logger lager.Logger, guids []string) (map[string]Metrics, error)
 }
 
 type kubeletClient struct {
@@ -41,7 +49,7 @@ func NewClient(client *http.Client, address, port string) Client {
 }
 
 // GetMetrics implements client.KubeletMetricsGetter
-func (kc *kubeletClient) GetMetrics(logger lager.Logger, guids []string) (map[string]executor.ContainerMetrics, error) {
+func (kc *kubeletClient) GetMetrics(logger lager.Logger, guids []string) (map[string]Metrics, error) {
 	response, err := kc.client.Get(kc.url.String())
 	if err != nil {
 		return nil, err
@@ -65,8 +73,8 @@ func (kc *kubeletClient) GetMetrics(logger lager.Logger, guids []string) (map[st
 	return kc.toContainerMetrics(logger, summary.Pods, guids), nil
 }
 
-func (kc *kubeletClient) toContainerMetrics(logger lager.Logger, podStats []statsapi.PodStats, guids []string) map[string]executor.ContainerMetrics {
-	containerMetrics := make(map[string]executor.ContainerMetrics, len(podStats))
+func (kc *kubeletClient) toContainerMetrics(logger lager.Logger, podStats []statsapi.PodStats, guids []string) map[string]Metrics {
+	containerMetrics := make(map[string]Metrics, len(podStats))
 
 	for _, podStat := range podStats {
 		if !slices.Contains(guids, podStat.PodRef.Name) {
@@ -80,7 +88,7 @@ func (kc *kubeletClient) toContainerMetrics(logger lager.Logger, podStats []stat
 			continue
 		}
 
-		metricsPoint := executor.ContainerMetrics{
+		metricsPoint := Metrics{
 			ContainerAgeInNanoseconds: uint64(time.Since(podStat.StartTime.Time).Nanoseconds()),
 		}
 

@@ -7,15 +7,13 @@ import (
 	"path/filepath"
 
 	"code.cloudfoundry.org/commandrunner/fake_command_runner"
-	"code.cloudfoundry.org/executor"
-	"code.cloudfoundry.org/executor/initializer"
 	"code.cloudfoundry.org/garden"
 	"code.cloudfoundry.org/guardian/rundmc/users/usersfakes"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd/containerdfakes"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden"
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/containerd/containerdfakes"
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/kubelet/kubeletfakes"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet/kubeletfakes"
 	"code.cloudfoundry.org/lager/v3/lagertest"
-	"code.cloudfoundry.org/rep/cmd/rep/config"
 	ctrdclient "github.com/containerd/containerd/v2/client"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -32,50 +30,42 @@ import (
 
 var _ = Describe("Client", func() {
 	var (
-		logger               *lagertest.TestLogger
-		k8sClient            ctrlclient.Client
-		fakeContainerdClient *containerdfakes.FakeClient
-		fakeKubeletClient    *kubeletfakes.FakeClient
-		fakeCmdRunner        *fake_command_runner.FakeCommandRunner
-		fakeUserLookupper    *usersfakes.FakeUserLookupper
-		repConfig            config.RepConfig
-		sidecarRootfs        string
-		testNode             *corev1.Node
-		scheme               *runtime.Scheme
-		gardenClient         garden.Client
-		err                  error
-		tempDir              string
+		logger                        *lagertest.TestLogger
+		k8sClient                     ctrlclient.Client
+		fakeContainerdClient          *containerdfakes.FakeClient
+		fakeKubeletClient             *kubeletfakes.FakeClient
+		fakeCmdRunner                 *fake_command_runner.FakeCommandRunner
+		fakeUserLookupper             *usersfakes.FakeUserLookupper
+		sidecarRootfs                 string
+		testNode                      *corev1.Node
+		scheme                        *runtime.Scheme
+		gardenClient                  garden.Client
+		err                           error
+		tempDir                       string
+		trustedSystemCertificatesPath string
 
 		workloadsNamespace = "cf-workloads"
 
 		failPodCreation bool
+
+		newGardenClient func() (garden.Client, error)
 	)
 
 	BeforeEach(func() {
+		tempDir = GinkgoT().TempDir()
+
 		logger = lagertest.NewTestLogger("k8sgarden-test")
 		fakeContainerdClient = &containerdfakes.FakeClient{}
 		fakeKubeletClient = &kubeletfakes.FakeClient{}
 		fakeCmdRunner = fake_command_runner.New()
 		fakeUserLookupper = &usersfakes.FakeUserLookupper{}
 		sidecarRootfs = "sidecar-rootfs"
-
+		trustedSystemCertificatesPath = filepath.Join(tempDir, "trusted-certs")
 		failPodCreation = false
 
-		tempDir = GinkgoT().TempDir()
-
-		repConfig = config.RepConfig{
-			ExecutorConfig: initializer.ExecutorConfig{
-				EnableContainerProxy:          true,
-				TrustedSystemCertificatesPath: filepath.Join(tempDir, "trusted-certs"),
-			},
-		}
-		repConfig.InstanceIdentityCredDir = filepath.Join(tempDir, "instance-identity")
-		repConfig.ContainerProxyConfigPath = filepath.Join(tempDir, "container-proxy")
-		repConfig.VolumeMountedFiles = filepath.Join(tempDir, "volume-mounted-files")
-
-		Expect(os.MkdirAll(repConfig.InstanceIdentityCredDir, 0755)).To(Succeed())
-		Expect(os.MkdirAll(repConfig.ContainerProxyConfigPath, 0755)).To(Succeed())
-		Expect(os.MkdirAll(repConfig.VolumeMountedFiles, 0755)).To(Succeed())
+		Expect(os.MkdirAll(filepath.Join(tempDir, "instance-identity"), 0755)).To(Succeed())
+		Expect(os.MkdirAll(filepath.Join(tempDir, "container-proxy"), 0755)).To(Succeed())
+		Expect(os.MkdirAll(filepath.Join(tempDir, "volume-mounted-files"), 0755)).To(Succeed())
 
 		scheme = runtime.NewScheme()
 		Expect(clientgoscheme.AddToScheme(scheme)).To(Succeed())
@@ -99,7 +89,6 @@ var _ = Describe("Client", func() {
 				},
 			},
 		}
-		Expect(os.Setenv("NODE_NAME", "test-node")).To(Succeed())
 
 		k8sClient = fake.NewClientBuilder().
 			WithScheme(scheme).
@@ -124,22 +113,29 @@ var _ = Describe("Client", func() {
 			WithObjects(testNode).
 			Build()
 
-		gardenClient, err = k8sgarden.NewClient(
-			logger,
-			k8sClient,
-			fakeContainerdClient,
-			fakeKubeletClient,
-			fakeCmdRunner,
-			fakeUserLookupper,
-			repConfig,
-			sidecarRootfs,
-			workloadsNamespace,
-		)
+		newGardenClient = func() (garden.Client, error) {
+			return k8sgarden.NewClient(
+				logger,
+				k8sClient,
+				k8sgarden.Config{
+					NodeName:                      "test-node",
+					WorkloadsNamespace:            workloadsNamespace,
+					SidecarRootfs:                 sidecarRootfs,
+					TrustedSystemCertificatesPath: trustedSystemCertificatesPath,
+					EnableContainerProxy:          true,
+				},
+				k8sgarden.WithContainerdClient(fakeContainerdClient),
+				k8sgarden.WithKubeletClient(fakeKubeletClient),
+				k8sgarden.WithCommandRunner(fakeCmdRunner),
+				k8sgarden.WithUserLookupper(fakeUserLookupper),
+			)
+		}
+
+		gardenClient, err = newGardenClient()
 		Expect(err).NotTo(HaveOccurred())
 	})
 
 	AfterEach(func() {
-		Expect(os.Unsetenv("NODE_NAME")).To(Succeed())
 		if tempDir != "" {
 			Expect(os.RemoveAll(tempDir)).To(Succeed())
 		}
@@ -148,39 +144,34 @@ var _ = Describe("Client", func() {
 	Describe("NewClient", func() {
 		Context("when all dependencies are healthy", func() {
 			It("creates a new garden client successfully", func() {
-				gardenClient, err = k8sgarden.NewClient(
-					logger,
-					k8sClient,
-					fakeContainerdClient,
-					fakeKubeletClient,
-					fakeCmdRunner,
-					fakeUserLookupper,
-					repConfig,
-					sidecarRootfs,
-					workloadsNamespace,
-				)
+				gardenClient, err = newGardenClient()
 
 				Expect(err).NotTo(HaveOccurred())
 				Expect(gardenClient).NotTo(BeNil())
 			})
 		})
 
-		Context("when NODE_NAME environment variable is not set", func() {
-			BeforeEach(func() {
-				Expect(os.Unsetenv("NODE_NAME")).To(Succeed())
-			})
-
+		Context("when the containerd client is not provided", func() {
 			It("fails to create client", func() {
 				gardenClient, err = k8sgarden.NewClient(
 					logger,
 					k8sClient,
-					fakeContainerdClient,
-					fakeKubeletClient,
-					fakeCmdRunner,
-					fakeUserLookupper,
-					repConfig,
-					sidecarRootfs,
-					workloadsNamespace,
+					k8sgarden.Config{NodeName: "test-node", WorkloadsNamespace: workloadsNamespace},
+					k8sgarden.WithKubeletClient(fakeKubeletClient),
+				)
+
+				Expect(err).To(HaveOccurred())
+				Expect(gardenClient).To(BeNil())
+			})
+		})
+
+		Context("when the kubelet client is not provided", func() {
+			It("fails to create client", func() {
+				gardenClient, err = k8sgarden.NewClient(
+					logger,
+					k8sClient,
+					k8sgarden.Config{NodeName: "test-node", WorkloadsNamespace: workloadsNamespace},
+					k8sgarden.WithContainerdClient(fakeContainerdClient),
 				)
 
 				Expect(err).To(HaveOccurred())
@@ -215,17 +206,7 @@ var _ = Describe("Client", func() {
 					WithObjects(testNode).
 					Build()
 
-				gardenClient, err = k8sgarden.NewClient(
-					logger,
-					k8sClient,
-					fakeContainerdClient,
-					fakeKubeletClient,
-					fakeCmdRunner,
-					fakeUserLookupper,
-					repConfig,
-					sidecarRootfs,
-					workloadsNamespace,
-				)
+				gardenClient, err = newGardenClient()
 				Expect(err).NotTo(HaveOccurred())
 			})
 
@@ -287,29 +268,19 @@ var _ = Describe("Client", func() {
 				}
 				Expect(k8sClient.Create(context.Background(), orphanedPod)).To(Succeed())
 
-				gardenClient, err = k8sgarden.NewClient(
-					logger,
-					k8sClient,
-					fakeContainerdClient,
-					fakeKubeletClient,
-					fakeCmdRunner,
-					fakeUserLookupper,
-					repConfig,
-					sidecarRootfs,
-					workloadsNamespace,
-				)
+				gardenClient, err = newGardenClient()
 
 				Expect(err).NotTo(HaveOccurred())
 
 				var containerFilter = garden.Properties{
-					executor.ContainerStateProperty: "all",
-					executor.ContainerOwnerProperty: "executor",
+					k8sgarden.ContainerStateProperty: "all",
+					k8sgarden.ContainerOwnerProperty: "executor",
 				}
 
 				containers, err := gardenClient.Containers(containerFilter)
 				Expect(err).NotTo(HaveOccurred())
 				Expect(containers[0].Handle()).To(Equal("orphaned-pod-1"))
-				Expect(containers[0].Properties()).To(HaveKeyWithValue(executor.ContainerOwnerProperty, "executor"))
+				Expect(containers[0].Properties()).To(HaveKeyWithValue(k8sgarden.ContainerOwnerProperty, "executor"))
 			})
 		})
 	})
@@ -317,7 +288,7 @@ var _ = Describe("Client", func() {
 	Describe("BulkMetrics", func() {
 		Context("when kubelet returns metrics successfully", func() {
 			It("returns an empty map when no containers match", func() {
-				kubeletMetrics := map[string]executor.ContainerMetrics{
+				kubeletMetrics := map[string]kubelet.Metrics{
 					"test-container": {
 						MemoryUsageInBytes: 1024 * 1024 * 100,
 						DiskUsageInBytes:   1024 * 1024 * 50,
@@ -338,7 +309,7 @@ var _ = Describe("Client", func() {
 			})
 
 			It("returns error when container is not found in local map", func() {
-				kubeletMetrics := map[string]executor.ContainerMetrics{
+				kubeletMetrics := map[string]kubelet.Metrics{
 					"non-existent-container": {
 						MemoryUsageInBytes: 1024 * 1024 * 100,
 						DiskUsageInBytes:   1024 * 1024 * 50,
@@ -382,8 +353,8 @@ var _ = Describe("Client", func() {
 			spec := garden.ContainerSpec{
 				Handle: "test-container-1",
 				Properties: garden.Properties{
-					"network.container_workload": "app",
-					"network.app_id":             "test-app-guid",
+					k8sgarden.ContainerWorkloadProperty: "app",
+					k8sgarden.AppIDProperty:             "test-app-guid",
 				},
 				Env: []string{"TEST_ENV=value"},
 				Limits: garden.Limits{
@@ -410,7 +381,7 @@ var _ = Describe("Client", func() {
 						Mode:    garden.BindMountModeRO,
 					},
 					{
-						SrcPath: repConfig.TrustedSystemCertificatesPath,
+						SrcPath: trustedSystemCertificatesPath,
 						DstPath: "/etc/ssl/certs",
 						Mode:    garden.BindMountModeRO,
 					},

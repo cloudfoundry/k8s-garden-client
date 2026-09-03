@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	pkglog "code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/log"
+	pkglog "code.cloudfoundry.org/k8s-garden-client/pkg/log"
 )
 
 // Helpers to parse the last emitted JSON log and extract common fields.

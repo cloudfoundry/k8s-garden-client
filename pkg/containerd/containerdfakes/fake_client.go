@@ -5,7 +5,7 @@ import (
 	"context"
 	"sync"
 
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/containerd"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd"
 	"github.com/containerd/containerd/v2/client"
 	v1 "k8s.io/api/core/v1"
 )

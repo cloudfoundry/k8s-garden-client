@@ -4,31 +4,30 @@ package kubeletfakes
 import (
 	"sync"
 
-	"code.cloudfoundry.org/executor"
-	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden/kubelet"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet"
 	lager "code.cloudfoundry.org/lager/v3"
 )
 
 type FakeClient struct {
-	GetMetricsStub        func(lager.Logger, []string) (map[string]executor.ContainerMetrics, error)
+	GetMetricsStub        func(lager.Logger, []string) (map[string]kubelet.Metrics, error)
 	getMetricsMutex       sync.RWMutex
 	getMetricsArgsForCall []struct {
 		arg1 lager.Logger
 		arg2 []string
 	}
 	getMetricsReturns struct {
-		result1 map[string]executor.ContainerMetrics
+		result1 map[string]kubelet.Metrics
 		result2 error
 	}
 	getMetricsReturnsOnCall map[int]struct {
-		result1 map[string]executor.ContainerMetrics
+		result1 map[string]kubelet.Metrics
 		result2 error
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeClient) GetMetrics(arg1 lager.Logger, arg2 []string) (map[string]executor.ContainerMetrics, error) {
+func (fake *FakeClient) GetMetrics(arg1 lager.Logger, arg2 []string) (map[string]kubelet.Metrics, error) {
 	var arg2Copy []string
 	if arg2 != nil {
 		arg2Copy = make([]string, len(arg2))
@@ -59,7 +58,7 @@ func (fake *FakeClient) GetMetricsCallCount() int {
 	return len(fake.getMetricsArgsForCall)
 }
 
-func (fake *FakeClient) GetMetricsCalls(stub func(lager.Logger, []string) (map[string]executor.ContainerMetrics, error)) {
+func (fake *FakeClient) GetMetricsCalls(stub func(lager.Logger, []string) (map[string]kubelet.Metrics, error)) {
 	fake.getMetricsMutex.Lock()
 	defer fake.getMetricsMutex.Unlock()
 	fake.GetMetricsStub = stub
@@ -72,28 +71,28 @@ func (fake *FakeClient) GetMetricsArgsForCall(i int) (lager.Logger, []string) {
 	return argsForCall.arg1, argsForCall.arg2
 }
 
-func (fake *FakeClient) GetMetricsReturns(result1 map[string]executor.ContainerMetrics, result2 error) {
+func (fake *FakeClient) GetMetricsReturns(result1 map[string]kubelet.Metrics, result2 error) {
 	fake.getMetricsMutex.Lock()
 	defer fake.getMetricsMutex.Unlock()
 	fake.GetMetricsStub = nil
 	fake.getMetricsReturns = struct {
-		result1 map[string]executor.ContainerMetrics
+		result1 map[string]kubelet.Metrics
 		result2 error
 	}{result1, result2}
 }
 
-func (fake *FakeClient) GetMetricsReturnsOnCall(i int, result1 map[string]executor.ContainerMetrics, result2 error) {
+func (fake *FakeClient) GetMetricsReturnsOnCall(i int, result1 map[string]kubelet.Metrics, result2 error) {
 	fake.getMetricsMutex.Lock()
 	defer fake.getMetricsMutex.Unlock()
 	fake.GetMetricsStub = nil
 	if fake.getMetricsReturnsOnCall == nil {
 		fake.getMetricsReturnsOnCall = make(map[int]struct {
-			result1 map[string]executor.ContainerMetrics
+			result1 map[string]kubelet.Metrics
 			result2 error
 		})
 	}
 	fake.getMetricsReturnsOnCall[i] = struct {
-		result1 map[string]executor.ContainerMetrics
+		result1 map[string]kubelet.Metrics
 		result2 error
 	}{result1, result2}
 }
