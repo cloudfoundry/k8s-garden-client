@@ -1,6 +1,6 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
-code.cloudfoundry.org/commandrunner v0.76.0 h1:NqU8dfbLei8PfqOIBqjCxs1ZViYdEZ9Qf03Qo1vlhQw=
-code.cloudfoundry.org/commandrunner v0.76.0/go.mod h1:W5kWIgeY5X8XZvuYHGH/PG0TRINwOKUQGobKXsw4wDQ=
+code.cloudfoundry.org/commandrunner v0.77.0 h1:8YSxKNQ/eF9PUYTugDJmwn57wjo7iCcTwgtbneY+hO8=
+code.cloudfoundry.org/commandrunner v0.77.0/go.mod h1:Cr8gysbIH/FEg9VFpBtmpQnEfbUl4AKQipGS8NMkyEw=
 code.cloudfoundry.org/garden v0.3.0 h1:1Tya48yAdbMTDIYHWSkH1n/fQaoVTW4jHuPduiR8O00=
 code.cloudfoundry.org/garden v0.3.0/go.mod h1:L49tUGMI/PKVFQN/8+PgN8dyxlq6dMlaZrLy3QZhHvc=
 code.cloudfoundry.org/guardian v0.0.0-20260730115415-6f75b111856e h1:idJ1dOtuIlPsVc+qismZmwMsNGMBU/7hf3HceI9QoBQ=
