@@ -406,7 +406,7 @@ var _ = Describe("Client", func() {
 			Expect(pod.Spec.Containers[1].Ports[0].HostPort).To(Equal(int32(62000)))
 			Expect(pod.Spec.Containers[1].Ports[0].ContainerPort).To(Equal(int32(80)))
 
-			Expect(pod.Spec.Volumes).To(HaveLen(6))
+			Expect(pod.Spec.Volumes).To(HaveLen(5))
 			Expect(pod.Spec.Containers[0].VolumeMounts).To(ContainElements(
 				MatchFields(IgnoreExtras, Fields{
 					"MountPath": Equal("/container/data"),
