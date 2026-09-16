@@ -21,10 +21,6 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-var (
-	Caps = []string{"CAP_CHOWN", "CAP_DAC_OVERRIDE", "CAP_FOWNER", "CAP_FSETID", "CAP_KILL", "CAP_SETGID", "CAP_SETUID", "CAP_SETPCAP", "CAP_NET_BIND_SERVICE", "CAP_NET_RAW", "CAP_SYS_CHROOT", "CAP_MKNOD", "CAP_AUDIT_WRITE", "CAP_SETFCAP"}
-)
-
 type container struct {
 	log             lager.Logger
 	pod             *corev1.Pod
@@ -36,6 +32,7 @@ type container struct {
 	containerIDMap  map[string]string
 	propertyManager gardener.PropertyManager
 	sandboxPath     string
+	privileged      bool
 	mu              sync.RWMutex
 }
 
@@ -49,6 +46,7 @@ func NewContainer(
 	rootfsSize uint64,
 	taskMap map[string]ctrdclient.Task,
 	sandboxPath string,
+	privileged bool,
 ) *container {
 	return &container{
 		log:             log,
@@ -60,6 +58,7 @@ func NewContainer(
 		taskMap:         taskMap,
 		propertyManager: propertyManager,
 		sandboxPath:     sandboxPath,
+		privileged:      privileged,
 		mu:              sync.RWMutex{},
 	}
 }
@@ -118,6 +117,7 @@ func (c *container) run(spec garden.ProcessSpec, io garden.ProcessIO, cleanEnv b
 		baseEnv = nil
 	}
 
+	caps := ProcessCaps(spec.User, c.privileged)
 	processSpec := &specs.Process{
 		Args: append([]string{spec.Path}, spec.Args...),
 		Env:  baseEnv,
@@ -128,9 +128,9 @@ func (c *container) run(spec garden.ProcessSpec, io garden.ProcessIO, cleanEnv b
 			Username: spec.User,
 		},
 		Capabilities: &specs.LinuxCapabilities{
-			Bounding:    Caps,
-			Inheritable: Caps,
-			Permitted:   Caps,
+			Bounding:    caps,
+			Inheritable: caps,
+			Permitted:   caps,
 		},
 		NoNewPrivileges: false,
 	}

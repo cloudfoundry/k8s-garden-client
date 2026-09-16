@@ -86,7 +86,7 @@ var _ = Describe("Container", func() {
 		// set via NewContainer, so the container id segment is empty in tests.
 		expectedRootfs = sandboxPath + "/rootfs"
 
-		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, taskMap, sandboxPath)
+		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, taskMap, sandboxPath, false)
 	})
 
 	Describe("Handle", func() {
