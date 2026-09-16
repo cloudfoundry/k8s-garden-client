@@ -416,6 +416,7 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		rootfsSize,
 		nil,
 		c.sandboxPath,
+		spec.Privileged,
 	)
 	if err := c.containers.Add(spec.Handle, container); err != nil {
 		return nil, err
@@ -598,6 +599,7 @@ func containerRestoreInfo(logger lager.Logger, client ctrlclient.Client, workloa
 			0,
 			nil,
 			"",
+			false,
 		)
 		err := containerMap.Add(pod.Name, container)
 		if err != nil {
