@@ -88,5 +88,11 @@ var _ = Describe("Process", func() {
 			_, signal, _ = fakeProcess.KillArgsForCall(1)
 			Expect(signal).To(Equal(syscall.SIGKILL))
 		})
+
+		It("returns an error when signalled before the process has started", func() {
+			err := testProcess.Signal(garden.SignalTerminate)
+			Expect(err).To(MatchError(ContainSubstring("process not started")))
+			Expect(fakeProcess.KillCallCount()).To(Equal(0))
+		})
 	})
 })

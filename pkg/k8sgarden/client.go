@@ -224,6 +224,29 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		return nil, fmt.Errorf("Handle '%s' already in use", spec.Handle)
 	}
 
+	var (
+		reservedPorts []uint32
+		pod           *corev1.Pod
+	)
+	succeeded := false
+	podCreated := false
+
+	defer func() {
+		if succeeded {
+			return
+		}
+
+		if podCreated {
+			_ = deletePod(c.logger, pod, c.k8sclient, true)
+		}
+
+		for _, port := range reservedPorts {
+			c.portManager.Release(port)
+		}
+
+		_ = c.propertyManager.DestroyKeySpace(spec.Handle)
+	}()
+
 	cpuAssignment := cpuQuantity(float64(spec.Limits.Memory.LimitInBytes)/(1024.0*1024.0), c.nodeCPU, c.nodeMemoryInB)
 	ports := make([]corev1.ContainerPort, 0, len(spec.NetIn))
 	for idx, netin := range spec.NetIn {
@@ -234,6 +257,7 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 			if err != nil {
 				return nil, fmt.Errorf("failed to allocate host port: %w", err)
 			}
+			reservedPorts = append(reservedPorts, hostPort)
 			spec.NetIn[idx].HostPort = hostPort
 		}
 
@@ -270,7 +294,7 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		dockerEnv = imgSpec.Config.Env
 	}
 
-	pod := &corev1.Pod{
+	pod = &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      spec.Handle,
 			Namespace: c.workloadsNamespace,
@@ -406,24 +430,11 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 	for key, value := range spec.Properties {
 		c.propertyManager.Set(pod.GetName(), key, value)
 	}
-	container := NewContainer(
-		c.logger.Session(fmt.Sprintf("container-%s", spec.Handle)),
-		pod,
-		append(dockerEnv, spec.Env...),
-		cpuAssignment,
-		c.userLookupper,
-		c.propertyManager,
-		rootfsSize,
-		nil,
-		c.sandboxPath,
-	)
-	if err := c.containers.Add(spec.Handle, container); err != nil {
-		return nil, err
-	}
 
 	if err := c.k8sclient.Create(context.Background(), pod); err != nil {
 		return nil, fmt.Errorf("failed to create pod: %w", err)
 	}
+	podCreated = true
 
 	// wait until the pod is running
 	waitErr := wait.PollUntilContextTimeout(context.Background(), podPollInterval, podRunningTimeout, true, func(ctx context.Context) (bool, error) {
@@ -439,16 +450,10 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		return false, nil
 	})
 	if waitErr != nil {
-		if wait.Interrupted(waitErr) {
-			_ = c.k8sclient.Delete(context.Background(), pod, &ctrlclient.DeleteOptions{
-				GracePeriodSeconds: ptr.To[int64](0),
-			})
-			return nil, fmt.Errorf("timed out waiting for pod to be running")
-		}
 		return nil, waitErr
 	}
 
-	container.taskMap, err = c.containerdClient.LoadTasks(context.Background(), pod.Status.ContainerStatuses)
+	taskMap, err := c.containerdClient.LoadTasks(context.Background(), pod.Status.ContainerStatuses)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load containerD container: %w", err)
 	}
@@ -458,11 +463,25 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		containerdID, _ := strings.CutPrefix(status.ContainerID, "containerd://")
 		containerIDMap[status.Name] = containerdID
 	}
-	container.containerIDMap = containerIDMap
 
-	if err := container.SetProperty(ContainerStateProperty, "created"); err != nil {
+	container := NewContainer(
+		c.logger.Session(fmt.Sprintf("container-%s", spec.Handle)),
+		pod,
+		append(dockerEnv, spec.Env...),
+		cpuAssignment,
+		c.userLookupper,
+		c.propertyManager,
+		rootfsSize,
+		taskMap,
+		containerIDMap,
+		c.sandboxPath,
+	)
+	_ = container.SetProperty(ContainerStateProperty, "created")
+
+	if err := c.containers.Add(spec.Handle, container); err != nil {
 		return nil, err
 	}
+	succeeded = true
 
 	return container, nil
 }
@@ -473,7 +492,7 @@ func (c *client) Destroy(handle string) error {
 		return err
 	}
 
-	if err := deletePod(c.logger, container.pod, c.k8sclient); err != nil {
+	if err := deletePod(c.logger, container.pod, c.k8sclient, false); err != nil {
 		return fmt.Errorf("failed to delete pod: %w", err)
 	}
 
@@ -507,11 +526,16 @@ func (c *client) BulkInfo(handles []string) (map[string]garden.ContainerInfoEntr
 	return nil, ErrNotSupported
 }
 
-func deletePod(logger lager.Logger, pod *corev1.Pod, clnt ctrlclient.Client) error {
+func deletePod(logger lager.Logger, pod *corev1.Pod, clnt ctrlclient.Client, force bool) error {
 	ctx, cancel := context.WithTimeout(context.Background(), apiOperationTimeout)
 	defer cancel()
 
-	if err := clnt.Delete(ctx, pod); err != nil {
+	deleteOptions := &ctrlclient.DeleteOptions{}
+	if force {
+		deleteOptions.GracePeriodSeconds = ptr.To[int64](0)
+	}
+
+	if err := clnt.Delete(ctx, pod, deleteOptions); err != nil {
 		if ctrlclient.IgnoreNotFound(err) == nil {
 			return nil
 		}
@@ -596,6 +620,7 @@ func containerRestoreInfo(logger lager.Logger, client ctrlclient.Client, workloa
 			userLookupper,
 			propertyManager,
 			0,
+			nil,
 			nil,
 			"",
 		)

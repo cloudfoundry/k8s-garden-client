@@ -82,11 +82,9 @@ var _ = Describe("Container", func() {
 		}
 
 		sandboxPath = "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io"
-		// containerIDMap is populated by the client after pod creation and is not
-		// set via NewContainer, so the container id segment is empty in tests.
 		expectedRootfs = sandboxPath + "/rootfs"
 
-		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, taskMap, sandboxPath)
+		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, taskMap, nil, sandboxPath)
 	})
 
 	Describe("Handle", func() {
