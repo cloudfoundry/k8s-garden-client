@@ -48,6 +48,7 @@ func NewContainer(
 	propertyManager gardener.PropertyManager,
 	rootfsSize uint64,
 	taskMap map[string]ctrdclient.Task,
+	containerIDMap map[string]string,
 	sandboxPath string,
 ) *container {
 	return &container{
@@ -58,6 +59,7 @@ func NewContainer(
 		rootfsSize:      rootfsSize,
 		userLookupper:   userLookupper,
 		taskMap:         taskMap,
+		containerIDMap:  containerIDMap,
 		propertyManager: propertyManager,
 		sandboxPath:     sandboxPath,
 		mu:              sync.RWMutex{},
