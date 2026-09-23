@@ -9,7 +9,7 @@ require (
 	code.cloudfoundry.org/garden v0.5.0
 	code.cloudfoundry.org/guardian v0.0.0-20260730115415-6f75b111856e
 	code.cloudfoundry.org/lager/v3 v3.88.0
-	github.com/containerd/containerd/api v1.11.1
+	github.com/containerd/containerd/api v1.12.0
 	github.com/containerd/containerd/v2 v2.3.5
 	github.com/containerd/continuity v0.5.0
 	github.com/containerd/platforms v1.0.0-rc.5
@@ -92,7 +92,7 @@ require (
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/sirupsen/logrus v1.9.4 // indirect
+	github.com/sirupsen/logrus v1.10.2 // indirect
 	github.com/vishvananda/netlink v1.3.1 // indirect
 	github.com/vishvananda/netns v0.0.5 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
