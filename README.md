@@ -3,7 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/code.cloudfoundry.org/k8s-garden-client)](https://goreportcard.com/report/code.cloudfoundry.org/k8s-garden-client)
 [![Go Reference](https://pkg.go.dev/badge/code.cloudfoundry.org/k8s-garden-client.svg)](https://pkg.go.dev/code.cloudfoundry.org/k8s-garden-client)
 
-Alternative [`garden.Client`](https://github.com/cloudfoundry/garden/blob/879cfc36695830c392a32de938ac776b5f470dbe/client.go#L6-L59) implementation for interacting with Kubernetes
+Alternative [`garden.Client`](https://pkg.go.dev/code.cloudfoundry.org/garden#Client) implementation for interacting with Kubernetes
 
 > \[!NOTE\]
 >
