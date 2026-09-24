@@ -10,6 +10,7 @@ import (
 	"code.cloudfoundry.org/guardian/properties"
 	"code.cloudfoundry.org/guardian/rundmc/users"
 	"code.cloudfoundry.org/guardian/rundmc/users/usersfakes"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd/containerdfakes"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden"
 	"code.cloudfoundry.org/lager/v3/lagertest"
@@ -31,7 +32,7 @@ var _ = Describe("Container", func() {
 		fakeSidecarTask   *containerdfakes.FakeTask
 		fakeProcess       *containerdfakes.FakeProcess
 		exitChan          chan ctrdclient.ExitStatus
-		taskMap           map[string]ctrdclient.Task
+		runningContainers map[string]containerd.RunningContainer
 		sandboxPath       string
 		expectedRootfs    string
 	)
@@ -76,15 +77,15 @@ var _ = Describe("Container", func() {
 		}
 
 		env = []string{"HOME=/home/vcap", "PATH=/usr/bin"}
-		taskMap = map[string]ctrdclient.Task{
-			"app":     fakeAppTask,
-			"sidecar": fakeSidecarTask,
+		runningContainers = map[string]containerd.RunningContainer{
+			"app":     {Task: fakeAppTask},
+			"sidecar": {Task: fakeSidecarTask},
 		}
 
 		sandboxPath = "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io"
 		expectedRootfs = sandboxPath + "/rootfs"
 
-		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, taskMap, nil, sandboxPath)
+		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, runningContainers, sandboxPath)
 	})
 
 	Describe("Handle", func() {

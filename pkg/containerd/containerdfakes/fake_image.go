@@ -811,16 +811,21 @@ func (fake *FakeImage) TargetReturnsOnCall(i int, result1 v1.Descriptor) {
 }
 
 func (fake *FakeImage) Unpack(arg1 context.Context, arg2 string, arg3 ...client.UnpackOpt) error {
+	var arg3Copy []client.UnpackOpt
+	if arg3 != nil {
+		arg3Copy = make([]client.UnpackOpt, len(arg3))
+		copy(arg3Copy, arg3)
+	}
 	fake.unpackMutex.Lock()
 	ret, specificReturn := fake.unpackReturnsOnCall[len(fake.unpackArgsForCall)]
 	fake.unpackArgsForCall = append(fake.unpackArgsForCall, struct {
 		arg1 context.Context
 		arg2 string
 		arg3 []client.UnpackOpt
-	}{arg1, arg2, arg3})
+	}{arg1, arg2, arg3Copy})
 	stub := fake.UnpackStub
 	fakeReturns := fake.unpackReturns
-	fake.recordInvocation("Unpack", []interface{}{arg1, arg2, arg3})
+	fake.recordInvocation("Unpack", []interface{}{arg1, arg2, arg3Copy})
 	fake.unpackMutex.Unlock()
 	if stub != nil {
 		return stub(arg1, arg2, arg3...)
@@ -874,15 +879,20 @@ func (fake *FakeImage) UnpackReturnsOnCall(i int, result1 error) {
 }
 
 func (fake *FakeImage) Usage(arg1 context.Context, arg2 ...client.UsageOpt) (int64, error) {
+	var arg2Copy []client.UsageOpt
+	if arg2 != nil {
+		arg2Copy = make([]client.UsageOpt, len(arg2))
+		copy(arg2Copy, arg2)
+	}
 	fake.usageMutex.Lock()
 	ret, specificReturn := fake.usageReturnsOnCall[len(fake.usageArgsForCall)]
 	fake.usageArgsForCall = append(fake.usageArgsForCall, struct {
 		arg1 context.Context
 		arg2 []client.UsageOpt
-	}{arg1, arg2})
+	}{arg1, arg2Copy})
 	stub := fake.UsageStub
 	fakeReturns := fake.usageReturns
-	fake.recordInvocation("Usage", []interface{}{arg1, arg2})
+	fake.recordInvocation("Usage", []interface{}{arg1, arg2Copy})
 	fake.usageMutex.Unlock()
 	if stub != nil {
 		return stub(arg1, arg2...)

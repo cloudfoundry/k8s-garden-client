@@ -135,15 +135,20 @@ type FakeProcess struct {
 }
 
 func (fake *FakeProcess) CloseIO(arg1 context.Context, arg2 ...client.IOCloserOpts) error {
+	var arg2Copy []client.IOCloserOpts
+	if arg2 != nil {
+		arg2Copy = make([]client.IOCloserOpts, len(arg2))
+		copy(arg2Copy, arg2)
+	}
 	fake.closeIOMutex.Lock()
 	ret, specificReturn := fake.closeIOReturnsOnCall[len(fake.closeIOArgsForCall)]
 	fake.closeIOArgsForCall = append(fake.closeIOArgsForCall, struct {
 		arg1 context.Context
 		arg2 []client.IOCloserOpts
-	}{arg1, arg2})
+	}{arg1, arg2Copy})
 	stub := fake.CloseIOStub
 	fakeReturns := fake.closeIOReturns
-	fake.recordInvocation("CloseIO", []interface{}{arg1, arg2})
+	fake.recordInvocation("CloseIO", []interface{}{arg1, arg2Copy})
 	fake.closeIOMutex.Unlock()
 	if stub != nil {
 		return stub(arg1, arg2...)
@@ -197,15 +202,20 @@ func (fake *FakeProcess) CloseIOReturnsOnCall(i int, result1 error) {
 }
 
 func (fake *FakeProcess) Delete(arg1 context.Context, arg2 ...client.ProcessDeleteOpts) (*client.ExitStatus, error) {
+	var arg2Copy []client.ProcessDeleteOpts
+	if arg2 != nil {
+		arg2Copy = make([]client.ProcessDeleteOpts, len(arg2))
+		copy(arg2Copy, arg2)
+	}
 	fake.deleteMutex.Lock()
 	ret, specificReturn := fake.deleteReturnsOnCall[len(fake.deleteArgsForCall)]
 	fake.deleteArgsForCall = append(fake.deleteArgsForCall, struct {
 		arg1 context.Context
 		arg2 []client.ProcessDeleteOpts
-	}{arg1, arg2})
+	}{arg1, arg2Copy})
 	stub := fake.DeleteStub
 	fakeReturns := fake.deleteReturns
-	fake.recordInvocation("Delete", []interface{}{arg1, arg2})
+	fake.recordInvocation("Delete", []interface{}{arg1, arg2Copy})
 	fake.deleteMutex.Unlock()
 	if stub != nil {
 		return stub(arg1, arg2...)
@@ -368,16 +378,21 @@ func (fake *FakeProcess) IOReturnsOnCall(i int, result1 cio.IO) {
 }
 
 func (fake *FakeProcess) Kill(arg1 context.Context, arg2 syscall.Signal, arg3 ...client.KillOpts) error {
+	var arg3Copy []client.KillOpts
+	if arg3 != nil {
+		arg3Copy = make([]client.KillOpts, len(arg3))
+		copy(arg3Copy, arg3)
+	}
 	fake.killMutex.Lock()
 	ret, specificReturn := fake.killReturnsOnCall[len(fake.killArgsForCall)]
 	fake.killArgsForCall = append(fake.killArgsForCall, struct {
 		arg1 context.Context
 		arg2 syscall.Signal
 		arg3 []client.KillOpts
-	}{arg1, arg2, arg3})
+	}{arg1, arg2, arg3Copy})
 	stub := fake.KillStub
 	fakeReturns := fake.killReturns
-	fake.recordInvocation("Kill", []interface{}{arg1, arg2, arg3})
+	fake.recordInvocation("Kill", []interface{}{arg1, arg2, arg3Copy})
 	fake.killMutex.Unlock()
 	if stub != nil {
 		return stub(arg1, arg2, arg3...)
