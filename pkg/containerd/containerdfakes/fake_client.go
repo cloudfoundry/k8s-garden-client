@@ -36,18 +36,18 @@ type FakeClient struct {
 		result1 bool
 		result2 error
 	}
-	LoadTasksStub        func(context.Context, []v1.ContainerStatus) (map[string]client.Task, error)
-	loadTasksMutex       sync.RWMutex
-	loadTasksArgsForCall []struct {
+	LoadContainersStub        func(context.Context, []v1.ContainerStatus) (map[string]containerd.RunningContainer, error)
+	loadContainersMutex       sync.RWMutex
+	loadContainersArgsForCall []struct {
 		arg1 context.Context
 		arg2 []v1.ContainerStatus
 	}
-	loadTasksReturns struct {
-		result1 map[string]client.Task
+	loadContainersReturns struct {
+		result1 map[string]containerd.RunningContainer
 		result2 error
 	}
-	loadTasksReturnsOnCall map[int]struct {
-		result1 map[string]client.Task
+	loadContainersReturnsOnCall map[int]struct {
+		result1 map[string]containerd.RunningContainer
 		result2 error
 	}
 	PullStub        func(context.Context, string, string, string) (client.Image, int64, error)
@@ -198,22 +198,22 @@ func (fake *FakeClient) IsServingReturnsOnCall(i int, result1 bool, result2 erro
 	}{result1, result2}
 }
 
-func (fake *FakeClient) LoadTasks(arg1 context.Context, arg2 []v1.ContainerStatus) (map[string]client.Task, error) {
+func (fake *FakeClient) LoadContainers(arg1 context.Context, arg2 []v1.ContainerStatus) (map[string]containerd.RunningContainer, error) {
 	var arg2Copy []v1.ContainerStatus
 	if arg2 != nil {
 		arg2Copy = make([]v1.ContainerStatus, len(arg2))
 		copy(arg2Copy, arg2)
 	}
-	fake.loadTasksMutex.Lock()
-	ret, specificReturn := fake.loadTasksReturnsOnCall[len(fake.loadTasksArgsForCall)]
-	fake.loadTasksArgsForCall = append(fake.loadTasksArgsForCall, struct {
+	fake.loadContainersMutex.Lock()
+	ret, specificReturn := fake.loadContainersReturnsOnCall[len(fake.loadContainersArgsForCall)]
+	fake.loadContainersArgsForCall = append(fake.loadContainersArgsForCall, struct {
 		arg1 context.Context
 		arg2 []v1.ContainerStatus
 	}{arg1, arg2Copy})
-	stub := fake.LoadTasksStub
-	fakeReturns := fake.loadTasksReturns
-	fake.recordInvocation("LoadTasks", []interface{}{arg1, arg2Copy})
-	fake.loadTasksMutex.Unlock()
+	stub := fake.LoadContainersStub
+	fakeReturns := fake.loadContainersReturns
+	fake.recordInvocation("LoadContainers", []interface{}{arg1, arg2Copy})
+	fake.loadContainersMutex.Unlock()
 	if stub != nil {
 		return stub(arg1, arg2)
 	}
@@ -223,47 +223,47 @@ func (fake *FakeClient) LoadTasks(arg1 context.Context, arg2 []v1.ContainerStatu
 	return fakeReturns.result1, fakeReturns.result2
 }
 
-func (fake *FakeClient) LoadTasksCallCount() int {
-	fake.loadTasksMutex.RLock()
-	defer fake.loadTasksMutex.RUnlock()
-	return len(fake.loadTasksArgsForCall)
+func (fake *FakeClient) LoadContainersCallCount() int {
+	fake.loadContainersMutex.RLock()
+	defer fake.loadContainersMutex.RUnlock()
+	return len(fake.loadContainersArgsForCall)
 }
 
-func (fake *FakeClient) LoadTasksCalls(stub func(context.Context, []v1.ContainerStatus) (map[string]client.Task, error)) {
-	fake.loadTasksMutex.Lock()
-	defer fake.loadTasksMutex.Unlock()
-	fake.LoadTasksStub = stub
+func (fake *FakeClient) LoadContainersCalls(stub func(context.Context, []v1.ContainerStatus) (map[string]containerd.RunningContainer, error)) {
+	fake.loadContainersMutex.Lock()
+	defer fake.loadContainersMutex.Unlock()
+	fake.LoadContainersStub = stub
 }
 
-func (fake *FakeClient) LoadTasksArgsForCall(i int) (context.Context, []v1.ContainerStatus) {
-	fake.loadTasksMutex.RLock()
-	defer fake.loadTasksMutex.RUnlock()
-	argsForCall := fake.loadTasksArgsForCall[i]
+func (fake *FakeClient) LoadContainersArgsForCall(i int) (context.Context, []v1.ContainerStatus) {
+	fake.loadContainersMutex.RLock()
+	defer fake.loadContainersMutex.RUnlock()
+	argsForCall := fake.loadContainersArgsForCall[i]
 	return argsForCall.arg1, argsForCall.arg2
 }
 
-func (fake *FakeClient) LoadTasksReturns(result1 map[string]client.Task, result2 error) {
-	fake.loadTasksMutex.Lock()
-	defer fake.loadTasksMutex.Unlock()
-	fake.LoadTasksStub = nil
-	fake.loadTasksReturns = struct {
-		result1 map[string]client.Task
+func (fake *FakeClient) LoadContainersReturns(result1 map[string]containerd.RunningContainer, result2 error) {
+	fake.loadContainersMutex.Lock()
+	defer fake.loadContainersMutex.Unlock()
+	fake.LoadContainersStub = nil
+	fake.loadContainersReturns = struct {
+		result1 map[string]containerd.RunningContainer
 		result2 error
 	}{result1, result2}
 }
 
-func (fake *FakeClient) LoadTasksReturnsOnCall(i int, result1 map[string]client.Task, result2 error) {
-	fake.loadTasksMutex.Lock()
-	defer fake.loadTasksMutex.Unlock()
-	fake.LoadTasksStub = nil
-	if fake.loadTasksReturnsOnCall == nil {
-		fake.loadTasksReturnsOnCall = make(map[int]struct {
-			result1 map[string]client.Task
+func (fake *FakeClient) LoadContainersReturnsOnCall(i int, result1 map[string]containerd.RunningContainer, result2 error) {
+	fake.loadContainersMutex.Lock()
+	defer fake.loadContainersMutex.Unlock()
+	fake.LoadContainersStub = nil
+	if fake.loadContainersReturnsOnCall == nil {
+		fake.loadContainersReturnsOnCall = make(map[int]struct {
+			result1 map[string]containerd.RunningContainer
 			result2 error
 		})
 	}
-	fake.loadTasksReturnsOnCall[i] = struct {
-		result1 map[string]client.Task
+	fake.loadContainersReturnsOnCall[i] = struct {
+		result1 map[string]containerd.RunningContainer
 		result2 error
 	}{result1, result2}
 }

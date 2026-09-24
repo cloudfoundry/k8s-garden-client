@@ -9,12 +9,12 @@ import (
 	"code.cloudfoundry.org/commandrunner/fake_command_runner"
 	"code.cloudfoundry.org/garden"
 	"code.cloudfoundry.org/guardian/rundmc/users/usersfakes"
+	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/containerd/containerdfakes"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/k8sgarden"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet"
 	"code.cloudfoundry.org/k8s-garden-client/pkg/kubelet/kubeletfakes"
 	"code.cloudfoundry.org/lager/v3/lagertest"
-	ctrdclient "github.com/containerd/containerd/v2/client"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gstruct"
@@ -344,8 +344,8 @@ var _ = Describe("Client", func() {
 			fakeTask = &containerdfakes.FakeTask{}
 			fakeTask.PidReturns(12345)
 
-			fakeContainerdClient.LoadTasksReturns(map[string]ctrdclient.Task{
-				"app": fakeTask,
+			fakeContainerdClient.LoadContainersReturns(map[string]containerd.RunningContainer{
+				"app": {Task: fakeTask},
 			}, nil)
 		})
 
@@ -577,7 +577,7 @@ var _ = Describe("Client", func() {
 		})
 
 		It("returns error when containerd task loading fails", func() {
-			fakeContainerdClient.LoadTasksReturns(nil, errors.New("containerd connection failed"))
+			fakeContainerdClient.LoadContainersReturns(nil, errors.New("containerd connection failed"))
 
 			spec := garden.ContainerSpec{
 				Handle: "test-container-4",

@@ -123,7 +123,7 @@ func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, cfg Config, opt
 	c.nodeCPU, _ = node.Status.Capacity.Cpu().AsInt64()
 	c.nodeMemoryInB, _ = node.Status.Capacity.Memory().AsInt64()
 
-	containerMap, propertyManager, err := containerRestoreInfo(logger, k8sclient, cfg.WorkloadsNamespace, c.userLookupper)
+	containerMap, propertyManager, err := containerRestoreInfo(logger, k8sclient, c.containerdClient, cfg.WorkloadsNamespace, c.sandboxPath, c.userLookupper)
 	if err != nil {
 		return nil, err
 	}
@@ -453,15 +453,9 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		return nil, waitErr
 	}
 
-	taskMap, err := c.containerdClient.LoadTasks(context.Background(), pod.Status.ContainerStatuses)
+	runningContainers, err := c.containerdClient.LoadContainers(context.Background(), pod.Status.ContainerStatuses)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load containerD container: %w", err)
-	}
-
-	containerIDMap := map[string]string{}
-	for _, status := range pod.Status.ContainerStatuses {
-		containerdID, _ := strings.CutPrefix(status.ContainerID, "containerd://")
-		containerIDMap[status.Name] = containerdID
 	}
 
 	container := NewContainer(
@@ -472,8 +466,7 @@ func (c *client) Create(spec garden.ContainerSpec) (garden.Container, error) {
 		c.userLookupper,
 		c.propertyManager,
 		rootfsSize,
-		taskMap,
-		containerIDMap,
+		runningContainers,
 		c.sandboxPath,
 	)
 	_ = container.SetProperty(ContainerStateProperty, "created")
@@ -600,7 +593,7 @@ func podLabels(properties garden.Properties) map[string]string {
 	return labels
 }
 
-func containerRestoreInfo(logger lager.Logger, client ctrlclient.Client, workloadsNamespace string, userLookupper users.UserLookupper) (*containerMap, *properties.Manager, error) {
+func containerRestoreInfo(logger lager.Logger, client ctrlclient.Client, containerdClient containerd.Client, workloadsNamespace, sandboxPath string, userLookupper users.UserLookupper) (*containerMap, *properties.Manager, error) {
 	podList := &corev1.PodList{}
 	if err := client.List(context.Background(), podList, ctrlclient.InNamespace(workloadsNamespace)); err != nil {
 		return nil, nil, fmt.Errorf("failed to list existing pods: %w", err)
@@ -612,6 +605,12 @@ func containerRestoreInfo(logger lager.Logger, client ctrlclient.Client, workloa
 	for _, pod := range podList.Items {
 		propertyManager.Set(pod.Name, ContainerOwnerProperty, pod.Labels[OwnerNameLabelKey])
 
+		runningContainers, err := containerdClient.LoadContainers(context.Background(), pod.Status.ContainerStatuses)
+		if err != nil {
+			logger.Session("restore").Error("failed-to-load-containerd-containers", err, lager.Data{"pod": pod.Name})
+			runningContainers = nil
+		}
+
 		container := NewContainer(
 			logger.Session(fmt.Sprintf("container-%s", pod.Name)),
 			&pod,
@@ -620,12 +619,10 @@ func containerRestoreInfo(logger lager.Logger, client ctrlclient.Client, workloa
 			userLookupper,
 			propertyManager,
 			0,
-			nil,
-			nil,
-			"",
+			runningContainers,
+			sandboxPath,
 		)
-		err := containerMap.Add(pod.Name, container)
-		if err != nil {
+		if err := containerMap.Add(pod.Name, container); err != nil {
 			return nil, nil, fmt.Errorf("failed to add container to map: %w", err)
 		}
 	}
