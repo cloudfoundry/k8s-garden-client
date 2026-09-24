@@ -7,7 +7,7 @@ tool github.com/maxbrunsfeld/counterfeiter/v6
 require (
 	code.cloudfoundry.org/commandrunner v0.79.0
 	code.cloudfoundry.org/garden v0.5.0
-	code.cloudfoundry.org/guardian v0.0.0-20260730115415-6f75b111856e
+	code.cloudfoundry.org/guardian 31ee14e06085
 	code.cloudfoundry.org/lager/v3 v3.88.0
 	github.com/containerd/containerd/api v1.12.0
 	github.com/containerd/containerd/v2 v2.4.0
