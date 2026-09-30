@@ -1,5 +1,5 @@
-code.cloudfoundry.org/commandrunner v0.79.0 h1:P6Jr1WU9kipkwXIXv62zE4Ra84uAHGqP7F54gUGDa80=
-code.cloudfoundry.org/commandrunner v0.79.0/go.mod h1:UrMe/+VdmKZfEYgKNjes3bsomtfm5XKoA4iU7VhyigU=
+code.cloudfoundry.org/commandrunner v0.80.0 h1:pKCfmbKR36jMSRdqqWBXSiMn2CBG4L3A9/0x0yQVWTY=
+code.cloudfoundry.org/commandrunner v0.80.0/go.mod h1:7QwxcBhddTNZsVDVCTLVGBqdtMK4qXJera5rULtrhTg=
 code.cloudfoundry.org/garden v0.5.0 h1:7w5Va/ZTivT6CyYuihc4+PAGV7rfYXsASmIN/qLdLn8=
 code.cloudfoundry.org/garden v0.5.0/go.mod h1:R2f8CsPFcZ9P76dQvhtMTbdmH24bI3mLR4D/Zlp30mg=
 code.cloudfoundry.org/guardian v0.0.0-20260730115415-6f75b111856e h1:idJ1dOtuIlPsVc+qismZmwMsNGMBU/7hf3HceI9QoBQ=
@@ -130,8 +130,8 @@ github.com/google/gnostic-models v0.7.0/go.mod h1:whL5G0m6dmc5cPxKc5bdKdEN3UjI7O
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
 github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
-github.com/google/pprof v0.0.0-20260906184651-6331bc6350fe h1:QAinXoAFJdGQYztXn3VpFey7KCwpedbZ/EkzbplQ0cY=
-github.com/google/pprof v0.0.0-20260906184651-6331bc6350fe/go.mod h1:jl5iWTm0/hd5PjEYEOuwAJ57L/CibdZfrqZ5XA5GrCk=
+github.com/google/pprof v0.0.0-20260926063103-aaccee046517 h1:joNby64wfCIWh0HXBMrjZc6ii70nntnG9u3CQSXXwiA=
+github.com/google/pprof v0.0.0-20260926063103-aaccee046517/go.mod h1:jl5iWTm0/hd5PjEYEOuwAJ57L/CibdZfrqZ5XA5GrCk=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/hashicorp/errwrap v1.0.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
