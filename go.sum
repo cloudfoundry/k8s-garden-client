@@ -1,5 +1,5 @@
-code.cloudfoundry.org/commandrunner v0.80.0 h1:pKCfmbKR36jMSRdqqWBXSiMn2CBG4L3A9/0x0yQVWTY=
-code.cloudfoundry.org/commandrunner v0.80.0/go.mod h1:7QwxcBhddTNZsVDVCTLVGBqdtMK4qXJera5rULtrhTg=
+code.cloudfoundry.org/commandrunner v0.82.0 h1:IzSch7CH/1hyJvCtMuyQlK74oyE0zIBmuP3DdVgrKXA=
+code.cloudfoundry.org/commandrunner v0.82.0/go.mod h1:PjEf4dnuqcZAs1noXoO57nDoYRpeTR9Cgfa0gpdwcpQ=
 code.cloudfoundry.org/garden v0.8.0 h1:vKAs7/4/FU7DtmUlKR5TKzLeVeg6flc39DCVF9PpnCI=
 code.cloudfoundry.org/garden v0.8.0/go.mod h1:Q3hMgvJazZ31yUxblz7Ad3Qw45kZu3z/WX2Lckc2k9s=
 code.cloudfoundry.org/guardian v0.0.0-20260730115415-6f75b111856e h1:idJ1dOtuIlPsVc+qismZmwMsNGMBU/7hf3HceI9QoBQ=
