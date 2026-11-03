@@ -15,6 +15,10 @@
     {
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
+    },
+    {
+      "matchPackageNames": ["code.cloudfoundry.org/guardian"],
+      "overridePackageName": "github.com/cloudfoundry/garden-runc-release/src/code.cloudfoundry.org/guardian"
     }
   ]
 }
