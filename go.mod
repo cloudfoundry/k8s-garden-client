@@ -1,6 +1,6 @@
 module code.cloudfoundry.org/k8s-garden-client
 
-go 1.26.6
+go 1.27
 
 tool github.com/maxbrunsfeld/counterfeiter/v6
 
