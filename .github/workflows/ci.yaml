@@ -63,7 +63,66 @@ jobs:
   integration:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Skipping integration step"
+    - uses: actions/checkout@v7
+    - uses: docker/setup-buildx-action@v4
+    - uses: actions/setup-go@v7
+      with:
+        go-version-file: "go.mod"
+    - uses: actions/checkout@v7
+      with:
+        repository: cloudfoundry/diego-release
+        path: diego-release
+        submodules: true
+    - uses: actions/checkout@v7
+      with:
+        repository: cloudfoundry/cf-k8s-releases
+        path: cf-k8s-releases
+    - name: Bump diego-release's k8s-garden-client to the commit under test
+      working-directory: ${{ github.workspace }}/diego-release/src/code.cloudfoundry.org
+      run: |
+        go get -u code.cloudfoundry.org/k8s-garden-client@${{ github.event.pull_request.head.sha || github.sha }}
+        go mod vendor
+    - name: Build rep image
+      id: rep
+      working-directory: ${{ github.workspace }}/cf-k8s-releases/diego
+      env:
+        BUILDX_BAKE_ENTITLEMENTS_FS: "0"
+      run: |
+        docker buildx bake rep --load \
+          --set rep.contexts.src="${{ github.workspace }}/diego-release/src" \
+          --set rep.contexts.config="${{ github.workspace }}/diego-release/config"
+        echo "list=$(docker buildx bake rep --print | jq -r '[.target[].tags[]] | join(",")')" >> "$GITHUB_OUTPUT"
+    - name: Pin diego helm chart to the built rep
+      working-directory: ${{ github.workspace }}/cf-k8s-releases
+      run: |
+        yq -e -i '.rep.image.repository = "rep"' diego/helm/values.yaml
+        cat > ${{ github.workspace }}/state-values.yaml <<EOF
+        charts:
+          diego:
+            url: ${{ github.workspace }}/cf-k8s-releases/diego/helm
+        EOF
+    - uses: cloudfoundry/kind-deployment/.github/actions/setup-cf@main
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        load-images: ${{ steps.rep.outputs.list }}
+        additional-values-files: ${{ github.workspace }}/state-values.yaml
+    - uses: cloudfoundry/kind-deployment/.github/actions/setup-cf-tests@main
+      with:
+        test-repo: cf-smoke-tests
+        test-branch: main
+        config-template: ${{ github.workspace }}/kind-deployment/.github/smoke-config.tpl
+        config-output: ${{ github.workspace }}/.github/smoke-config.json
+    - name: run smoke tests
+      env:
+        CONFIG: "${{ github.workspace }}/.github/smoke-config.json"
+        GINKGO_NO_COLOR: "true"
+      run: |
+        ./cf-smoke-tests/bin/test --no-color --github-output --timeout=30m --procs=4 --json-report report.json
+    - uses: actions/upload-artifact@v7
+      if: always()
+      with:
+        name: smoke-test-report
+        path: ./cf-smoke-tests/report.json
 
   draft-release:
     runs-on: ubuntu-latest
