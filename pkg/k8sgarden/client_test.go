@@ -20,7 +20,6 @@ import (
 	. "github.com/onsi/gomega/gstruct"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	ctrlclient "sigs.k8s.io/controller-runtime/pkg/client"
@@ -43,6 +42,7 @@ var _ = Describe("Client", func() {
 		err                           error
 		tempDir                       string
 		trustedSystemCertificatesPath string
+		enableUserNamespaces          bool
 
 		workloadsNamespace = "cf-workloads"
 
@@ -71,9 +71,7 @@ var _ = Describe("Client", func() {
 		Expect(clientgoscheme.AddToScheme(scheme)).To(Succeed())
 
 		testNode = &corev1.Node{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "test-node",
-			},
+			Name: "test-node",
 			Status: corev1.NodeStatus{
 				Capacity: corev1.ResourceList{
 					corev1.ResourceCPU:              resource.MustParse("4"),
@@ -123,6 +121,7 @@ var _ = Describe("Client", func() {
 					SidecarRootfs:                 sidecarRootfs,
 					TrustedSystemCertificatesPath: trustedSystemCertificatesPath,
 					EnableContainerProxy:          true,
+					EnableUserNamespaces:          enableUserNamespaces,
 				},
 				k8sgarden.WithContainerdClient(fakeContainerdClient),
 				k8sgarden.WithKubeletClient(fakeKubeletClient),
@@ -253,12 +252,10 @@ var _ = Describe("Client", func() {
 		Context("when containers exist", func() {
 			It("Restores the container state on startup", func() {
 				orphanedPod := &corev1.Pod{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      "orphaned-pod-1",
-						Namespace: "cf-workloads",
-						Labels: map[string]string{
-							k8sgarden.OwnerNameLabelKey: "executor",
-						},
+					Name:      "orphaned-pod-1",
+					Namespace: "cf-workloads",
+					Labels: map[string]string{
+						k8sgarden.OwnerNameLabelKey: "executor",
 					},
 					Spec: corev1.PodSpec{
 						Containers: []corev1.Container{
@@ -559,10 +556,8 @@ var _ = Describe("Client", func() {
 			}
 
 			conflictPod := &corev1.Pod{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "test-container-3",
-					Namespace: "cf-workloads",
-				},
+				Name:      "test-container-3",
+				Namespace: "cf-workloads",
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{Name: "app", Image: "test"},

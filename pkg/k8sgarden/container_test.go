@@ -18,7 +18,6 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 var _ = Describe("Container", func() {
@@ -56,9 +55,7 @@ var _ = Describe("Container", func() {
 		fakeSidecarTask.ExecReturns(fakeProcess, nil)
 
 		pod = &corev1.Pod{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "test-container",
-			},
+			Name: "test-container",
 			Spec: corev1.PodSpec{
 				Containers: []corev1.Container{
 					{
