@@ -598,6 +598,117 @@ var _ = Describe("Client", func() {
 			Expect(err).To(HaveOccurred())
 			Expect(err.Error()).To(ContainSubstring("failed to load containerD container"))
 		})
+
+		Context("user namespace", func() {
+			var spec garden.ContainerSpec
+
+			BeforeEach(func() {
+				spec = garden.ContainerSpec{
+					Handle: "test-container-1",
+					Properties: garden.Properties{
+						k8sgarden.ContainerWorkloadProperty: "app",
+						k8sgarden.AppIDProperty:             "test-app-guid",
+					},
+					Limits: garden.Limits{
+						Memory: garden.MemoryLimits{
+							LimitInBytes: 256 * 1024 * 1024,
+						},
+						Disk: garden.DiskLimits{
+							ByteHard: 1024 * 1024 * 1024,
+						},
+					},
+					Image: garden.ImageRef{
+						URI: "cflinuxfs4",
+					},
+					NetIn: []garden.NetIn{
+						{
+							HostPort:      0,
+							ContainerPort: 80,
+						},
+					},
+				}
+			})
+
+			Context("enabled", func() {
+				BeforeEach(func() {
+					enableUserNamespaces = true
+					gardenClient, err = newGardenClient()
+					Expect(err).NotTo(HaveOccurred())
+				})
+
+				It("sets hostUsers: true for privileged containers", func() {
+					spec.Privileged = true
+					container, err := gardenClient.Create(spec)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(container).NotTo(BeNil())
+					Expect(container.Handle()).To(Equal("test-container-1"))
+
+					var pod corev1.Pod
+					err = k8sClient.Get(context.Background(), ctrlclient.ObjectKey{
+						Name:      "test-container-1",
+						Namespace: "cf-workloads",
+					}, &pod)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(pod.Spec.HostUsers).To(PointTo(BeTrue()))
+				})
+
+				It("sets hostUsers: false for unprivileged containers", func() {
+					spec.Privileged = false
+					container, err := gardenClient.Create(spec)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(container).NotTo(BeNil())
+					Expect(container.Handle()).To(Equal("test-container-1"))
+
+					var pod corev1.Pod
+					err = k8sClient.Get(context.Background(), ctrlclient.ObjectKey{
+						Name:      "test-container-1",
+						Namespace: "cf-workloads",
+					}, &pod)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(pod.Spec.HostUsers).To(PointTo(BeFalse()))
+				})
+			})
+
+			Context("disabled", func() {
+				BeforeEach(func() {
+					enableUserNamespaces = false
+					gardenClient, err = newGardenClient()
+					Expect(err).NotTo(HaveOccurred())
+				})
+
+				It("sets hostUsers: true for privileged containers", func() {
+					spec.Privileged = true
+					container, err := gardenClient.Create(spec)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(container).NotTo(BeNil())
+					Expect(container.Handle()).To(Equal("test-container-1"))
+
+					var pod corev1.Pod
+					err = k8sClient.Get(context.Background(), ctrlclient.ObjectKey{
+						Name:      "test-container-1",
+						Namespace: "cf-workloads",
+					}, &pod)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(pod.Spec.HostUsers).To(PointTo(BeTrue()))
+				})
+
+				It("sets hostUsers: true for unprivileged containers", func() {
+					spec.Privileged = false
+					container, err := gardenClient.Create(spec)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(container).NotTo(BeNil())
+					Expect(container.Handle()).To(Equal("test-container-1"))
+
+					var pod corev1.Pod
+					err = k8sClient.Get(context.Background(), ctrlclient.ObjectKey{
+						Name:      "test-container-1",
+						Namespace: "cf-workloads",
+					}, &pod)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(pod.Spec.HostUsers).To(PointTo(BeTrue()))
+				})
+			})
+		})
 	})
 
 	Describe("Destroy", func() {

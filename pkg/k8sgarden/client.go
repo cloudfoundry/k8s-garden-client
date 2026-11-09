@@ -75,6 +75,7 @@ type client struct {
 	nodeMemoryInB        int64
 	sidecarRootfs        string
 	enableContainerProxy bool
+	enableUserNamespaces bool
 	workloadsNamespace   string
 	sandboxPath          string
 }
@@ -88,6 +89,7 @@ func NewClient(logger lager.Logger, k8sclient ctrlclient.Client, cfg Config, opt
 		trustedCertsDir:      cfg.TrustedSystemCertificatesPath,
 		sidecarRootfs:        cfg.SidecarRootfs,
 		enableContainerProxy: cfg.EnableContainerProxy,
+		enableUserNamespaces: cfg.EnableUserNamespaces,
 		workloadsNamespace:   cfg.WorkloadsNamespace,
 		portManager:          newPortManager(),
 	}
