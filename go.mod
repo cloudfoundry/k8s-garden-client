@@ -5,7 +5,7 @@ go 1.27
 tool github.com/maxbrunsfeld/counterfeiter/v6
 
 require (
-	code.cloudfoundry.org/commandrunner v0.85.0
+	code.cloudfoundry.org/commandrunner v0.86.0
 	code.cloudfoundry.org/garden v0.12.0
 	code.cloudfoundry.org/guardian v0.0.0-20260902161120-8a4bd5473238
 	code.cloudfoundry.org/lager/v3 v3.95.0
