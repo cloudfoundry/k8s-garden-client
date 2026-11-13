@@ -17,6 +17,8 @@ import (
 	ctrdclient "github.com/containerd/containerd/v2/client"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	corev1 "k8s.io/api/core/v1"
 )
 
@@ -25,6 +27,7 @@ var _ = Describe("Container", func() {
 		testContainer     garden.Container
 		logger            *lagertest.TestLogger
 		pod               *corev1.Pod
+		fakeContainerd    *containerdfakes.FakeClient
 		env               []string
 		fakeUserLookupper *usersfakes.FakeUserLookupper
 		fakeAppTask       *containerdfakes.FakeTask
@@ -33,7 +36,6 @@ var _ = Describe("Container", func() {
 		exitChan          chan ctrdclient.ExitStatus
 		runningContainers map[string]containerd.RunningContainer
 		sandboxPath       string
-		expectedRootfs    string
 	)
 
 	BeforeEach(func() {
@@ -55,7 +57,8 @@ var _ = Describe("Container", func() {
 		fakeSidecarTask.ExecReturns(fakeProcess, nil)
 
 		pod = &corev1.Pod{
-			Name: "test-container",
+			Name:      "test-container",
+			Namespace: "cf-workloads",
 			Spec: corev1.PodSpec{
 				Containers: []corev1.Container{
 					{
@@ -70,19 +73,23 @@ var _ = Describe("Container", func() {
 			Status: corev1.PodStatus{
 				HostIP: "10.0.0.1",
 				PodIP:  "10.244.0.1",
+				ContainerStatuses: []corev1.ContainerStatus{
+					{Name: "app", ContainerID: "containerd://app-task"},
+					{Name: "sidecar", ContainerID: "containerd://sidecar-task"},
+				},
 			},
 		}
 
 		env = []string{"HOME=/home/vcap", "PATH=/usr/bin"}
 		runningContainers = map[string]containerd.RunningContainer{
-			"app":     {Task: fakeAppTask},
-			"sidecar": {Task: fakeSidecarTask},
+			"app":     {Task: fakeAppTask, ID: "app-task"},
+			"sidecar": {Task: fakeSidecarTask, ID: "sidecar-task"},
 		}
 
 		sandboxPath = "/var/run/containerd/io.containerd.runtime.v2.task/k8s.io"
-		expectedRootfs = sandboxPath + "/rootfs"
 
-		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, runningContainers, sandboxPath)
+		fakeContainerd = &containerdfakes.FakeClient{}
+		testContainer = k8sgarden.NewContainer(logger, pod, env, 2.0, fakeUserLookupper, properties.NewManager(), 0, runningContainers, sandboxPath, fakeContainerd)
 	})
 
 	Describe("Handle", func() {
@@ -96,12 +103,36 @@ var _ = Describe("Container", func() {
 			info, err := testContainer.Info()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(info.State).To(Equal("active"))
+			Expect(info.Events).To(BeEmpty())
 			Expect(info.HostIP).To(Equal("10.0.0.1"))
 			Expect(info.ContainerIP).To(Equal("10.244.0.1"))
 			Expect(info.ExternalIP).To(Equal("10.0.0.1"))
 			Expect(info.MappedPorts).To(HaveLen(2))
 			Expect(info.MappedPorts[0]).To(Equal(garden.PortMapping{HostPort: 30080, ContainerPort: 8080}))
 			Expect(info.MappedPorts[1]).To(Equal(garden.PortMapping{HostPort: 30090, ContainerPort: 9090}))
+		})
+
+		It("returns OOM event", func() {
+			originalPod := pod.DeepCopy()
+			info, err := testContainer.Info()
+			Expect(err).NotTo(HaveOccurred())
+			Expect(info.Events).To(BeEmpty())
+
+			fakeContainerd.OOMKilledReturns(true, nil)
+
+			info, err = testContainer.Info()
+			Expect(err).NotTo(HaveOccurred())
+			Expect(info.Events).To(Equal([]string{"out of memory"}))
+			Expect(pod).To(Equal(originalPod))
+		})
+
+		It("retains container info when the runtime container has been removed", func() {
+			fakeContainerd.OOMKilledReturns(false, status.Error(codes.NotFound, "removed"))
+
+			info, err := testContainer.Info()
+			Expect(err).NotTo(HaveOccurred())
+			Expect(info.Events).To(BeEmpty())
+			Expect(info.ContainerIP).To(Equal(pod.Status.PodIP))
 		})
 	})
 
@@ -126,7 +157,7 @@ var _ = Describe("Container", func() {
 			Expect(proc).NotTo(BeNil())
 			Expect(fakeUserLookupper.LookupCallCount()).To(Equal(1))
 			rootPath, user := fakeUserLookupper.LookupArgsForCall(0)
-			Expect(rootPath).To(Equal(expectedRootfs))
+			Expect(rootPath).To(Equal(sandboxPath + "/app-task/rootfs"))
 			Expect(user).To(Equal("vcap"))
 
 			process, ok := proc.(k8sgarden.Process)
@@ -141,8 +172,8 @@ var _ = Describe("Container", func() {
 
 		It("runs process in sidecar container when image URI is specified", func() {
 			fakeUserLookupper.LookupReturns(&users.ExecUser{
-				Uid:  1000,
-				Gid:  2000,
+				Uid:  0,
+				Gid:  0,
 				Home: "/root",
 			}, nil)
 
@@ -150,6 +181,7 @@ var _ = Describe("Container", func() {
 				Path:  "/usr/bin/curl",
 				Args:  []string{"http://example.com"},
 				User:  "root",
+				Env:   []string{"SIDECAR_REQUEST=value"},
 				Image: garden.ImageRef{URI: "docker://curl"},
 			}, garden.ProcessIO{})
 
@@ -158,14 +190,20 @@ var _ = Describe("Container", func() {
 
 			Expect(fakeUserLookupper.LookupCallCount()).To(Equal(1))
 			rootPath, user := fakeUserLookupper.LookupArgsForCall(0)
-			Expect(rootPath).To(Equal(expectedRootfs))
+			Expect(rootPath).To(Equal(sandboxPath + "/sidecar-task/rootfs"))
 			Expect(user).To(Equal("root"))
 
 			process, ok := proc.(k8sgarden.Process)
 			Expect(ok).To(BeTrue())
 			Expect(process.Spec().Args).To(Equal([]string{"/usr/bin/curl", "http://example.com"}))
 			Expect(process.Spec().Cwd).To(Equal("/root"))
+			Expect(process.Spec().Env).To(Equal([]string{
+				"SIDECAR_REQUEST=value",
+				"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+				"USER=root",
+			}))
 			Expect(process.Task().ID()).To(Equal("sidecar-task"))
+			Expect(fakeSidecarTask.SpecCallCount()).To(BeZero())
 		})
 
 		It("handles empty process directory by using user home", func() {

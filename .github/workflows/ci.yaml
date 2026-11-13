@@ -80,7 +80,7 @@ jobs:
     - name: Bump diego-release's k8s-garden-client to the commit under test
       working-directory: ${{ github.workspace }}/diego-release/src/code.cloudfoundry.org
       run: |
-        go get -u code.cloudfoundry.org/k8s-garden-client@${{ github.event.pull_request.head.sha || github.sha }}
+        go get code.cloudfoundry.org/k8s-garden-client/...@${{ github.event.pull_request.head.sha || github.sha }}
         go mod vendor
     - name: Build rep image
       id: rep

@@ -16,10 +16,8 @@ import (
 type FakeImage struct {
 	ConfigStub        func(context.Context) (v1.Descriptor, error)
 	configMutex       sync.RWMutex
-	configArgsForCall []struct {
-		arg1 context.Context
-	}
-	configReturns struct {
+	configArgsForCall []FakeImageConfigArgs
+	configReturns     struct {
 		result1 v1.Descriptor
 		result2 error
 	}
@@ -29,9 +27,8 @@ type FakeImage struct {
 	}
 	ContentStoreStub        func() content.Store
 	contentStoreMutex       sync.RWMutex
-	contentStoreArgsForCall []struct {
-	}
-	contentStoreReturns struct {
+	contentStoreArgsForCall []struct{}
+	contentStoreReturns     struct {
 		result1 content.Store
 	}
 	contentStoreReturnsOnCall map[int]struct {
@@ -39,11 +36,8 @@ type FakeImage struct {
 	}
 	IsUnpackedStub        func(context.Context, string) (bool, error)
 	isUnpackedMutex       sync.RWMutex
-	isUnpackedArgsForCall []struct {
-		arg1 context.Context
-		arg2 string
-	}
-	isUnpackedReturns struct {
+	isUnpackedArgsForCall []FakeImageIsUnpackedArgs
+	isUnpackedReturns     struct {
 		result1 bool
 		result2 error
 	}
@@ -53,9 +47,8 @@ type FakeImage struct {
 	}
 	LabelsStub        func() map[string]string
 	labelsMutex       sync.RWMutex
-	labelsArgsForCall []struct {
-	}
-	labelsReturns struct {
+	labelsArgsForCall []struct{}
+	labelsReturns     struct {
 		result1 map[string]string
 	}
 	labelsReturnsOnCall map[int]struct {
@@ -63,9 +56,8 @@ type FakeImage struct {
 	}
 	MetadataStub        func() images.Image
 	metadataMutex       sync.RWMutex
-	metadataArgsForCall []struct {
-	}
-	metadataReturns struct {
+	metadataArgsForCall []struct{}
+	metadataReturns     struct {
 		result1 images.Image
 	}
 	metadataReturnsOnCall map[int]struct {
@@ -73,9 +65,8 @@ type FakeImage struct {
 	}
 	NameStub        func() string
 	nameMutex       sync.RWMutex
-	nameArgsForCall []struct {
-	}
-	nameReturns struct {
+	nameArgsForCall []struct{}
+	nameReturns     struct {
 		result1 string
 	}
 	nameReturnsOnCall map[int]struct {
@@ -83,9 +74,8 @@ type FakeImage struct {
 	}
 	PlatformStub        func() platforms.MatchComparer
 	platformMutex       sync.RWMutex
-	platformArgsForCall []struct {
-	}
-	platformReturns struct {
+	platformArgsForCall []struct{}
+	platformReturns     struct {
 		result1 platforms.MatchComparer
 	}
 	platformReturnsOnCall map[int]struct {
@@ -93,10 +83,8 @@ type FakeImage struct {
 	}
 	RootFSStub        func(context.Context) ([]digest.Digest, error)
 	rootFSMutex       sync.RWMutex
-	rootFSArgsForCall []struct {
-		arg1 context.Context
-	}
-	rootFSReturns struct {
+	rootFSArgsForCall []FakeImageRootFSArgs
+	rootFSReturns     struct {
 		result1 []digest.Digest
 		result2 error
 	}
@@ -106,10 +94,8 @@ type FakeImage struct {
 	}
 	SizeStub        func(context.Context) (int64, error)
 	sizeMutex       sync.RWMutex
-	sizeArgsForCall []struct {
-		arg1 context.Context
-	}
-	sizeReturns struct {
+	sizeArgsForCall []FakeImageSizeArgs
+	sizeReturns     struct {
 		result1 int64
 		result2 error
 	}
@@ -119,10 +105,8 @@ type FakeImage struct {
 	}
 	SpecStub        func(context.Context) (v1.Image, error)
 	specMutex       sync.RWMutex
-	specArgsForCall []struct {
-		arg1 context.Context
-	}
-	specReturns struct {
+	specArgsForCall []FakeImageSpecArgs
+	specReturns     struct {
 		result1 v1.Image
 		result2 error
 	}
@@ -132,9 +116,8 @@ type FakeImage struct {
 	}
 	TargetStub        func() v1.Descriptor
 	targetMutex       sync.RWMutex
-	targetArgsForCall []struct {
-	}
-	targetReturns struct {
+	targetArgsForCall []struct{}
+	targetReturns     struct {
 		result1 v1.Descriptor
 	}
 	targetReturnsOnCall map[int]struct {
@@ -142,12 +125,8 @@ type FakeImage struct {
 	}
 	UnpackStub        func(context.Context, string, ...client.UnpackOpt) error
 	unpackMutex       sync.RWMutex
-	unpackArgsForCall []struct {
-		arg1 context.Context
-		arg2 string
-		arg3 []client.UnpackOpt
-	}
-	unpackReturns struct {
+	unpackArgsForCall []FakeImageUnpackArgs
+	unpackReturns     struct {
 		result1 error
 	}
 	unpackReturnsOnCall map[int]struct {
@@ -155,11 +134,8 @@ type FakeImage struct {
 	}
 	UsageStub        func(context.Context, ...client.UsageOpt) (int64, error)
 	usageMutex       sync.RWMutex
-	usageArgsForCall []struct {
-		arg1 context.Context
-		arg2 []client.UsageOpt
-	}
-	usageReturns struct {
+	usageArgsForCall []FakeImageUsageArgs
+	usageReturns     struct {
 		result1 int64
 		result2 error
 	}
@@ -168,15 +144,53 @@ type FakeImage struct {
 		result2 error
 	}
 	invocations      map[string][][]interface{}
+	callOrder        []string
 	invocationsMutex sync.RWMutex
+}
+
+// FakeImageConfigArgs holds the arguments of one call to Config.
+type FakeImageConfigArgs struct {
+	Arg1 context.Context
+}
+
+// FakeImageIsUnpackedArgs holds the arguments of one call to IsUnpacked.
+type FakeImageIsUnpackedArgs struct {
+	Arg1 context.Context
+	Arg2 string
+}
+
+// FakeImageRootFSArgs holds the arguments of one call to RootFS.
+type FakeImageRootFSArgs struct {
+	Arg1 context.Context
+}
+
+// FakeImageSizeArgs holds the arguments of one call to Size.
+type FakeImageSizeArgs struct {
+	Arg1 context.Context
+}
+
+// FakeImageSpecArgs holds the arguments of one call to Spec.
+type FakeImageSpecArgs struct {
+	Arg1 context.Context
+}
+
+// FakeImageUnpackArgs holds the arguments of one call to Unpack.
+type FakeImageUnpackArgs struct {
+	Arg1 context.Context
+	Arg2 string
+	Arg3 []client.UnpackOpt
+}
+
+// FakeImageUsageArgs holds the arguments of one call to Usage.
+type FakeImageUsageArgs struct {
+	Arg1 context.Context
+	Arg2 []client.UsageOpt
 }
 
 func (fake *FakeImage) Config(arg1 context.Context) (v1.Descriptor, error) {
 	fake.configMutex.Lock()
 	ret, specificReturn := fake.configReturnsOnCall[len(fake.configArgsForCall)]
-	fake.configArgsForCall = append(fake.configArgsForCall, struct {
-		arg1 context.Context
-	}{arg1})
+	fake.configArgsForCall = append(fake.configArgsForCall, FakeImageConfigArgs{arg1})
 	stub := fake.ConfigStub
 	fakeReturns := fake.configReturns
 	fake.recordInvocation("Config", []interface{}{arg1})
@@ -206,7 +220,15 @@ func (fake *FakeImage) ConfigArgsForCall(i int) context.Context {
 	fake.configMutex.RLock()
 	defer fake.configMutex.RUnlock()
 	argsForCall := fake.configArgsForCall[i]
-	return argsForCall.arg1
+	return argsForCall.Arg1
+}
+
+func (fake *FakeImage) ConfigArgs() []FakeImageConfigArgs {
+	fake.configMutex.RLock()
+	defer fake.configMutex.RUnlock()
+	args := make([]FakeImageConfigArgs, len(fake.configArgsForCall))
+	copy(args, fake.configArgsForCall)
+	return args
 }
 
 func (fake *FakeImage) ConfigReturns(result1 v1.Descriptor, result2 error) {
@@ -238,8 +260,7 @@ func (fake *FakeImage) ConfigReturnsOnCall(i int, result1 v1.Descriptor, result2
 func (fake *FakeImage) ContentStore() content.Store {
 	fake.contentStoreMutex.Lock()
 	ret, specificReturn := fake.contentStoreReturnsOnCall[len(fake.contentStoreArgsForCall)]
-	fake.contentStoreArgsForCall = append(fake.contentStoreArgsForCall, struct {
-	}{})
+	fake.contentStoreArgsForCall = append(fake.contentStoreArgsForCall, struct{}{})
 	stub := fake.ContentStoreStub
 	fakeReturns := fake.contentStoreReturns
 	fake.recordInvocation("ContentStore", []interface{}{})
@@ -291,10 +312,7 @@ func (fake *FakeImage) ContentStoreReturnsOnCall(i int, result1 content.Store) {
 func (fake *FakeImage) IsUnpacked(arg1 context.Context, arg2 string) (bool, error) {
 	fake.isUnpackedMutex.Lock()
 	ret, specificReturn := fake.isUnpackedReturnsOnCall[len(fake.isUnpackedArgsForCall)]
-	fake.isUnpackedArgsForCall = append(fake.isUnpackedArgsForCall, struct {
-		arg1 context.Context
-		arg2 string
-	}{arg1, arg2})
+	fake.isUnpackedArgsForCall = append(fake.isUnpackedArgsForCall, FakeImageIsUnpackedArgs{arg1, arg2})
 	stub := fake.IsUnpackedStub
 	fakeReturns := fake.isUnpackedReturns
 	fake.recordInvocation("IsUnpacked", []interface{}{arg1, arg2})
@@ -324,7 +342,15 @@ func (fake *FakeImage) IsUnpackedArgsForCall(i int) (context.Context, string) {
 	fake.isUnpackedMutex.RLock()
 	defer fake.isUnpackedMutex.RUnlock()
 	argsForCall := fake.isUnpackedArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.Arg1, argsForCall.Arg2
+}
+
+func (fake *FakeImage) IsUnpackedArgs() []FakeImageIsUnpackedArgs {
+	fake.isUnpackedMutex.RLock()
+	defer fake.isUnpackedMutex.RUnlock()
+	args := make([]FakeImageIsUnpackedArgs, len(fake.isUnpackedArgsForCall))
+	copy(args, fake.isUnpackedArgsForCall)
+	return args
 }
 
 func (fake *FakeImage) IsUnpackedReturns(result1 bool, result2 error) {
@@ -356,8 +382,7 @@ func (fake *FakeImage) IsUnpackedReturnsOnCall(i int, result1 bool, result2 erro
 func (fake *FakeImage) Labels() map[string]string {
 	fake.labelsMutex.Lock()
 	ret, specificReturn := fake.labelsReturnsOnCall[len(fake.labelsArgsForCall)]
-	fake.labelsArgsForCall = append(fake.labelsArgsForCall, struct {
-	}{})
+	fake.labelsArgsForCall = append(fake.labelsArgsForCall, struct{}{})
 	stub := fake.LabelsStub
 	fakeReturns := fake.labelsReturns
 	fake.recordInvocation("Labels", []interface{}{})
@@ -409,8 +434,7 @@ func (fake *FakeImage) LabelsReturnsOnCall(i int, result1 map[string]string) {
 func (fake *FakeImage) Metadata() images.Image {
 	fake.metadataMutex.Lock()
 	ret, specificReturn := fake.metadataReturnsOnCall[len(fake.metadataArgsForCall)]
-	fake.metadataArgsForCall = append(fake.metadataArgsForCall, struct {
-	}{})
+	fake.metadataArgsForCall = append(fake.metadataArgsForCall, struct{}{})
 	stub := fake.MetadataStub
 	fakeReturns := fake.metadataReturns
 	fake.recordInvocation("Metadata", []interface{}{})
@@ -462,8 +486,7 @@ func (fake *FakeImage) MetadataReturnsOnCall(i int, result1 images.Image) {
 func (fake *FakeImage) Name() string {
 	fake.nameMutex.Lock()
 	ret, specificReturn := fake.nameReturnsOnCall[len(fake.nameArgsForCall)]
-	fake.nameArgsForCall = append(fake.nameArgsForCall, struct {
-	}{})
+	fake.nameArgsForCall = append(fake.nameArgsForCall, struct{}{})
 	stub := fake.NameStub
 	fakeReturns := fake.nameReturns
 	fake.recordInvocation("Name", []interface{}{})
@@ -515,8 +538,7 @@ func (fake *FakeImage) NameReturnsOnCall(i int, result1 string) {
 func (fake *FakeImage) Platform() platforms.MatchComparer {
 	fake.platformMutex.Lock()
 	ret, specificReturn := fake.platformReturnsOnCall[len(fake.platformArgsForCall)]
-	fake.platformArgsForCall = append(fake.platformArgsForCall, struct {
-	}{})
+	fake.platformArgsForCall = append(fake.platformArgsForCall, struct{}{})
 	stub := fake.PlatformStub
 	fakeReturns := fake.platformReturns
 	fake.recordInvocation("Platform", []interface{}{})
@@ -568,9 +590,7 @@ func (fake *FakeImage) PlatformReturnsOnCall(i int, result1 platforms.MatchCompa
 func (fake *FakeImage) RootFS(arg1 context.Context) ([]digest.Digest, error) {
 	fake.rootFSMutex.Lock()
 	ret, specificReturn := fake.rootFSReturnsOnCall[len(fake.rootFSArgsForCall)]
-	fake.rootFSArgsForCall = append(fake.rootFSArgsForCall, struct {
-		arg1 context.Context
-	}{arg1})
+	fake.rootFSArgsForCall = append(fake.rootFSArgsForCall, FakeImageRootFSArgs{arg1})
 	stub := fake.RootFSStub
 	fakeReturns := fake.rootFSReturns
 	fake.recordInvocation("RootFS", []interface{}{arg1})
@@ -600,7 +620,15 @@ func (fake *FakeImage) RootFSArgsForCall(i int) context.Context {
 	fake.rootFSMutex.RLock()
 	defer fake.rootFSMutex.RUnlock()
 	argsForCall := fake.rootFSArgsForCall[i]
-	return argsForCall.arg1
+	return argsForCall.Arg1
+}
+
+func (fake *FakeImage) RootFSArgs() []FakeImageRootFSArgs {
+	fake.rootFSMutex.RLock()
+	defer fake.rootFSMutex.RUnlock()
+	args := make([]FakeImageRootFSArgs, len(fake.rootFSArgsForCall))
+	copy(args, fake.rootFSArgsForCall)
+	return args
 }
 
 func (fake *FakeImage) RootFSReturns(result1 []digest.Digest, result2 error) {
@@ -632,9 +660,7 @@ func (fake *FakeImage) RootFSReturnsOnCall(i int, result1 []digest.Digest, resul
 func (fake *FakeImage) Size(arg1 context.Context) (int64, error) {
 	fake.sizeMutex.Lock()
 	ret, specificReturn := fake.sizeReturnsOnCall[len(fake.sizeArgsForCall)]
-	fake.sizeArgsForCall = append(fake.sizeArgsForCall, struct {
-		arg1 context.Context
-	}{arg1})
+	fake.sizeArgsForCall = append(fake.sizeArgsForCall, FakeImageSizeArgs{arg1})
 	stub := fake.SizeStub
 	fakeReturns := fake.sizeReturns
 	fake.recordInvocation("Size", []interface{}{arg1})
@@ -664,7 +690,15 @@ func (fake *FakeImage) SizeArgsForCall(i int) context.Context {
 	fake.sizeMutex.RLock()
 	defer fake.sizeMutex.RUnlock()
 	argsForCall := fake.sizeArgsForCall[i]
-	return argsForCall.arg1
+	return argsForCall.Arg1
+}
+
+func (fake *FakeImage) SizeArgs() []FakeImageSizeArgs {
+	fake.sizeMutex.RLock()
+	defer fake.sizeMutex.RUnlock()
+	args := make([]FakeImageSizeArgs, len(fake.sizeArgsForCall))
+	copy(args, fake.sizeArgsForCall)
+	return args
 }
 
 func (fake *FakeImage) SizeReturns(result1 int64, result2 error) {
@@ -696,9 +730,7 @@ func (fake *FakeImage) SizeReturnsOnCall(i int, result1 int64, result2 error) {
 func (fake *FakeImage) Spec(arg1 context.Context) (v1.Image, error) {
 	fake.specMutex.Lock()
 	ret, specificReturn := fake.specReturnsOnCall[len(fake.specArgsForCall)]
-	fake.specArgsForCall = append(fake.specArgsForCall, struct {
-		arg1 context.Context
-	}{arg1})
+	fake.specArgsForCall = append(fake.specArgsForCall, FakeImageSpecArgs{arg1})
 	stub := fake.SpecStub
 	fakeReturns := fake.specReturns
 	fake.recordInvocation("Spec", []interface{}{arg1})
@@ -728,7 +760,15 @@ func (fake *FakeImage) SpecArgsForCall(i int) context.Context {
 	fake.specMutex.RLock()
 	defer fake.specMutex.RUnlock()
 	argsForCall := fake.specArgsForCall[i]
-	return argsForCall.arg1
+	return argsForCall.Arg1
+}
+
+func (fake *FakeImage) SpecArgs() []FakeImageSpecArgs {
+	fake.specMutex.RLock()
+	defer fake.specMutex.RUnlock()
+	args := make([]FakeImageSpecArgs, len(fake.specArgsForCall))
+	copy(args, fake.specArgsForCall)
+	return args
 }
 
 func (fake *FakeImage) SpecReturns(result1 v1.Image, result2 error) {
@@ -760,8 +800,7 @@ func (fake *FakeImage) SpecReturnsOnCall(i int, result1 v1.Image, result2 error)
 func (fake *FakeImage) Target() v1.Descriptor {
 	fake.targetMutex.Lock()
 	ret, specificReturn := fake.targetReturnsOnCall[len(fake.targetArgsForCall)]
-	fake.targetArgsForCall = append(fake.targetArgsForCall, struct {
-	}{})
+	fake.targetArgsForCall = append(fake.targetArgsForCall, struct{}{})
 	stub := fake.TargetStub
 	fakeReturns := fake.targetReturns
 	fake.recordInvocation("Target", []interface{}{})
@@ -818,11 +857,7 @@ func (fake *FakeImage) Unpack(arg1 context.Context, arg2 string, arg3 ...client.
 	}
 	fake.unpackMutex.Lock()
 	ret, specificReturn := fake.unpackReturnsOnCall[len(fake.unpackArgsForCall)]
-	fake.unpackArgsForCall = append(fake.unpackArgsForCall, struct {
-		arg1 context.Context
-		arg2 string
-		arg3 []client.UnpackOpt
-	}{arg1, arg2, arg3Copy})
+	fake.unpackArgsForCall = append(fake.unpackArgsForCall, FakeImageUnpackArgs{arg1, arg2, arg3Copy})
 	stub := fake.UnpackStub
 	fakeReturns := fake.unpackReturns
 	fake.recordInvocation("Unpack", []interface{}{arg1, arg2, arg3Copy})
@@ -852,7 +887,15 @@ func (fake *FakeImage) UnpackArgsForCall(i int) (context.Context, string, []clie
 	fake.unpackMutex.RLock()
 	defer fake.unpackMutex.RUnlock()
 	argsForCall := fake.unpackArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+	return argsForCall.Arg1, argsForCall.Arg2, argsForCall.Arg3
+}
+
+func (fake *FakeImage) UnpackArgs() []FakeImageUnpackArgs {
+	fake.unpackMutex.RLock()
+	defer fake.unpackMutex.RUnlock()
+	args := make([]FakeImageUnpackArgs, len(fake.unpackArgsForCall))
+	copy(args, fake.unpackArgsForCall)
+	return args
 }
 
 func (fake *FakeImage) UnpackReturns(result1 error) {
@@ -886,10 +929,7 @@ func (fake *FakeImage) Usage(arg1 context.Context, arg2 ...client.UsageOpt) (int
 	}
 	fake.usageMutex.Lock()
 	ret, specificReturn := fake.usageReturnsOnCall[len(fake.usageArgsForCall)]
-	fake.usageArgsForCall = append(fake.usageArgsForCall, struct {
-		arg1 context.Context
-		arg2 []client.UsageOpt
-	}{arg1, arg2Copy})
+	fake.usageArgsForCall = append(fake.usageArgsForCall, FakeImageUsageArgs{arg1, arg2Copy})
 	stub := fake.UsageStub
 	fakeReturns := fake.usageReturns
 	fake.recordInvocation("Usage", []interface{}{arg1, arg2Copy})
@@ -919,7 +959,15 @@ func (fake *FakeImage) UsageArgsForCall(i int) (context.Context, []client.UsageO
 	fake.usageMutex.RLock()
 	defer fake.usageMutex.RUnlock()
 	argsForCall := fake.usageArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.Arg1, argsForCall.Arg2
+}
+
+func (fake *FakeImage) UsageArgs() []FakeImageUsageArgs {
+	fake.usageMutex.RLock()
+	defer fake.usageMutex.RUnlock()
+	args := make([]FakeImageUsageArgs, len(fake.usageArgsForCall))
+	copy(args, fake.usageArgsForCall)
+	return args
 }
 
 func (fake *FakeImage) UsageReturns(result1 int64, result2 error) {
@@ -958,9 +1006,18 @@ func (fake *FakeImage) Invocations() map[string][][]interface{} {
 	return copiedInvocations
 }
 
+func (fake *FakeImage) CallOrder() []string {
+	fake.invocationsMutex.RLock()
+	defer fake.invocationsMutex.RUnlock()
+	order := make([]string, len(fake.callOrder))
+	copy(order, fake.callOrder)
+	return order
+}
+
 func (fake *FakeImage) recordInvocation(key string, args []interface{}) {
 	fake.invocationsMutex.Lock()
 	defer fake.invocationsMutex.Unlock()
+	fake.callOrder = append(fake.callOrder, key)
 	if fake.invocations == nil {
 		fake.invocations = map[string][][]interface{}{}
 	}
