@@ -11,11 +11,8 @@ import (
 type FakeClient struct {
 	GetMetricsStub        func(lager.Logger, []string) (map[string]kubelet.Metrics, error)
 	getMetricsMutex       sync.RWMutex
-	getMetricsArgsForCall []struct {
-		arg1 lager.Logger
-		arg2 []string
-	}
-	getMetricsReturns struct {
+	getMetricsArgsForCall []FakeClientGetMetricsArgs
+	getMetricsReturns     struct {
 		result1 map[string]kubelet.Metrics
 		result2 error
 	}
@@ -24,7 +21,14 @@ type FakeClient struct {
 		result2 error
 	}
 	invocations      map[string][][]interface{}
+	callOrder        []string
 	invocationsMutex sync.RWMutex
+}
+
+// FakeClientGetMetricsArgs holds the arguments of one call to GetMetrics.
+type FakeClientGetMetricsArgs struct {
+	Arg1 lager.Logger
+	Arg2 []string
 }
 
 func (fake *FakeClient) GetMetrics(arg1 lager.Logger, arg2 []string) (map[string]kubelet.Metrics, error) {
@@ -35,10 +39,7 @@ func (fake *FakeClient) GetMetrics(arg1 lager.Logger, arg2 []string) (map[string
 	}
 	fake.getMetricsMutex.Lock()
 	ret, specificReturn := fake.getMetricsReturnsOnCall[len(fake.getMetricsArgsForCall)]
-	fake.getMetricsArgsForCall = append(fake.getMetricsArgsForCall, struct {
-		arg1 lager.Logger
-		arg2 []string
-	}{arg1, arg2Copy})
+	fake.getMetricsArgsForCall = append(fake.getMetricsArgsForCall, FakeClientGetMetricsArgs{arg1, arg2Copy})
 	stub := fake.GetMetricsStub
 	fakeReturns := fake.getMetricsReturns
 	fake.recordInvocation("GetMetrics", []interface{}{arg1, arg2Copy})
@@ -68,7 +69,15 @@ func (fake *FakeClient) GetMetricsArgsForCall(i int) (lager.Logger, []string) {
 	fake.getMetricsMutex.RLock()
 	defer fake.getMetricsMutex.RUnlock()
 	argsForCall := fake.getMetricsArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.Arg1, argsForCall.Arg2
+}
+
+func (fake *FakeClient) GetMetricsArgs() []FakeClientGetMetricsArgs {
+	fake.getMetricsMutex.RLock()
+	defer fake.getMetricsMutex.RUnlock()
+	args := make([]FakeClientGetMetricsArgs, len(fake.getMetricsArgsForCall))
+	copy(args, fake.getMetricsArgsForCall)
+	return args
 }
 
 func (fake *FakeClient) GetMetricsReturns(result1 map[string]kubelet.Metrics, result2 error) {
@@ -107,9 +116,18 @@ func (fake *FakeClient) Invocations() map[string][][]interface{} {
 	return copiedInvocations
 }
 
+func (fake *FakeClient) CallOrder() []string {
+	fake.invocationsMutex.RLock()
+	defer fake.invocationsMutex.RUnlock()
+	order := make([]string, len(fake.callOrder))
+	copy(order, fake.callOrder)
+	return order
+}
+
 func (fake *FakeClient) recordInvocation(key string, args []interface{}) {
 	fake.invocationsMutex.Lock()
 	defer fake.invocationsMutex.Unlock()
+	fake.callOrder = append(fake.callOrder, key)
 	if fake.invocations == nil {
 		fake.invocations = map[string][][]interface{}{}
 	}

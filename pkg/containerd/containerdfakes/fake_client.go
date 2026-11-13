@@ -13,11 +13,8 @@ import (
 type FakeClient struct {
 	DeleteStub        func(context.Context, client.Image) error
 	deleteMutex       sync.RWMutex
-	deleteArgsForCall []struct {
-		arg1 context.Context
-		arg2 client.Image
-	}
-	deleteReturns struct {
+	deleteArgsForCall []FakeClientDeleteArgs
+	deleteReturns     struct {
 		result1 error
 	}
 	deleteReturnsOnCall map[int]struct {
@@ -25,10 +22,8 @@ type FakeClient struct {
 	}
 	IsServingStub        func(context.Context) (bool, error)
 	isServingMutex       sync.RWMutex
-	isServingArgsForCall []struct {
-		arg1 context.Context
-	}
-	isServingReturns struct {
+	isServingArgsForCall []FakeClientIsServingArgs
+	isServingReturns     struct {
 		result1 bool
 		result2 error
 	}
@@ -38,11 +33,8 @@ type FakeClient struct {
 	}
 	LoadContainersStub        func(context.Context, []v1.ContainerStatus) (map[string]containerd.RunningContainer, error)
 	loadContainersMutex       sync.RWMutex
-	loadContainersArgsForCall []struct {
-		arg1 context.Context
-		arg2 []v1.ContainerStatus
-	}
-	loadContainersReturns struct {
+	loadContainersArgsForCall []FakeClientLoadContainersArgs
+	loadContainersReturns     struct {
 		result1 map[string]containerd.RunningContainer
 		result2 error
 	}
@@ -50,15 +42,21 @@ type FakeClient struct {
 		result1 map[string]containerd.RunningContainer
 		result2 error
 	}
+	OOMKilledStub        func(context.Context, string) (bool, error)
+	oOMKilledMutex       sync.RWMutex
+	oOMKilledArgsForCall []FakeClientOOMKilledArgs
+	oOMKilledReturns     struct {
+		result1 bool
+		result2 error
+	}
+	oOMKilledReturnsOnCall map[int]struct {
+		result1 bool
+		result2 error
+	}
 	PullStub        func(context.Context, string, string, string) (client.Image, int64, error)
 	pullMutex       sync.RWMutex
-	pullArgsForCall []struct {
-		arg1 context.Context
-		arg2 string
-		arg3 string
-		arg4 string
-	}
-	pullReturns struct {
+	pullArgsForCall []FakeClientPullArgs
+	pullReturns     struct {
 		result1 client.Image
 		result2 int64
 		result3 error
@@ -69,16 +67,45 @@ type FakeClient struct {
 		result3 error
 	}
 	invocations      map[string][][]interface{}
+	callOrder        []string
 	invocationsMutex sync.RWMutex
+}
+
+// FakeClientDeleteArgs holds the arguments of one call to Delete.
+type FakeClientDeleteArgs struct {
+	Arg1 context.Context
+	Arg2 client.Image
+}
+
+// FakeClientIsServingArgs holds the arguments of one call to IsServing.
+type FakeClientIsServingArgs struct {
+	Arg1 context.Context
+}
+
+// FakeClientLoadContainersArgs holds the arguments of one call to LoadContainers.
+type FakeClientLoadContainersArgs struct {
+	Arg1 context.Context
+	Arg2 []v1.ContainerStatus
+}
+
+// FakeClientOOMKilledArgs holds the arguments of one call to OOMKilled.
+type FakeClientOOMKilledArgs struct {
+	Arg1 context.Context
+	Arg2 string
+}
+
+// FakeClientPullArgs holds the arguments of one call to Pull.
+type FakeClientPullArgs struct {
+	Arg1 context.Context
+	Arg2 string
+	Arg3 string
+	Arg4 string
 }
 
 func (fake *FakeClient) Delete(arg1 context.Context, arg2 client.Image) error {
 	fake.deleteMutex.Lock()
 	ret, specificReturn := fake.deleteReturnsOnCall[len(fake.deleteArgsForCall)]
-	fake.deleteArgsForCall = append(fake.deleteArgsForCall, struct {
-		arg1 context.Context
-		arg2 client.Image
-	}{arg1, arg2})
+	fake.deleteArgsForCall = append(fake.deleteArgsForCall, FakeClientDeleteArgs{arg1, arg2})
 	stub := fake.DeleteStub
 	fakeReturns := fake.deleteReturns
 	fake.recordInvocation("Delete", []interface{}{arg1, arg2})
@@ -108,7 +135,15 @@ func (fake *FakeClient) DeleteArgsForCall(i int) (context.Context, client.Image)
 	fake.deleteMutex.RLock()
 	defer fake.deleteMutex.RUnlock()
 	argsForCall := fake.deleteArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.Arg1, argsForCall.Arg2
+}
+
+func (fake *FakeClient) DeleteArgs() []FakeClientDeleteArgs {
+	fake.deleteMutex.RLock()
+	defer fake.deleteMutex.RUnlock()
+	args := make([]FakeClientDeleteArgs, len(fake.deleteArgsForCall))
+	copy(args, fake.deleteArgsForCall)
+	return args
 }
 
 func (fake *FakeClient) DeleteReturns(result1 error) {
@@ -137,9 +172,7 @@ func (fake *FakeClient) DeleteReturnsOnCall(i int, result1 error) {
 func (fake *FakeClient) IsServing(arg1 context.Context) (bool, error) {
 	fake.isServingMutex.Lock()
 	ret, specificReturn := fake.isServingReturnsOnCall[len(fake.isServingArgsForCall)]
-	fake.isServingArgsForCall = append(fake.isServingArgsForCall, struct {
-		arg1 context.Context
-	}{arg1})
+	fake.isServingArgsForCall = append(fake.isServingArgsForCall, FakeClientIsServingArgs{arg1})
 	stub := fake.IsServingStub
 	fakeReturns := fake.isServingReturns
 	fake.recordInvocation("IsServing", []interface{}{arg1})
@@ -169,7 +202,15 @@ func (fake *FakeClient) IsServingArgsForCall(i int) context.Context {
 	fake.isServingMutex.RLock()
 	defer fake.isServingMutex.RUnlock()
 	argsForCall := fake.isServingArgsForCall[i]
-	return argsForCall.arg1
+	return argsForCall.Arg1
+}
+
+func (fake *FakeClient) IsServingArgs() []FakeClientIsServingArgs {
+	fake.isServingMutex.RLock()
+	defer fake.isServingMutex.RUnlock()
+	args := make([]FakeClientIsServingArgs, len(fake.isServingArgsForCall))
+	copy(args, fake.isServingArgsForCall)
+	return args
 }
 
 func (fake *FakeClient) IsServingReturns(result1 bool, result2 error) {
@@ -206,10 +247,7 @@ func (fake *FakeClient) LoadContainers(arg1 context.Context, arg2 []v1.Container
 	}
 	fake.loadContainersMutex.Lock()
 	ret, specificReturn := fake.loadContainersReturnsOnCall[len(fake.loadContainersArgsForCall)]
-	fake.loadContainersArgsForCall = append(fake.loadContainersArgsForCall, struct {
-		arg1 context.Context
-		arg2 []v1.ContainerStatus
-	}{arg1, arg2Copy})
+	fake.loadContainersArgsForCall = append(fake.loadContainersArgsForCall, FakeClientLoadContainersArgs{arg1, arg2Copy})
 	stub := fake.LoadContainersStub
 	fakeReturns := fake.loadContainersReturns
 	fake.recordInvocation("LoadContainers", []interface{}{arg1, arg2Copy})
@@ -239,7 +277,15 @@ func (fake *FakeClient) LoadContainersArgsForCall(i int) (context.Context, []v1.
 	fake.loadContainersMutex.RLock()
 	defer fake.loadContainersMutex.RUnlock()
 	argsForCall := fake.loadContainersArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.Arg1, argsForCall.Arg2
+}
+
+func (fake *FakeClient) LoadContainersArgs() []FakeClientLoadContainersArgs {
+	fake.loadContainersMutex.RLock()
+	defer fake.loadContainersMutex.RUnlock()
+	args := make([]FakeClientLoadContainersArgs, len(fake.loadContainersArgsForCall))
+	copy(args, fake.loadContainersArgsForCall)
+	return args
 }
 
 func (fake *FakeClient) LoadContainersReturns(result1 map[string]containerd.RunningContainer, result2 error) {
@@ -268,15 +314,80 @@ func (fake *FakeClient) LoadContainersReturnsOnCall(i int, result1 map[string]co
 	}{result1, result2}
 }
 
+func (fake *FakeClient) OOMKilled(arg1 context.Context, arg2 string) (bool, error) {
+	fake.oOMKilledMutex.Lock()
+	ret, specificReturn := fake.oOMKilledReturnsOnCall[len(fake.oOMKilledArgsForCall)]
+	fake.oOMKilledArgsForCall = append(fake.oOMKilledArgsForCall, FakeClientOOMKilledArgs{arg1, arg2})
+	stub := fake.OOMKilledStub
+	fakeReturns := fake.oOMKilledReturns
+	fake.recordInvocation("OOMKilled", []interface{}{arg1, arg2})
+	fake.oOMKilledMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeClient) OOMKilledCallCount() int {
+	fake.oOMKilledMutex.RLock()
+	defer fake.oOMKilledMutex.RUnlock()
+	return len(fake.oOMKilledArgsForCall)
+}
+
+func (fake *FakeClient) OOMKilledCalls(stub func(context.Context, string) (bool, error)) {
+	fake.oOMKilledMutex.Lock()
+	defer fake.oOMKilledMutex.Unlock()
+	fake.OOMKilledStub = stub
+}
+
+func (fake *FakeClient) OOMKilledArgsForCall(i int) (context.Context, string) {
+	fake.oOMKilledMutex.RLock()
+	defer fake.oOMKilledMutex.RUnlock()
+	argsForCall := fake.oOMKilledArgsForCall[i]
+	return argsForCall.Arg1, argsForCall.Arg2
+}
+
+func (fake *FakeClient) OOMKilledArgs() []FakeClientOOMKilledArgs {
+	fake.oOMKilledMutex.RLock()
+	defer fake.oOMKilledMutex.RUnlock()
+	args := make([]FakeClientOOMKilledArgs, len(fake.oOMKilledArgsForCall))
+	copy(args, fake.oOMKilledArgsForCall)
+	return args
+}
+
+func (fake *FakeClient) OOMKilledReturns(result1 bool, result2 error) {
+	fake.oOMKilledMutex.Lock()
+	defer fake.oOMKilledMutex.Unlock()
+	fake.OOMKilledStub = nil
+	fake.oOMKilledReturns = struct {
+		result1 bool
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeClient) OOMKilledReturnsOnCall(i int, result1 bool, result2 error) {
+	fake.oOMKilledMutex.Lock()
+	defer fake.oOMKilledMutex.Unlock()
+	fake.OOMKilledStub = nil
+	if fake.oOMKilledReturnsOnCall == nil {
+		fake.oOMKilledReturnsOnCall = make(map[int]struct {
+			result1 bool
+			result2 error
+		})
+	}
+	fake.oOMKilledReturnsOnCall[i] = struct {
+		result1 bool
+		result2 error
+	}{result1, result2}
+}
+
 func (fake *FakeClient) Pull(arg1 context.Context, arg2 string, arg3 string, arg4 string) (client.Image, int64, error) {
 	fake.pullMutex.Lock()
 	ret, specificReturn := fake.pullReturnsOnCall[len(fake.pullArgsForCall)]
-	fake.pullArgsForCall = append(fake.pullArgsForCall, struct {
-		arg1 context.Context
-		arg2 string
-		arg3 string
-		arg4 string
-	}{arg1, arg2, arg3, arg4})
+	fake.pullArgsForCall = append(fake.pullArgsForCall, FakeClientPullArgs{arg1, arg2, arg3, arg4})
 	stub := fake.PullStub
 	fakeReturns := fake.pullReturns
 	fake.recordInvocation("Pull", []interface{}{arg1, arg2, arg3, arg4})
@@ -306,7 +417,15 @@ func (fake *FakeClient) PullArgsForCall(i int) (context.Context, string, string,
 	fake.pullMutex.RLock()
 	defer fake.pullMutex.RUnlock()
 	argsForCall := fake.pullArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3, argsForCall.arg4
+	return argsForCall.Arg1, argsForCall.Arg2, argsForCall.Arg3, argsForCall.Arg4
+}
+
+func (fake *FakeClient) PullArgs() []FakeClientPullArgs {
+	fake.pullMutex.RLock()
+	defer fake.pullMutex.RUnlock()
+	args := make([]FakeClientPullArgs, len(fake.pullArgsForCall))
+	copy(args, fake.pullArgsForCall)
+	return args
 }
 
 func (fake *FakeClient) PullReturns(result1 client.Image, result2 int64, result3 error) {
@@ -348,9 +467,18 @@ func (fake *FakeClient) Invocations() map[string][][]interface{} {
 	return copiedInvocations
 }
 
+func (fake *FakeClient) CallOrder() []string {
+	fake.invocationsMutex.RLock()
+	defer fake.invocationsMutex.RUnlock()
+	order := make([]string, len(fake.callOrder))
+	copy(order, fake.callOrder)
+	return order
+}
+
 func (fake *FakeClient) recordInvocation(key string, args []interface{}) {
 	fake.invocationsMutex.Lock()
 	defer fake.invocationsMutex.Unlock()
+	fake.callOrder = append(fake.callOrder, key)
 	if fake.invocations == nil {
 		fake.invocations = map[string][][]interface{}{}
 	}

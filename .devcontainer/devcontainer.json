@@ -12,8 +12,7 @@
 	"features": {
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
 			"moby": false
-		},
-		"ghcr.io/devcontainers-extra/features/kind:1": {}
+		}
 	},
 	"mounts": [
 		"source=${localEnv:HOME}/.git-authors,target=/home/vscode/.git-authors,type=bind"

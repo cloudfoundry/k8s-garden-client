@@ -99,8 +99,13 @@ var _ = Describe("Client", func() {
 							}
 
 							pod.Status.Phase = corev1.PodRunning
-							pod.Status.ContainerStatuses = []corev1.ContainerStatus{
-								{Name: "app", ContainerID: "containerd://test", State: corev1.ContainerState{Running: &corev1.ContainerStateRunning{}}},
+							pod.Status.ContainerStatuses = make([]corev1.ContainerStatus, 0, len(pod.Spec.Containers))
+							for _, container := range pod.Spec.Containers {
+								pod.Status.ContainerStatuses = append(pod.Status.ContainerStatuses, corev1.ContainerStatus{
+									Name:        container.Name,
+									ContainerID: "containerd://" + container.Name,
+									State:       corev1.ContainerState{Running: &corev1.ContainerStateRunning{}},
+								})
 							}
 						}
 					}
@@ -305,7 +310,7 @@ var _ = Describe("Client", func() {
 				Expect(metrics).To(HaveLen(1))
 			})
 
-			It("returns error when container is not found in local map", func() {
+			It("returns a per-container error when container is not found in local map", func() {
 				kubeletMetrics := map[string]kubelet.Metrics{
 					"non-existent-container": {
 						MemoryUsageInBytes: 1024 * 1024 * 100,
@@ -315,9 +320,9 @@ var _ = Describe("Client", func() {
 				}
 				fakeKubeletClient.GetMetricsReturns(kubeletMetrics, nil)
 
-				_, err = gardenClient.BulkMetrics([]string{"non-existent-container"})
-				Expect(err).To(HaveOccurred())
-				Expect(err.Error()).To(ContainSubstring("failed to get container"))
+				metrics, err := gardenClient.BulkMetrics([]string{"non-existent-container"})
+				Expect(err).NotTo(HaveOccurred())
+				Expect(metrics["non-existent-container"].Err).To(MatchError("unknown handle: non-existent-container"))
 			})
 		})
 
@@ -514,6 +519,85 @@ var _ = Describe("Client", func() {
 			container, err := gardenClient.Create(spec)
 			Expect(err).To(MatchError("image size 20 exceeds container disk limit 10"))
 			Expect(container).To(BeNil())
+		})
+
+		It("does not set an ephemeral-storage limit when no disk limit is requested", func() {
+			spec := garden.ContainerSpec{
+				Handle: "test-container-nodisk",
+				Limits: garden.Limits{
+					Memory: garden.MemoryLimits{
+						LimitInBytes: 256 * 1024 * 1024,
+					},
+				},
+				Image: garden.ImageRef{
+					URI: "cflinuxfs4",
+				},
+			}
+
+			_, err := gardenClient.Create(spec)
+			Expect(err).NotTo(HaveOccurred())
+
+			var pod corev1.Pod
+			Expect(k8sClient.Get(context.Background(), ctrlclient.ObjectKey{
+				Name:      "test-container-nodisk",
+				Namespace: workloadsNamespace,
+			}, &pod)).To(Succeed())
+			_, hasEphemeral := pod.Spec.Containers[0].Resources.Limits[corev1.ResourceEphemeralStorage]
+			Expect(hasEphemeral).To(BeFalse())
+		})
+
+		It("fails fast when a container terminates before the pod is running", func() {
+			k8sClient = fake.NewClientBuilder().
+				WithScheme(scheme).
+				WithObjects(testNode).
+				WithInterceptorFuncs(interceptor.Funcs{
+					Create: func(ctx context.Context, c ctrlclient.WithWatch, obj ctrlclient.Object, opts ...ctrlclient.CreateOption) error {
+						if pod, ok := obj.(*corev1.Pod); ok {
+							pod.Status.Phase = corev1.PodPending
+							pod.Status.ContainerStatuses = []corev1.ContainerStatus{{
+								Name:  "app",
+								State: corev1.ContainerState{Terminated: &corev1.ContainerStateTerminated{Reason: "StartError", Message: "exec failed"}},
+							}}
+						}
+						return c.Create(ctx, obj)
+					},
+				}).Build()
+			gardenClient, err = newGardenClient()
+			Expect(err).NotTo(HaveOccurred())
+
+			_, createErr := gardenClient.Create(garden.ContainerSpec{
+				Handle: "test-container-terminated",
+				Limits: garden.Limits{Memory: garden.MemoryLimits{LimitInBytes: 256 * 1024 * 1024}},
+				Image:  garden.ImageRef{URI: "cflinuxfs4"},
+			})
+			Expect(createErr).To(MatchError(ContainSubstring("container app terminated before running")))
+			Expect(createErr).To(MatchError(ContainSubstring("StartError")))
+		})
+
+		It("fails fast when the pod reaches a terminal phase before running", func() {
+			k8sClient = fake.NewClientBuilder().
+				WithScheme(scheme).
+				WithObjects(testNode).
+				WithInterceptorFuncs(interceptor.Funcs{
+					Create: func(ctx context.Context, c ctrlclient.WithWatch, obj ctrlclient.Object, opts ...ctrlclient.CreateOption) error {
+						if pod, ok := obj.(*corev1.Pod); ok {
+							pod.Status.Phase = corev1.PodFailed
+							pod.Status.Reason = "Evicted"
+							pod.Status.Message = "node out of disk"
+						}
+						return c.Create(ctx, obj)
+					},
+				}).Build()
+			gardenClient, err = newGardenClient()
+			Expect(err).NotTo(HaveOccurred())
+
+			_, createErr := gardenClient.Create(garden.ContainerSpec{
+				Handle: "test-container-failed",
+				Limits: garden.Limits{Memory: garden.MemoryLimits{LimitInBytes: 256 * 1024 * 1024}},
+				Image:  garden.ImageRef{URI: "cflinuxfs4"},
+			})
+			Expect(createErr).To(MatchError(ContainSubstring("reached phase Failed before running")))
+			Expect(createErr).To(MatchError(ContainSubstring("Evicted")))
 		})
 
 		It("returns error when creating a container with an existing name", func() {
@@ -748,6 +832,8 @@ var _ = Describe("Client", func() {
 
 				err = gardenClient.Destroy("container-to-destroy")
 				Expect(err).NotTo(HaveOccurred())
+				_, err = containers[0].Info()
+				Expect(err).To(Equal(garden.ContainerNotFoundError{Handle: "container-to-destroy"}))
 
 				var pod corev1.Pod
 				err = k8sClient.Get(context.Background(), ctrlclient.ObjectKey{

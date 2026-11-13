@@ -1,6 +1,7 @@
 package k8sgarden_test
 
 import (
+	"errors"
 	"io"
 	"strings"
 	"syscall"
@@ -93,6 +94,38 @@ var _ = Describe("Process", func() {
 			err := testProcess.Signal(garden.SignalTerminate)
 			Expect(err).To(MatchError(ContainSubstring("process not started")))
 			Expect(fakeProcess.KillCallCount()).To(Equal(0))
+		})
+	})
+
+	Describe("start failures", func() {
+		DescribeTable("classifying the error returned by Wait",
+			func(startErr string, expectExecutableNotFound bool) {
+				fakeProcess.StartReturns(errors.New(startErr))
+
+				exitCode, err := testProcess.Wait()
+				Expect(exitCode).To(Equal(-1))
+				Expect(err).To(HaveOccurred())
+				if expectExecutableNotFound {
+					Expect(err).To(BeAssignableToTypeOf(garden.ExecutableNotFoundError{}))
+				} else {
+					Expect(err).NotTo(BeAssignableToTypeOf(garden.ExecutableNotFoundError{}))
+				}
+			},
+			Entry("missing file",
+				`OCI runtime create failed: runc create failed: unable to start container process: exec: "/bad": stat /bad: no such file or directory: unknown`,
+				true),
+			Entry("not on PATH",
+				`OCI runtime create failed: runc create failed: unable to start container process: exec: "foo": executable file not found in $PATH: unknown`,
+				true),
+			Entry("unrelated failure", "some other containerd failure", false),
+		)
+
+		It("deletes the containerd process so it does not leak", func() {
+			fakeProcess.StartReturns(errors.New("boom"))
+
+			_, err := testProcess.Wait()
+			Expect(err).To(HaveOccurred())
+			Expect(fakeProcess.DeleteCallCount()).To(Equal(1))
 		})
 	})
 })
