@@ -8,7 +8,7 @@ require (
 	code.cloudfoundry.org/commandrunner v0.87.0
 	code.cloudfoundry.org/garden v0.13.0
 	code.cloudfoundry.org/guardian v0.0.0-20261112182409-8f091f562848
-	code.cloudfoundry.org/lager/v3 v3.96.0
+	code.cloudfoundry.org/lager/v3 v3.97.0
 	github.com/containerd/containerd/api v1.12.0
 	github.com/containerd/containerd/v2 v2.4.2
 	github.com/containerd/continuity v0.5.0
@@ -76,7 +76,7 @@ require (
 	github.com/godbus/dbus/v5 v5.2.4 // indirect
 	github.com/google/gnostic-models v0.7.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/pprof v0.0.0-20261111200114-fac431ef4d26 // indirect
+	github.com/google/pprof v0.0.0-20261118010117-084b33a85f63 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
